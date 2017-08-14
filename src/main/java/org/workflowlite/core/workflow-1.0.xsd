@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xsd:schema xmlns="http://www.workflowlite.org/schema/core"
+		targetNamespace="http://www.workflowlite.org/schema/core"
+		xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+		xmlns:beans="http://www.springframework.org/schema/beans"
+	    elementFormDefault="qualified"
+        attributeFormDefault="unqualified"
+        version="1.0">
+
+	<xsd:import namespace="http://www.springframework.org/schema/beans" schemaLocation="http://www.springframework.org/schema/beans/spring-beans-4.3.xsd"/>
+
+	<xsd:element name="workflow">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="beans:identifiedType">
+					<xsd:sequence>
+						<xsd:element ref="activities" minOccurs="1" maxOccurs="1" />							
+					</xsd:sequence>
+				</xsd:extension>			
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="activities">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="activity" minOccurs="1" maxOccurs="unbounded"></xsd:element>
+				<xsd:element ref="switch" minOccurs="0" maxOccurs="unbounded"></xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="activity" substitutionGroup="beans:bean" />
+
+	<xsd:element name="switch">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="when" minOccurs="1" maxOccurs="unbounded" />
+				<xsd:element ref="default" minOccurs="0" maxOccurs="1" />
+			</xsd:sequence>
+			<xsd:attribute name="on" type="xsd:string" use="required" />
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="when">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="activities" minOccurs="1" maxOccurs="1" />
+			</xsd:sequence>
+			<xsd:attribute name="value" type="xsd:string" use="required" />
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="default">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="activities" minOccurs="1" maxOccurs="1" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+</xsd:schema>

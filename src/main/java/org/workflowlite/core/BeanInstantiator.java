@@ -31,6 +31,7 @@ final class BeanInstantiator implements ApplicationContextAware, BeanFactoryPost
 {
   public Workflow getWorkflow(final String workflowBeanId)
   {
+    // TODO: Ajey - We can remove this flag once we start creating beans from custom xml tags
     try(ThreadLocalSentry<Boolean> threadLocal = ENABLE_CUSTOM_EXPRESSION_EVALUATION.set(Boolean.FALSE))
     {
       return this.applicationContext.getBean(workflowBeanId, Workflow.class);
@@ -42,8 +43,7 @@ final class BeanInstantiator implements ApplicationContextAware, BeanFactoryPost
     // Adding the root object having source property so that in the expression we can use the source property.
     try(ThreadLocalSentry<Object> threadLocalSource = EXPRESSION_EVAULATION_SOURCE_OBJECT.set(createSource(source));
         ThreadLocalSentry<Boolean> threadLocalExpressionFlag = ENABLE_CUSTOM_EXPRESSION_EVALUATION.set(Boolean.TRUE))
-    {
-      
+    {      
       return this.applicationContext.getBean(activityBeanId, Activity.class);
     }
   }

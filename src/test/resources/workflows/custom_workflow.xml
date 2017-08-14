@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:wf="http://www.workflowlite.org/schema/core"		
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+					    http://www.workflowlite.org/schema/core http://www.workflowlite.org/schema/core/workflow.xsd">
+
+	<wf:workflow id="myworkflow">
+		<wf:activities>
+			<wf:activity id="abc">				
+			</wf:activity>
+			<wf:activity>
+			</wf:activity>
+			<wf:switch on="xyz">
+				<wf:when value="abc">
+					<wf:activities>
+						<wf:activity>
+						</wf:activity>
+					</wf:activities>
+				</wf:when>
+				<wf:when value="abc">
+					<wf:activities>
+						<wf:activity></wf:activity>
+					</wf:activities>
+				</wf:when>
+				<wf:default>
+					<wf:activities>
+						<wf:activity></wf:activity>
+					</wf:activities>
+				</wf:default>				
+			</wf:switch>
+		</wf:activities>
+	</wf:workflow>
+</beans>
