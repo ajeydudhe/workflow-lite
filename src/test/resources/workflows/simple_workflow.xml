@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<import resource="classpath:spring-beans/workflow-lite-core.xml"/>
+
+
+	<bean id="activity_01" class="org.workflowlite.core.ReverseStringActivity">
+		<constructor-arg name="name" value="reverseString" />
+		<constructor-arg name="value" value="abc_01" />
+	</bean>
+	<bean id="activity_02" class="org.workflowlite.core.ReverseStringActivity" scope="prototype">
+		<constructor-arg name="name" value="reverseString" />
+		<constructor-arg name="value" value="${source}" />
+	</bean>
+	<bean id="activity_03" class="org.workflowlite.core.ReverseStringActivity">
+		<constructor-arg name="name" value="reverseString" />
+		<constructor-arg name="value" value="abc_03" />
+	</bean>
+	<bean id="activity_04" class="org.workflowlite.core.ReverseStringActivity">
+		<constructor-arg name="name" value="reverseString" />
+		<constructor-arg name="value" value="abc_04" />
+	</bean>
+	<bean id="activity_05" class="org.workflowlite.core.ReverseStringActivity" scope="prototype">
+		<constructor-arg name="name" value="reverseString" />
+		<constructor-arg name="value" value="${source}_05" />
+	</bean>
+	<bean id="activity_end" class="org.workflowlite.core.ReverseStringActivity">
+		<constructor-arg name="name" value="reverseString" />
+		<constructor-arg name="value" value="abc_dne" />
+	</bean>
+	
+	<bean id="reverseStringActivity_01" class="org.workflowlite.core.ReverseStringActivity">
+		<constructor-arg name="name" value="reverseString" />
+		<constructor-arg name="value" value="someDummyString" />
+	</bean>
+	
+	<bean id="workflow_01" class="org.workflowlite.core.Workflow">
+		<constructor-arg name="name" value="simpleWorkflow" />
+		<constructor-arg name="activities">
+			<list>
+				<value>activity_01</value>
+				<value>activity_02</value>
+				<ref bean="reverseStringActivity_01"/>
+				<bean id="reverseStringActivity_02" class="org.workflowlite.core.ReverseStringActivity">
+					<constructor-arg name="name" value="reverseString" />
+					<constructor-arg name="value" value="someDummyString" />
+				</bean>
+				<map key-type="java.lang.String" value-type="java.lang.Object">
+					<entry key="condition" value="${source.startsWith('abc')}" />
+					<entry key="true" value="activity_03" />
+					<entry key="false">
+						<list>
+							<value>activity_04</value>
+							<value>activity_05</value>
+						</list>
+					</entry>
+				</map>
+				<value>activity_end</value>
+			</list>
+		</constructor-arg>
+	</bean>
+	<bean id="workflow_02" class="org.workflowlite.core.Workflow">
+		<constructor-arg name="name" value="simpleWorkflow_02" />
+		<constructor-arg name="activities">
+			<list>
+				<value>activity_01</value>
+				<value>activity_02</value>
+			</list>
+		</constructor-arg>
+	</bean>
+</beans>
