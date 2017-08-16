@@ -1,7 +1,7 @@
 /********************************************************************
- * File Name:    BasicTest.java
+ * File Name:    CustomTagsTest.java
  *
- * Date Created: Aug 5, 2017
+ * Date Created: Aug 15, 2017
  *
  * ------------------------------------------------------------------
  * 
@@ -11,34 +11,27 @@
 
 package org.workflowlite.core;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.junit.Assert.*;
 
 import javax.inject.Inject;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.workflowlite.core.bean.WorkflowDefinitionRepository;
   
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations="classpath:workflows/simple_workflow.xml")
-public class BasicTest
+public class CustomTagsTest
 {
   @Test
-  public void test()
+  public void loadCustomTags()
   {
-    LOGGER.error("#### Starting test...");
-
-    this.workflowManager.execute("workflow_02", null);
-    //this.workflowManager.execute("workflow_02", null);
+    repository.load("classpath:workflows/custom_workflow.xml");  
   }
   
-  // Private
   @Inject
-  private WorkflowManager workflowManager;
-  
-  private static final Logger LOGGER = LoggerFactory.getLogger(BasicTest.class);
-}
+  private WorkflowDefinitionRepository repository;
+ }
 

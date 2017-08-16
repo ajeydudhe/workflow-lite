@@ -11,12 +11,15 @@
 
 package org.workflowlite.core;
 
+import javax.inject.Inject;
+
 /**
  * TODO: Update with a detailed description of the interface/class.
  *
  */
 public class ReverseStringActivity extends AbstractActivity
 {
+  @Inject
   public ReverseStringActivity(final String name, final String value)
   {
     super(name);

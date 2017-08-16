@@ -10,37 +10,8 @@
 		<constructor-arg name="value" value="someDummyString" />
 	</bean>
 
-	<wf:workflow id="customWorkflow">
+	<wf:workflow>
 		<wf:activities>
-			<wf:activity></wf:activity>
 		</wf:activities>
 	</wf:workflow>
-	<!-- 
-	<wf:workflow id="myworkflow">
-		<wf:activities>
-			<wf:activity id="abc">				
-			</wf:activity>
-			<wf:activity>
-			</wf:activity>
-			<wf:switch on="xyz">
-				<wf:when value="abc">
-					<wf:activities>
-						<wf:activity>
-						</wf:activity>
-					</wf:activities>
-				</wf:when>
-				<wf:when value="abc">
-					<wf:activities>
-						<wf:activity></wf:activity>
-					</wf:activities>
-				</wf:when>
-				<wf:default>
-					<wf:activities>
-						<wf:activity></wf:activity>
-					</wf:activities>
-				</wf:default>				
-			</wf:switch>
-		</wf:activities>
-	</wf:workflow>
-	 -->
 </beans>

@@ -9,8 +9,10 @@
  *
  *******************************************************************/
 
-package org.workflowlite.core;
+package org.workflowlite.core.bean;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.xml.BeanDefinitionParser;
 import org.springframework.beans.factory.xml.NamespaceHandlerSupport;
@@ -26,14 +28,10 @@ public class WorkflowNamespaceHandler extends NamespaceHandlerSupport
   @Override
   public void init()
   {
-    registerBeanDefinitionParser("workflow", new BeanDefinitionParser()
-    {      
-      @Override
-      public BeanDefinition parse(Element element, ParserContext parserContext)
-      {
-        return null;
-      }
-    });
+    registerBeanDefinitionParser("workflow", new WorkflowBeanDefinitionParser());
   }
+  
+  // Private
+  private static final Logger LOGGER = LoggerFactory.getLogger(WorkflowNamespaceHandler.class);
  }
 

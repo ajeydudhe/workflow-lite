@@ -9,7 +9,7 @@
  *
  *******************************************************************/
 
-package org.workflowlite.core;
+package org.workflowlite.core.bean;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanExpressionContext;
@@ -21,13 +21,15 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.expression.Expression;
 import org.springframework.expression.ParserContext;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
+import org.workflowlite.core.Activity;
+import org.workflowlite.core.Workflow;
 import org.workflowlite.core.utils.ThreadLocalSentry;
   
 /**
  * TODO: Update with a detailed description of the interface/class.
  *
  */
-final class BeanInstantiator implements ApplicationContextAware, BeanFactoryPostProcessor, BeanExpressionResolver
+public final class BeanInstantiator implements ApplicationContextAware, BeanFactoryPostProcessor, BeanExpressionResolver
 {
   public Workflow getWorkflow(final String workflowBeanId)
   {

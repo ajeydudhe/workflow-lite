@@ -1,1 +1,1 @@
-http\://www.workflowlite.org/schema/core/workflow.xsd=org.workflowlite.core.WorkflowNamespaceHandler
+http\://www.workflowlite.org/schema/core=org.workflowlite.core.bean.WorkflowNamespaceHandler

@@ -18,7 +18,9 @@ import javax.inject.Inject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.workflowlite.core.Workflow.ActivityBean;
+import org.workflowlite.core.bean.activity.ActivityBean;
+import org.workflowlite.core.bean.activity.ConditionalActivityBean;
+import org.workflowlite.core.bean.BeanInstantiator;
 
 /**
  * TODO: Update with a detailed description of the interface/class.
@@ -39,8 +41,7 @@ public final class WorkflowManager
       LOGGER.info("Invoking activity [{}]", activityBean);
 
       final Object result = activityBean.execute(null, previousActivityOutput);
-      
-      if(activityBean instanceof Workflow.ConditionalActivityBean) // TODO: Ajey - Avoid type casting. Can we use visitor here ???
+      if(activityBean instanceof ConditionalActivityBean) // TODO: Ajey - Avoid type casting. Can we use visitor here ???
       {
         activities.addAll(0, (List<ActivityBean>)result);
         continue;

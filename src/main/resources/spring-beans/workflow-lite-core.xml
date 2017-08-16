@@ -3,6 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="beanInstantiator" class="org.workflowlite.core.BeanInstantiator" scope="singleton" />
+	<bean id="beanInstantiator" class="org.workflowlite.core.bean.BeanInstantiator" scope="singleton" />
 	<bean id="workflowManager" class="org.workflowlite.core.WorkflowManager" scope="singleton" />
+	<bean id="workflowDefinitionRepository" class="org.workflowlite.core.bean.WorkflowDefinitionRepository" scope="singleton" />
 </beans>

@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:wf="http://www.workflowlite.org/schema/core"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.workflowlite.org/schema/core http://www.workflowlite.org/schema/core/workflow.xsd">
 
 	<import resource="classpath:spring-beans/workflow-lite-core.xml"/>
 
@@ -35,12 +37,16 @@
 		<constructor-arg name="name" value="reverseString" />
 		<constructor-arg name="value" value="someDummyString" />
 	</bean>
-	
+
+	<!-- 
 	<bean id="workflow_01" class="org.workflowlite.core.Workflow">
 		<constructor-arg name="name" value="simpleWorkflow" />
 		<constructor-arg name="activities">
 			<list>
-				<value>activity_01</value>
+				<bean id="abcactivity_01" class="org.workflowlite.core.bean.activity.ActionableActivityBean" autowire="constructor">
+					<constructor-arg name="activityBeanId" value="activity_01" />
+				</bean>
+				
 				<value>activity_02</value>
 				<ref bean="reverseStringActivity_01"/>
 				<bean id="reverseStringActivity_02" class="org.workflowlite.core.ReverseStringActivity">
@@ -61,12 +67,38 @@
 			</list>
 		</constructor-arg>
 	</bean>
+	 -->	
 	<bean id="workflow_02" class="org.workflowlite.core.Workflow">
 		<constructor-arg name="name" value="simpleWorkflow_02" />
 		<constructor-arg name="activities">
 			<list>
-				<value>activity_01</value>
-				<value>activity_02</value>
+				<bean id="activity_01_actionableActivityBean" class="org.workflowlite.core.bean.activity.ActionableActivityBean">
+					<constructor-arg name="activityBeanId" value="activity_01" />
+				</bean>
+				<bean id="activity_02_conditionalActivityBean" class="org.workflowlite.core.bean.activity.ConditionalActivityBean">
+					<constructor-arg name="switchStatementAsMap">
+						<map key-type="java.lang.String" value-type="java.lang.Object">
+							<entry key="condition" value="${source.toString().contains('abc')}" />
+							<entry key="true">
+								<list>
+									<bean id="activity_03_actionableActivityBean" class="org.workflowlite.core.bean.activity.ActionableActivityBean">
+										<constructor-arg name="activityBeanId" value="activity_03" />
+									</bean>
+								</list>
+							</entry>
+							<entry key="false">
+								<list>
+									<bean id="activity_04_actionableActivityBean" class="org.workflowlite.core.bean.activity.ActionableActivityBean">
+										<constructor-arg name="activityBeanId" value="activity_04" />
+									</bean>
+									<bean id="activity_05_actionableActivityBean" class="org.workflowlite.core.bean.activity.ActionableActivityBean">
+										<constructor-arg name="activityBeanId" value="activity_05" />
+									</bean>
+								</list>
+							</entry>
+						</map>
+					</constructor-arg>
+				</bean>
 			</list>
 		</constructor-arg>
 	</bean>
