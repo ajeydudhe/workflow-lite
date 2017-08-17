@@ -25,7 +25,7 @@ public abstract class ActivityBean
     this.beanInstantiator = beanInstantiator;
   }
   
-  public abstract Object execute(final ExecutionContext context, final Object source);
+  public abstract Object execute(final ExecutionContext context, final Object source, final Object output);
   
   protected final BeanInstantiator beanInstantiator;
 }

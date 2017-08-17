@@ -14,7 +14,7 @@ package org.workflowlite.core.utils;
 import java.io.Closeable;
   
 /**
- * TODO: Update with a detailed description of the interface/class.
+ * Wrapper to use the thread local variable setting and removal using try-with-resource syntax.
  *
  */
 public class ThreadLocalSentry<T> implements Closeable

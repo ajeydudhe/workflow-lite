@@ -22,6 +22,7 @@ import org.springframework.expression.Expression;
 import org.springframework.expression.ParserContext;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.workflowlite.core.Activity;
+import org.workflowlite.core.ExecutionContext;
 import org.workflowlite.core.Workflow;
 import org.workflowlite.core.utils.ThreadLocalSentry;
   
@@ -40,19 +41,19 @@ public final class BeanInstantiator implements ApplicationContextAware, BeanFact
     }
   }
   
-  public Activity getActivity(final String activityBeanId, final Object source)
+  public Activity getActivity(final String activityBeanId, final ExecutionContext context, final Object source, final Object output)
   {
     // Adding the root object having source property so that in the expression we can use the source property.
-    try(ThreadLocalSentry<Object> threadLocalSource = EXPRESSION_EVAULATION_SOURCE_OBJECT.set(createSource(source));
+    try(ThreadLocalSentry<Object> threadLocalSource = EXPRESSION_EVAULATION_ROOT_OBJECT.set(createRootObject(context, source, output));
         ThreadLocalSentry<Boolean> threadLocalExpressionFlag = ENABLE_CUSTOM_EXPRESSION_EVALUATION.set(Boolean.TRUE))
     {      
       return this.applicationContext.getBean(activityBeanId, Activity.class);
     }
   }
   
-  public Object evaluateExpression(final String expression, final Object source)
+  public Object evaluateExpression(final String expression, final ExecutionContext context, final Object source, final Object output)
   {
-    return this.doEvaluate(expression, createSource(source));
+    return this.doEvaluate(expression, createRootObject(context, source, output));
   }
   
   @Override
@@ -68,7 +69,7 @@ public final class BeanInstantiator implements ApplicationContextAware, BeanFact
       return expression; // Return the expression as is since we will evaluate it later
     }
     
-    return this.doEvaluate(expression, EXPRESSION_EVAULATION_SOURCE_OBJECT.get());
+    return this.doEvaluate(expression, EXPRESSION_EVAULATION_ROOT_OBJECT.get());
   }
 
   @Override
@@ -84,13 +85,19 @@ public final class BeanInstantiator implements ApplicationContextAware, BeanFact
     this.applicationContext = applicationContext;
   }
   
-  private static Object createSource(final Object source)
+  private static Object createRootObject(final ExecutionContext context, final Object source, final Object output)
   {
     return new Object() {
       
-      @SuppressWarnings("unused")
+      public ExecutionContext getContext() {
+        return context;
+      }
+
       public Object getSource() {
         return source;
+      }
+      public Object getOutput() {
+        return output;
       }
     };
   }
@@ -108,7 +115,7 @@ public final class BeanInstantiator implements ApplicationContextAware, BeanFact
   private BeanExpressionResolver existingExpressionResolver;
   private final SpelExpressionParser expressionParser = new SpelExpressionParser();
   
-  private static final ThreadLocalSentry<Object> EXPRESSION_EVAULATION_SOURCE_OBJECT = new ThreadLocalSentry<>(null);
+  private static final ThreadLocalSentry<Object> EXPRESSION_EVAULATION_ROOT_OBJECT = new ThreadLocalSentry<>(null);
   private static final ThreadLocalSentry<Boolean> ENABLE_CUSTOM_EXPRESSION_EVALUATION = new ThreadLocalSentry<>(Boolean.FALSE);
   
   private static final ParserContext PARSER_CONTEXT = new ParserContext()

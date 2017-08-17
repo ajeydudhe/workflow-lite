@@ -35,13 +35,13 @@ public class ConditionalActivityBean extends ActivityBean
 
   @SuppressWarnings("unchecked")
   @Override
-  public Object execute(final ExecutionContext context, final Object source)
+  public Object execute(final ExecutionContext context, final Object source, final Object output)
   {
     final String conditionExpression = (String) this.switchStatementAsMap.get("condition");
     
     Assert.hasText(conditionExpression, "@conditionExpression cannot be null or empty.");
     
-    final Object conclusion = this.beanInstantiator.evaluateExpression(conditionExpression, source);
+    final Object conclusion = this.beanInstantiator.evaluateExpression(conditionExpression, context, source, output);
 
     LOGGER.info("Condition [{}] evaluated to [{}]", conditionExpression, conclusion);
     

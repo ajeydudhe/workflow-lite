@@ -31,11 +31,11 @@ public final class ActionableActivityBean extends ActivityBean
   }
   
   @Override
-  public Object execute(final ExecutionContext context, final Object source)
+  public Object execute(final ExecutionContext context, final Object source, final Object output)
   {
-    LOGGER.info("Executing activity [{}] with source: [{}]", this.activityBeanId, source); // TODO: Ajey - Change log level. Do not log input and output
+    LOGGER.info("Executing activity [{}]", this.activityBeanId);
     
-    final Activity activity = this.beanInstantiator.getActivity(this.activityBeanId, source);
+    final Activity activity = this.beanInstantiator.getActivity(this.activityBeanId, context, source, output);
     
     final Object result = activity.execute(context);
     

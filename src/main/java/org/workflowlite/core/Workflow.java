@@ -24,9 +24,9 @@ import org.workflowlite.core.bean.activity.ConditionalActivityBean;
  * TODO: Update with a detailed description of the interface/class.
  *
  */
-public class Workflow
+public final class Workflow
 {
-  public Workflow(final String name, final List<ActivityBean> activities)
+  Workflow(final String name, final List<ActivityBean> activities)
   {
     // TODO: Ajey - input validations ???
     this.name = name;
@@ -46,7 +46,7 @@ public class Workflow
     final LinkedList<ActivityBean> activities = new LinkedList<>(this.activities);
     for (ActivityBean activityBean = activities.poll(); activityBean != null; activityBean = activities.poll())
     {
-      final Object result = activityBean.execute(null, previousActivityOutput);
+      final Object result = activityBean.execute(context, source, previousActivityOutput);
       if(activityBean instanceof ConditionalActivityBean) // TODO: Ajey - Avoid type casting. Can we use visitor here ???
       {
         activities.addAll(0, (List<ActivityBean>)result);

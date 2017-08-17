@@ -17,5 +17,8 @@ package org.workflowlite.core;
  */
 public interface ExecutionContext
 {
+  public String getWorkflowId();
+  public <T> T getValue(final String property);
+  public <T> void setValue(final String property, final T value);
 }
 
