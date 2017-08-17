@@ -5,42 +5,46 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 					    http://www.workflowlite.org/schema/core http://www.workflowlite.org/schema/core/workflow.xsd">
 
-	<bean id="reverseStringActivity_02" class="org.workflowlite.core.ReverseStringActivity">
-		<constructor-arg name="name" value="reverseString" />
-		<constructor-arg name="value" value="someDummyString" />
-	</bean>
-
 	<wf:workflow id="customWorkflow">
 		<wf:activities>
-			<wf:activity></wf:activity>
-		</wf:activities>
-	</wf:workflow>
-	<!-- 
-	<wf:workflow id="myworkflow">
-		<wf:activities>
-			<wf:activity id="abc">				
+			<wf:activity id="abc_01" class="org.workflowlite.core.ReverseStringActivity">
+				<constructor-arg name="name" value="reverseStringActivity_01" />
+				<constructor-arg name="value" value="${source.toUpperCase()}" />
 			</wf:activity>
-			<wf:activity>
+			<wf:activity id="abc_02" class="org.workflowlite.core.ReverseStringActivity">
+				<constructor-arg name="name" value="reverseStringActivity_02" />
+				<constructor-arg name="value" value="${source}" />
 			</wf:activity>
-			<wf:switch on="xyz">
-				<wf:when value="abc">
+			<wf:switch on="{$source.contains('abc')}" id="condition_01"> <!-- TODO: Make id mandatory -->
+				<wf:when value="true">
 					<wf:activities>
-						<wf:activity>
+						<wf:activity id="abc_03" class="org.workflowlite.core.ReverseStringActivity">
+							<constructor-arg name="name" value="reverseStringActivity_03" />
+							<constructor-arg name="value" value="${source}" />
+						</wf:activity>
+						<wf:activity id="abc_04" class="org.workflowlite.core.ReverseStringActivity">
+							<constructor-arg name="name" value="reverseStringActivity_03" />
+							<constructor-arg name="value" value="${source}" />
 						</wf:activity>
 					</wf:activities>
 				</wf:when>
-				<wf:when value="abc">
+				<wf:when value="false">
 					<wf:activities>
-						<wf:activity></wf:activity>
+						<wf:activity id="abc_05" class="org.workflowlite.core.ReverseStringActivity">
+							<constructor-arg name="name" value="reverseStringActivity_03" />
+							<constructor-arg name="value" value="${source}" />
+						</wf:activity>
 					</wf:activities>
 				</wf:when>
 				<wf:default>
 					<wf:activities>
-						<wf:activity></wf:activity>
+						<wf:activity id="abc_06" class="org.workflowlite.core.ReverseStringActivity">
+							<constructor-arg name="name" value="reverseStringActivity_03" />
+							<constructor-arg name="value" value="${source}" />
+						</wf:activity>
 					</wf:activities>
-				</wf:default>				
+				</wf:default>
 			</wf:switch>
 		</wf:activities>
 	</wf:workflow>
-	 -->
 </beans>

@@ -28,7 +28,7 @@ public class WorkflowNamespaceHandler extends NamespaceHandlerSupport
   @Override
   public void init()
   {
-    registerBeanDefinitionParser("workflow", new WorkflowBeanDefinitionParser());
+    registerBeanDefinitionParser("workflowxyz", new WorkflowBeanDefinitionParser());
   }
   
   // Private

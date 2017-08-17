@@ -67,7 +67,8 @@
 			</list>
 		</constructor-arg>
 	</bean>
-	 -->	
+	 -->
+	 
 	<bean id="workflow_02" class="org.workflowlite.core.Workflow">
 		<constructor-arg name="name" value="simpleWorkflow_02" />
 		<constructor-arg name="activities">

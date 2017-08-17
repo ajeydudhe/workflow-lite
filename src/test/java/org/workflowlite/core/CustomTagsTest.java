@@ -28,10 +28,14 @@ public class CustomTagsTest
   @Test
   public void loadCustomTags()
   {
-    repository.load("classpath:workflows/custom_workflow.xml");  
+    repository.load("classpath:workflows/custom_workflow.xml"); 
+    this.workflowManager.execute("customWorkflow", "abc");
   }
   
   @Inject
   private WorkflowDefinitionRepository repository;
+  
+  @Inject
+  private WorkflowManager workflowManager;
  }
 
