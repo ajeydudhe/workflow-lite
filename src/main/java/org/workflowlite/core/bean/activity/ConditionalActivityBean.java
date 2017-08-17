@@ -24,9 +24,9 @@ import org.workflowlite.core.bean.BeanInstantiator;
  * TODO: Update with a detailed description of the interface/class.
  *
  */
-public class ConditionalActivityBean extends ActivityBean
+public final class ConditionalActivityBean extends ActivityBean
 {
-  public ConditionalActivityBean(final Map<String, Object> switchStatementAsMap, final BeanInstantiator beanInstantiator)
+  private ConditionalActivityBean(final Map<String, Object> switchStatementAsMap, final BeanInstantiator beanInstantiator)
   {
     super(beanInstantiator);
     

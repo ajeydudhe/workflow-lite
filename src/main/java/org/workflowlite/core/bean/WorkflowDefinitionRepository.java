@@ -41,8 +41,12 @@ import org.xml.sax.InputSource;
  * TODO: Update with a detailed description of the interface/class.
  *
  */
-public class WorkflowDefinitionRepository implements ApplicationContextAware
+public final class WorkflowDefinitionRepository implements ApplicationContextAware
 {
+  private WorkflowDefinitionRepository()
+  {    
+  }
+  
   public void load(final String workflowDefinitionXmlPath)
   {
     try

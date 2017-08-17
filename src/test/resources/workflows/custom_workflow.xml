@@ -8,22 +8,18 @@
 	<wf:workflow id="customWorkflow">
 		<wf:activities>
 			<wf:activity id="abc_01" class="org.workflowlite.core.ReverseStringActivity">
-				<constructor-arg name="name" value="reverseStringActivity_01" />
 				<constructor-arg name="value" value="${source.toUpperCase()}" />
 			</wf:activity>
 			<wf:activity id="abc_02" class="org.workflowlite.core.ReverseStringActivity">
-				<constructor-arg name="name" value="reverseStringActivity_02" />
 				<constructor-arg name="value" value="${output}" />
 			</wf:activity>
 			<wf:switch on="${context.workflowId}" id="condition_01"> <!-- TODO: Make id mandatory -->
 				<wf:when value="customWorkflow">
 					<wf:activities>
 						<wf:activity id="abc_03" class="org.workflowlite.core.ReverseStringActivity">
-							<constructor-arg name="name" value="reverseStringActivity_03" />
 							<constructor-arg name="value" value="${output}" />
 						</wf:activity>
 						<wf:activity id="abc_04" class="org.workflowlite.core.ReverseStringActivity">
-							<constructor-arg name="name" value="reverseStringActivity_03" />
 							<constructor-arg name="value" value="${output}" />
 						</wf:activity>
 					</wf:activities>
@@ -31,7 +27,6 @@
 				<wf:when value="false">
 					<wf:activities>
 						<wf:activity id="abc_05" class="org.workflowlite.core.ReverseStringActivity">
-							<constructor-arg name="name" value="reverseStringActivity_03" />
 							<constructor-arg name="value" value="${output}" />
 						</wf:activity>
 					</wf:activities>
@@ -39,7 +34,6 @@
 				<wf:default>
 					<wf:activities>
 						<wf:activity id="abc_06" class="org.workflowlite.core.ReverseStringActivity">
-							<constructor-arg name="name" value="reverseStringActivity_03" />
 							<constructor-arg name="value" value="${output}" />
 						</wf:activity>
 					</wf:activities>

@@ -26,7 +26,7 @@ import org.workflowlite.core.bean.activity.ConditionalActivityBean;
  */
 public final class Workflow
 {
-  Workflow(final String name, final List<ActivityBean> activities)
+  private Workflow(final String name, final List<ActivityBean> activities)
   {
     // TODO: Ajey - input validations ???
     this.name = name;

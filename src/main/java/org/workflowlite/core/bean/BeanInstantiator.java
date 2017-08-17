@@ -32,6 +32,10 @@ import org.workflowlite.core.utils.ThreadLocalSentry;
  */
 public final class BeanInstantiator implements ApplicationContextAware, BeanFactoryPostProcessor, BeanExpressionResolver
 {
+  private BeanInstantiator()
+  {    
+  }
+  
   public Workflow getWorkflow(final String workflowBeanId)
   {
     // TODO: Ajey - We can remove this flag once we start creating beans from custom xml tags

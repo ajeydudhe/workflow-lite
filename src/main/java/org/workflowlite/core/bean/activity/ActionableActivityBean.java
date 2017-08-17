@@ -23,7 +23,7 @@ import org.workflowlite.core.bean.BeanInstantiator;
  */
 public final class ActionableActivityBean extends ActivityBean
 {
-  public ActionableActivityBean(final String activityBeanId, final BeanInstantiator beanInstantiator)
+  private ActionableActivityBean(final String activityBeanId, final BeanInstantiator beanInstantiator)
   {
     super(beanInstantiator);
     
@@ -33,13 +33,15 @@ public final class ActionableActivityBean extends ActivityBean
   @Override
   public Object execute(final ExecutionContext context, final Object source, final Object output)
   {
-    LOGGER.info("Executing activity [{}]", this.activityBeanId);
+    LOGGER.debug("Creating instance of activity bean [{}]", this.activityBeanId);
     
     final Activity activity = this.beanInstantiator.getActivity(this.activityBeanId, context, source, output);
+
+    LOGGER.info("Executing activity [{}]", activity.getName());
     
     final Object result = activity.execute(context);
     
-    LOGGER.info("Activity [{}] result: [{}]", this.activityBeanId, result); // TODO: Ajey - Log at debug level !!!
+    LOGGER.info("Activity [{}] result: [{}]", activity.getName(), result); // TODO: Ajey - Log at debug level !!!
     
     return result;
   }

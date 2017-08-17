@@ -27,7 +27,7 @@ import org.workflowlite.core.utils.ReaderWriterLock;
  */
 public final class WorkflowManager
 {
-  public WorkflowManager(final BeanInstantiator beanInstantiator, final WorkflowDefinitionRepository repository)
+  private WorkflowManager(final BeanInstantiator beanInstantiator, final WorkflowDefinitionRepository repository)
   {
     this.beanInstantiator = beanInstantiator;
     this.repository = repository;

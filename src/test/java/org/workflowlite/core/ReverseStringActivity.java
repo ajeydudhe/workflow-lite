@@ -20,9 +20,9 @@ import javax.inject.Inject;
 public class ReverseStringActivity extends AbstractActivity
 {
   @Inject
-  public ReverseStringActivity(final String name, final String value)
+  public ReverseStringActivity(final String value)
   {
-    super(name);
+    super(ReverseStringActivity.class.getSimpleName());
     
     this.value = value;
   }
