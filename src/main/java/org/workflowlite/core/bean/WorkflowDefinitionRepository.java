@@ -11,7 +11,6 @@
 
 package org.workflowlite.core.bean;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
 
@@ -29,7 +28,6 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.util.xml.XmlValidationModeDetector;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.ls.DOMImplementationLS;
@@ -79,7 +77,9 @@ public class WorkflowDefinitionRepository implements ApplicationContextAware
       final XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(this.beanDefinitionRegistry);
       reader.setValidationMode(XmlValidationModeDetector.VALIDATION_XSD);
       
-      final InputSource source = new InputSource(new StringReader(workflowDefinitionXml));
+      // Hack !!! removing xmlns=""
+      final InputSource source = new InputSource(new StringReader(workflowDefinitionXml.replace("xmlns=\"\"", "")));
+      
       reader.loadBeanDefinitions(source);
     }
     catch(RuntimeException e)
@@ -98,15 +98,15 @@ public class WorkflowDefinitionRepository implements ApplicationContextAware
     try
     {
       final DocumentLoader docLoader = new DefaultDocumentLoader();
-      final Document document = docLoader.loadDocument(new InputSource(inputStream), null, null, XmlValidationModeDetector.VALIDATION_NONE, false); // TODO: Ajey - Setting namespaceaware to false as it is adding the xmlns attribute to some node
+      final Document document = docLoader.loadDocument(new InputSource(inputStream), null, null, XmlValidationModeDetector.VALIDATION_NONE, true);
       
-      LOGGER.info("B4 transforming workflow defintion xml: {}{}", System.lineSeparator(), getXml(document)); // TODO: Ajey - Should be debug level !!!
+      LOGGER.debug("B4 transforming workflow defintion xml: {}{}", System.lineSeparator(), getXml(document));
       
-      //final NodeList workflows = document.getElementsByTagNameNS(NAMESPACE_CORE, "workflow");
-      final NodeList workflows = document.getElementsByTagName("wf:workflow"); // TODO: Ajey - We should use above api to be independent of the namespace alias wf
+      final NodeList workflows = document.getElementsByTagNameNS(NAMESPACE_CORE, "workflow");
       
-      LOGGER.info("Total Workflow nodes = [{}]", workflows.getLength());
-      for (int nIndex = workflows.getLength() - 1; nIndex >= 0; nIndex--)
+      LOGGER.info("Total Workflow nodes = {}", workflows.getLength());
+      
+      for (int nIndex = workflows.getLength() - 1; nIndex >= 0; nIndex--) // Iterating from back since we will be removing the elements after processing
       {
         final Element workflowNode = (Element) workflows.item(nIndex);
         
@@ -116,7 +116,9 @@ public class WorkflowDefinitionRepository implements ApplicationContextAware
       }
       
       final String workflowDefinitionXml = getXml(document);
-      LOGGER.info("After transforming workflow definition xml: {}{}", System.lineSeparator(), workflowDefinitionXml); // TODO: Ajey - Should be debug level !!!
+      
+      LOGGER.debug("After transforming workflow definition xml: {}{}", System.lineSeparator(), workflowDefinitionXml);
+      
       return workflowDefinitionXml;
     }
     catch (Exception e)
@@ -155,8 +157,7 @@ public class WorkflowDefinitionRepository implements ApplicationContextAware
   private Element getActivities(final Document document, final Element parentNode)
   {
     // We should have only one <activities> element in <workflow> which is driven by the xsd
-    //final Element activitiesElement = (Element) parentNode.getElementsByTagNameNS(NAMESPACE_CORE, "activities").item(0);
-    final Element activitiesElement = (Element) parentNode.getElementsByTagName("wf:activities").item(0); // TODO: Ajey - Use above api to be independent of namespace alias wf
+    final Element activitiesElement = (Element) parentNode.getElementsByTagNameNS(NAMESPACE_CORE, "activities").item(0);
     
     final NodeList activities = activitiesElement.getChildNodes();
     for (int nIndex = activities.getLength() - 1; nIndex >= 0; --nIndex)
@@ -166,14 +167,14 @@ public class WorkflowDefinitionRepository implements ApplicationContextAware
          continue;
       
       final Element activityElement = (Element) activityNode;
-      LOGGER.error("### Element: {}", activityElement);
-      if(activityElement.getTagName().equalsIgnoreCase("wf:activity")) // TODO: Ajey - Use name without namespace
+
+      if(activityElement.getLocalName().equalsIgnoreCase("activity")) // TODO: Ajey - Use name without namespace
       {
         addActionableActivityBean(document, (Element) activityElement);      
         continue;
       }
       
-      if(activityElement.getTagName().equalsIgnoreCase("wf:switch")) // TODO: Ajey - Use name without namespace
+      if(activityElement.getLocalName().equalsIgnoreCase("switch")) // TODO: Ajey - Use name without namespace
       {
         addConditionalActivityBean(document, (Element) activityElement);      
         continue;
@@ -193,7 +194,6 @@ public class WorkflowDefinitionRepository implements ApplicationContextAware
     
     actionableActivityBean.appendChild(constructorArgElement);
     
-    //activityElement.getParentNode().appendChild(actionableActivityBean);
     activityElement.getParentNode().insertBefore(actionableActivityBean, activityElement);
 
     document.renameNode(activityElement, null, "bean");
@@ -215,7 +215,7 @@ public class WorkflowDefinitionRepository implements ApplicationContextAware
     
     mapElement.appendChild(conditionEntry);
 
-    final NodeList whenNodes = switchElement.getElementsByTagName("wf:when"); // TODO: Ajey - Remove namespace prefix
+    final NodeList whenNodes = switchElement.getElementsByTagNameNS(NAMESPACE_CORE, "when");
     
     LOGGER.info("No. of when statements = {}", whenNodes.getLength());
     
@@ -231,7 +231,7 @@ public class WorkflowDefinitionRepository implements ApplicationContextAware
       mapElement.appendChild(whenEntry);
     }
 
-    final NodeList defaultNodes = switchElement.getElementsByTagName("wf:default"); // TODO: Ajey - Remove namespace prefix
+    final NodeList defaultNodes = switchElement.getElementsByTagNameNS(NAMESPACE_CORE, "default");
     
     LOGGER.info("No. of default statements = {}", defaultNodes.getLength());
     if(defaultNodes.getLength() > 0)
