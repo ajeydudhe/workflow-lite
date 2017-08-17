@@ -15,7 +15,7 @@
 				<constructor-arg name="name" value="reverseStringActivity_02" />
 				<constructor-arg name="value" value="${source}" />
 			</wf:activity>
-			<wf:switch on="{$source.contains('abc')}" id="condition_01"> <!-- TODO: Make id mandatory -->
+			<wf:switch on="${'abc' + source.contains('abc')}" id="condition_01"> <!-- TODO: Make id mandatory -->
 				<wf:when value="true">
 					<wf:activities>
 						<wf:activity id="abc_03" class="org.workflowlite.core.ReverseStringActivity">

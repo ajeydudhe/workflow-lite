@@ -11,8 +11,6 @@
 
 package org.workflowlite.core.bean.activity;
 
-import javax.inject.Inject;
-
 import org.workflowlite.core.ExecutionContext;
 import org.workflowlite.core.bean.BeanInstantiator;
   

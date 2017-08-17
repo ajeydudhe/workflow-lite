@@ -54,7 +54,7 @@ public class WorkflowDefinitionRepository implements ApplicationContextAware
       {
         LOGGER.info("Processing resource [{}]", resource);
         
-        processResource(resource);
+        loadDefinitions(resource);
       }
     }
     catch (Exception e)
@@ -70,14 +70,37 @@ public class WorkflowDefinitionRepository implements ApplicationContextAware
     this.beanDefinitionRegistry = (BeanDefinitionRegistry) applicationContext;
   }
 
-  private void processResource(final Resource resource)
+  private void loadDefinitions(final Resource resource)
   {
     try(InputStream inputStream = resource.getInputStream())
+    {
+      final String workflowDefinitionXml = getTransformedXml(inputStream);
+
+      final XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(this.beanDefinitionRegistry);
+      reader.setValidationMode(XmlValidationModeDetector.VALIDATION_XSD);
+      
+      final InputSource source = new InputSource(new StringReader(workflowDefinitionXml));
+      reader.loadBeanDefinitions(source);
+    }
+    catch(RuntimeException e)
+    {
+      throw e; // Already logged. TODO: Replace with custom exception !!! 
+    }
+    catch (Exception e)
+    {
+      LOGGER.error("An error occurred while processing workflow definition.", e);
+      throw new RuntimeException(e); // TODO: Ajey - Throw custom exception !!!
+    }
+  }
+
+  private String getTransformedXml(InputStream inputStream)
+  {
+    try
     {
       final DocumentLoader docLoader = new DefaultDocumentLoader();
       final Document document = docLoader.loadDocument(new InputSource(inputStream), null, null, XmlValidationModeDetector.VALIDATION_NONE, false); // TODO: Ajey - Setting namespaceaware to false as it is adding the xmlns attribute to some node
       
-      LOGGER.info("B4 modifying: {}{}", System.lineSeparator(), getXml(document));
+      LOGGER.info("B4 transforming workflow defintion xml: {}{}", System.lineSeparator(), getXml(document)); // TODO: Ajey - Should be debug level !!!
       
       //final NodeList workflows = document.getElementsByTagNameNS(NAMESPACE_CORE, "workflow");
       final NodeList workflows = document.getElementsByTagName("wf:workflow"); // TODO: Ajey - We should use above api to be independent of the namespace alias wf
@@ -87,21 +110,14 @@ public class WorkflowDefinitionRepository implements ApplicationContextAware
       {
         final Element workflowNode = (Element) workflows.item(nIndex);
         
-        LOGGER.error("### workflowNode = {}", workflowNode);
-        
         createWorkflowBeanDefinition(document, workflowNode);
         
-        //workflowNode.getParentNode().replaceChild(workflowBeanElement, workflowNode);
-        final Node renamedNode = document.renameNode(workflowNode, null, "bean");
-        LOGGER.error("### renamedNode = {}", renamedNode);
+        document.renameNode(workflowNode, null, "bean");
       }
       
-      LOGGER.error("### After modifying: {}{}", System.lineSeparator(), getXml(document));
-
-      final XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(this.beanDefinitionRegistry);
-      reader.setValidationMode(XmlValidationModeDetector.VALIDATION_XSD);
-      final InputSource source = new InputSource(new StringReader(getXml(document)));
-      reader.loadBeanDefinitions(source);
+      final String workflowDefinitionXml = getXml(document);
+      LOGGER.info("After transforming workflow definition xml: {}{}", System.lineSeparator(), workflowDefinitionXml); // TODO: Ajey - Should be debug level !!!
+      return workflowDefinitionXml;
     }
     catch (Exception e)
     {

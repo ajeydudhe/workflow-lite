@@ -33,6 +33,7 @@ public class ConditionalActivityBean extends ActivityBean
     this.switchStatementAsMap = switchStatementAsMap;
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public Object execute(final ExecutionContext context, final Object source)
   {
@@ -49,7 +50,7 @@ public class ConditionalActivityBean extends ActivityBean
     
     if(activities == null)
     {
-      activities = (List<ActivityBean>) this.switchStatementAsMap.get("'default");
+      activities = (List<ActivityBean>) this.switchStatementAsMap.get("default");
     }
     
     if(activities == null)
