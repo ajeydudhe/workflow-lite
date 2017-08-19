@@ -11,13 +11,10 @@
 
 	<xsd:element name="workflow">
 		<xsd:complexType>
-			<xsd:complexContent>
-				<xsd:extension base="beans:identifiedType">
-					<xsd:sequence>
-						<xsd:element ref="activities" minOccurs="1" maxOccurs="1" />							
-					</xsd:sequence>
-				</xsd:extension>			
-			</xsd:complexContent>
+			<xsd:sequence>
+				<xsd:element ref="activities" minOccurs="1" maxOccurs="1" />							
+			</xsd:sequence>
+			<xsd:attribute name="id" type="xsd:string" use="required" />		
 		</xsd:complexType>
 	</xsd:element>
 

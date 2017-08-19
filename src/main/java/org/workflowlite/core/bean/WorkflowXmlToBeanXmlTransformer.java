@@ -17,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.xml.DefaultDocumentLoader;
 import org.springframework.beans.factory.xml.DocumentLoader;
+import org.springframework.util.StringUtils;
 import org.springframework.util.xml.XmlValidationModeDetector;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -82,6 +83,12 @@ class WorkflowXmlToBeanXmlTransformer
   private void createWorkflowBeanDefinition(final Document document, final Element workflowNode)
   {
     this.currentWorkflowId = workflowNode.getAttribute("id");
+    this.nActivities = 0;
+    
+    if(!StringUtils.hasText(this.currentWorkflowId))
+    {
+      throw new IllegalArgumentException("Workflow id is mandatory."); // TODO: Ajey - Revisit !!!
+    }
     
     // Set the class and scope
     workflowNode.setAttribute("class", Workflow.class.getName());
@@ -132,12 +139,8 @@ class WorkflowXmlToBeanXmlTransformer
 
   private void addActionableActivityBean(final Document document, final Element activityElement)
   {
-    if(!activityElement.hasAttribute("id"))
-    {
-      throw new IllegalArgumentException("Workflow activity should have unique 'id' attribute defined."); // TODO: Ajey - Revisit !!!
-    }
-
     // Create new bean id while moving the activity bean outside the workflow bean.
+    ++this.nActivities; // To be used for creating unique bean ids for activity beans
     final String newBeanId = getActivityBeanId(activityElement.getAttribute("id"));
     activityElement.setAttribute("id", newBeanId);
     
@@ -230,7 +233,7 @@ class WorkflowXmlToBeanXmlTransformer
 
   private String getActivityBeanId(final String currentId)
   {
-    return currentId + "_" + this.currentWorkflowId;
+    return currentId + "_" + this.nActivities + "_" + this.currentWorkflowId;
   }
   
   private String getXml(final Document document)
@@ -246,6 +249,7 @@ class WorkflowXmlToBeanXmlTransformer
   // Private
   private final InputStream inputStream;
   private String currentWorkflowId;
+  private int nActivities = 0;
   private static final String NAMESPACE_CORE = "http://www.workflowlite.org/schema/core"; 
   private static final Logger LOGGER = LoggerFactory.getLogger(WorkflowXmlToBeanXmlTransformer.class);
 }
