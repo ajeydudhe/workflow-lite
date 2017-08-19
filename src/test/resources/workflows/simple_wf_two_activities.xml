@@ -7,10 +7,10 @@
 
 	<wf:workflow id="simpleWorkflowWithSingleActivity">
 		<wf:activities>
-			<wf:activity id="reverseStringActivity01" class="org.workflowlite.core.ReverseStringActivity">
+			<wf:activity id="reverseStringActivity01" class="org.workflowlite.core.activities.ReverseStringActivity">
 				<constructor-arg name="value" value="${source + 'dummy'}" />
 			</wf:activity>
-			<wf:activity id="reverseStringActivity02" class="org.workflowlite.core.ReverseStringActivity">
+			<wf:activity id="reverseStringActivity02" class="org.workflowlite.core.activities.ReverseStringActivity">
 				<constructor-arg name="value" value="${output}" />
 			</wf:activity>
 		</wf:activities>

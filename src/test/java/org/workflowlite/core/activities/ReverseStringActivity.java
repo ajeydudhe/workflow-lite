@@ -9,9 +9,12 @@
  *
  *******************************************************************/
 
-package org.workflowlite.core;
+package org.workflowlite.core.activities;
 
 import javax.inject.Inject;
+
+import org.workflowlite.core.AbstractActivity;
+import org.workflowlite.core.ExecutionContext;
 
 /**
  * TODO: Update with a detailed description of the interface/class.

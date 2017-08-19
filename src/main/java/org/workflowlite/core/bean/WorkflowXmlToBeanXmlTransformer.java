@@ -81,6 +81,8 @@ class WorkflowXmlToBeanXmlTransformer
   
   private void createWorkflowBeanDefinition(final Document document, final Element workflowNode)
   {
+    this.currentWorkflowId = workflowNode.getAttribute("id");
+    
     // Set the class and scope
     workflowNode.setAttribute("class", Workflow.class.getName());
     workflowNode.setAttribute("scope", "prototype");
@@ -130,6 +132,15 @@ class WorkflowXmlToBeanXmlTransformer
 
   private void addActionableActivityBean(final Document document, final Element activityElement)
   {
+    if(!activityElement.hasAttribute("id"))
+    {
+      throw new IllegalArgumentException("Workflow activity should have unique 'id' attribute defined."); // TODO: Ajey - Revisit !!!
+    }
+
+    // Create new bean id while moving the activity bean outside the workflow bean.
+    final String newBeanId = getActivityBeanId(activityElement.getAttribute("id"));
+    activityElement.setAttribute("id", newBeanId);
+    
     final Element actionableActivityBean = createActivityBeanElement(document, activityElement, ActionableActivityBean.class);
    
     XmlElementBuilder.element("constructor-arg", document)
@@ -147,10 +158,10 @@ class WorkflowXmlToBeanXmlTransformer
     activityElement.setAttribute("scope", "prototype"); // Scope should always be prototype because we have expression to be evaluated agains the context/source/output
     
     document.renameNode(activityElement, null, "bean"); // Rename the activity element to bean
-        
+    
     document.getFirstChild().appendChild(activityElement);
   }
-  
+
   private void addConditionalActivityBean(final Document document, final Element switchElement)
   {
     final Element conditionalActivityBean = createActivityBeanElement(document, switchElement, ConditionalActivityBean.class);
@@ -202,11 +213,6 @@ class WorkflowXmlToBeanXmlTransformer
 
   private Element createActivityBeanElement(final Document document, final Element activityElement, final Class<?> activityClass)
   {
-    if(!activityElement.hasAttribute("id"))
-    {
-      throw new IllegalArgumentException("Workflow activity should have unique 'id' attribute defined."); // TODO: Ajey - Revisit !!!
-    }
-    
     final String beanId = activityElement.getAttribute("id") + "_" + activityClass.getSimpleName();
     return createBeanElement(document, beanId, activityClass);
   }  
@@ -221,6 +227,11 @@ class WorkflowXmlToBeanXmlTransformer
     
     return beanElement;
   }
+
+  private String getActivityBeanId(final String currentId)
+  {
+    return currentId + "_" + this.currentWorkflowId;
+  }
   
   private String getXml(final Document document)
   {
@@ -234,6 +245,7 @@ class WorkflowXmlToBeanXmlTransformer
   
   // Private
   private final InputStream inputStream;
+  private String currentWorkflowId;
   private static final String NAMESPACE_CORE = "http://www.workflowlite.org/schema/core"; 
   private static final Logger LOGGER = LoggerFactory.getLogger(WorkflowXmlToBeanXmlTransformer.class);
 }

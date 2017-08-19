@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:wf="http://www.workflowlite.org/schema/core"		
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+					    http://www.workflowlite.org/schema/core http://www.workflowlite.org/schema/core/workflow.xsd">
+
+	<wf:workflow id="conditionalWorkflowSingleConditionWithTrueCaseHandling">
+		<wf:activities>
+			<wf:switch on="${source.contains('123')}">
+				<wf:when value="true">
+					<wf:activities>
+						<wf:activity id="reverseStringActivity01" class="org.workflowlite.core.activities.ReverseStringActivity">
+							<constructor-arg name="value" value="${source.replace('123', 'true')}" />
+						</wf:activity>
+					</wf:activities>
+				</wf:when>
+			</wf:switch>
+			<wf:activity id="reverseStringActivity02" class="org.workflowlite.core.activities.ReverseStringActivity">
+				<constructor-arg name="value" value="${output.toUpperCase()}" />
+			</wf:activity>
+		</wf:activities>
+	</wf:workflow>
+
+	<wf:workflow id="conditionalWorkflowSingleConditionWithTrueAndFalseCaseHandling">
+		<wf:activities>
+			<wf:switch on="${source.contains('123')}">
+				<wf:when value="true">
+					<wf:activities>
+						<wf:activity id="reverseStringActivity01" class="org.workflowlite.core.activities.ReverseStringActivity">
+							<constructor-arg name="value" value="${source.replace('123', 'true')}" />
+						</wf:activity>
+					</wf:activities>
+				</wf:when>
+				<wf:when value="false">
+					<wf:activities>
+						<wf:activity id="reverseStringActivity02" class="org.workflowlite.core.activities.ReverseStringActivity">
+							<constructor-arg name="value" value="${source + '_false'}" />
+						</wf:activity>
+					</wf:activities>
+				</wf:when>
+			</wf:switch>
+			<wf:activity id="reverseStringActivity03" class="org.workflowlite.core.activities.ReverseStringActivity">
+				<constructor-arg name="value" value="${output.toUpperCase()}" />
+			</wf:activity>
+		</wf:activities>
+	</wf:workflow>
+
+	<wf:workflow id="conditionalWorkflowSingleConditionWithTrueFalseAndDefaultCaseHandling">
+		<wf:activities>
+			<wf:switch on="${source}">
+				<wf:when value="abc">
+					<wf:activities>
+						<wf:activity id="reverseStringActivity01" class="org.workflowlite.core.activities.ReverseStringActivity">
+							<constructor-arg name="value" value="${source + '_true'}" />
+						</wf:activity>
+					</wf:activities>
+				</wf:when>
+				<wf:when value="xyz">
+					<wf:activities>
+						<wf:activity id="reverseStringActivity02" class="org.workflowlite.core.activities.ReverseStringActivity">
+							<constructor-arg name="value" value="${source + '_false'}" />
+						</wf:activity>
+					</wf:activities>
+				</wf:when>
+				<wf:default>
+					<wf:activities>
+						<wf:activity id="reverseStringActivity03" class="org.workflowlite.core.activities.ReverseStringActivity">
+							<constructor-arg name="value" value="${source + '_default'}" />
+						</wf:activity>
+					</wf:activities>
+				</wf:default>
+			</wf:switch>
+			<wf:activity id="reverseStringActivity04" class="org.workflowlite.core.activities.ReverseStringActivity">
+				<constructor-arg name="value" value="${output.toUpperCase()}" />
+			</wf:activity>
+		</wf:activities>
+	</wf:workflow>
+
+</beans>
