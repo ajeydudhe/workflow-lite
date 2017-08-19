@@ -28,7 +28,7 @@ public class CustomTagsTest
   @Test
   public void loadCustomTags()
   {
-    this.workflowManager.loadWorkflowDefinitions("classpath:workflows/custom_workflow.xml"); 
+    //this.workflowManager.loadWorkflowDefinitions("classpath:workflows/custom_workflow.xml"); 
     this.workflowManager.execute("customWorkflow", "abc");
   }
   

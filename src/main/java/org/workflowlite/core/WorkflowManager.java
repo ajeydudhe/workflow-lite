@@ -14,6 +14,8 @@ package org.workflowlite.core;
 import java.util.Map;
 import java.util.TreeMap;
 
+import javax.inject.Inject;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.workflowlite.core.bean.BeanInstantiator;
@@ -27,6 +29,7 @@ import org.workflowlite.core.utils.ReaderWriterLock;
  */
 public final class WorkflowManager
 {
+  @Inject
   private WorkflowManager(final BeanInstantiator beanInstantiator, final WorkflowDefinitionRepository repository)
   {
     this.beanInstantiator = beanInstantiator;
@@ -37,21 +40,15 @@ public final class WorkflowManager
   {
     try(LockSentry lock = this.lock.readLock())
     {
-      LOGGER.info("Executing workflow with bean id [{}]", workflowId);
+      LOGGER.debug("Creating instance of workflow with bean id [{}]", workflowId);
       
       final Workflow workflow = this.beanInstantiator.getWorkflow(workflowId);
       
+      LOGGER.info("Executing workflow [{}]", workflow.getName());
+
       final ExecutionContext context = createExecutionContext(workflowId);
       
       return workflow.execute(context, source);
-    }
-  }
-
-  public void loadWorkflowDefinitions(final String workflowDefinitionXmlPath)
-  {
-    try(LockSentry lock = this.lock.writeLock())
-    {
-      this.repository.load(workflowDefinitionXmlPath);
     }
   }
 

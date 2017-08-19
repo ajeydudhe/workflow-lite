@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:wf="http://www.workflowlite.org/schema/core"		
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+					    http://www.workflowlite.org/schema/core http://www.workflowlite.org/schema/core/workflow.xsd">
+
+	<wf:workflow id="simpleWorkflowWithSingleActivity">
+		<wf:activities>
+			<wf:activity id="reverseStringActivity" class="org.workflowlite.core.ReverseStringActivity">
+				<constructor-arg name="value" value="${source.toUpperCase()}" />
+			</wf:activity>
+		</wf:activities>
+	</wf:workflow>
+</beans>
