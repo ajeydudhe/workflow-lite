@@ -27,10 +27,13 @@ import org.w3c.dom.ls.LSSerializer;
 import org.workflowlite.core.Workflow;
 import org.workflowlite.core.bean.activity.ActionableActivityBean;
 import org.workflowlite.core.bean.activity.ConditionalActivityBean;
+import org.workflowlite.core.utils.xml.XmlElementBuilder;
 import org.xml.sax.InputSource;
   
 /**
- * TODO: Update with a detailed description of the interface/class.
+ * Internal class to parse the workflow definition xml and convert to bean definitions.
+ * 
+ * @author Ajey_Dudhe
  *
  */
 class WorkflowXmlToBeanXmlTransformer
@@ -45,7 +48,7 @@ class WorkflowXmlToBeanXmlTransformer
     try(InputStream stream = this.inputStream)
     {
       final DocumentLoader docLoader = new DefaultDocumentLoader();
-      final Document document = docLoader.loadDocument(new InputSource(inputStream), null, null, XmlValidationModeDetector.VALIDATION_NONE, true);
+      final Document document = docLoader.loadDocument(new InputSource(inputStream), null, null, XmlValidationModeDetector.VALIDATION_XSD, true);
       
       LOGGER.debug("B4 transforming workflow defintion xml: {}{}", System.lineSeparator(), getXml(document));
       
@@ -78,28 +81,19 @@ class WorkflowXmlToBeanXmlTransformer
   
   private void createWorkflowBeanDefinition(final Document document, final Element workflowNode)
   {
+    // Set the class and scope
     workflowNode.setAttribute("class", Workflow.class.getName());
     workflowNode.setAttribute("scope", "prototype");
     
-    final Element constructorArgName = createConstructorArgElement(document);
-    constructorArgName.setAttribute("name", "name");
-    constructorArgName.setAttribute("value", workflowNode.getAttribute("id"));
-    
-    workflowNode.appendChild(constructorArgName);
+    XmlElementBuilder.element("constructor-arg", document)
+                     .attribute("name", "name")
+                     .attribute("value", workflowNode.getAttribute("id"))
+                     .parent(workflowNode);
 
-    final Element constructorArgActivities = createConstructorArgElement(document);
-    constructorArgActivities.setAttribute("name", "activities");
-
-    final Element activities = getActivities(document, workflowNode);    
-    constructorArgActivities.appendChild(activities);
-
-    workflowNode.appendChild(constructorArgActivities);
-  }
-
-  private Element createConstructorArgElement(final Document document)
-  {
-    final Element constructorArgName = document.createElement("constructor-arg");
-    return constructorArgName;
+    XmlElementBuilder.element("constructor-arg", document)
+                     .attribute("name", "activities")
+                     .child(getActivities(document, workflowNode))
+                     .parent(workflowNode);
   }
 
   private Element getActivities(final Document document, final Element parentNode)
@@ -116,19 +110,21 @@ class WorkflowXmlToBeanXmlTransformer
       
       final Element activityElement = (Element) activityNode;
 
-      if(activityElement.getLocalName().equalsIgnoreCase("activity")) // TODO: Ajey - Use name without namespace
+      if(activityElement.getLocalName().equalsIgnoreCase("activity"))
       {
         addActionableActivityBean(document, (Element) activityElement);      
         continue;
       }
       
-      if(activityElement.getLocalName().equalsIgnoreCase("switch")) // TODO: Ajey - Use name without namespace
+      if(activityElement.getLocalName().equalsIgnoreCase("switch"))
       {
         addConditionalActivityBean(document, (Element) activityElement);      
         continue;
       }
-    }        
+    }
+    
     document.renameNode(activitiesElement, null, "list");
+    
     return activitiesElement;
   }
 
@@ -136,28 +132,21 @@ class WorkflowXmlToBeanXmlTransformer
   {
     final Element actionableActivityBean = createActivityBeanElement(document, activityElement, ActionableActivityBean.class);
    
-    final Element ctorArgActivityBeanIdElement = createConstructorArgElement(document);
-    ctorArgActivityBeanIdElement.setAttribute("name", "activityBeanId");
-    ctorArgActivityBeanIdElement.setAttribute("value", activityElement.getAttribute("id"));
+    XmlElementBuilder.element("constructor-arg", document)
+                     .attribute("name", "activityBeanId")
+                     .attribute("value", activityElement.getAttribute("id"))
+                     .parent(actionableActivityBean);
     
-    actionableActivityBean.appendChild(ctorArgActivityBeanIdElement);
+    XmlElementBuilder.element("constructor-arg", document)
+                     .attribute("name", "beanInstantiator")
+                     .attribute("ref", "beanInstantiator")
+                     .parent(actionableActivityBean);
     
-    final Element ctorArgBeanInstantiatorElement = createConstructorArgElement(document);
-    ctorArgBeanInstantiatorElement.setAttribute("name", "beanInstantiator");
-    ctorArgBeanInstantiatorElement.setAttribute("ref", "beanInstantiator");
-    
-    actionableActivityBean.appendChild(ctorArgBeanInstantiatorElement);
-        
-    activityElement.getParentNode().insertBefore(actionableActivityBean, activityElement);
+    activityElement.getParentNode().insertBefore(actionableActivityBean, activityElement); // Maintain the order since we are enumerating the activities from last to first.
 
-    activityElement.setAttribute("scope", "prototype");
+    activityElement.setAttribute("scope", "prototype"); // Scope should always be prototype because we have expression to be evaluated agains the context/source/output
     
-    if(!activityElement.hasAttribute("id"))
-    {
-      throw new IllegalArgumentException("Workflow activity should have unique 'id' attribute defined."); // TODO: Ajey - Revisit !!!
-    }
-    
-    document.renameNode(activityElement, null, "bean");
+    document.renameNode(activityElement, null, "bean"); // Rename the activity element to bean
         
     document.getFirstChild().appendChild(activityElement);
   }
@@ -166,30 +155,28 @@ class WorkflowXmlToBeanXmlTransformer
   {
     final Element conditionalActivityBean = createActivityBeanElement(document, switchElement, ConditionalActivityBean.class);
 
-    final Element mapElement = document.createElement("map");
-    mapElement.setAttribute("key-type", String.class.getName());
-    mapElement.setAttribute("value-type", Object.class.getName());
+    final Element mapElement = XmlElementBuilder.element("map", document)
+                                                .attribute("key-type", String.class.getName())
+                                                .attribute("value-type", Object.class.getName())
+                                                .build();
     
-    final Element conditionEntry = document.createElement("entry");
-    conditionEntry.setAttribute("key", "condition");
-    conditionEntry.setAttribute("value", switchElement.getAttribute("on"));
+    XmlElementBuilder.element("entry", document)
+                     .attribute("key", "condition")
+                     .attribute("value", switchElement.getAttribute("on"))
+                     .parent(mapElement);
     
-    mapElement.appendChild(conditionEntry);
-
     final NodeList whenNodes = switchElement.getElementsByTagNameNS(NAMESPACE_CORE, "when");
     
-    LOGGER.info("No. of when statements = {}", whenNodes.getLength());
+    LOGGER.info("No. of 'when' statements = {}", whenNodes.getLength());
     
     for (int nIndex = 0; nIndex < whenNodes.getLength(); ++nIndex)
     {
       final Element whenElement = (Element) whenNodes.item(nIndex);
 
-      final Element whenEntry = document.createElement("entry");
-      whenEntry.setAttribute("key", whenElement.getAttribute("value"));
-      
-      whenEntry.appendChild(getActivities(document, whenElement));
-      
-      mapElement.appendChild(whenEntry);
+      XmlElementBuilder.element("entry", document)
+                       .attribute("key", whenElement.getAttribute("value"))
+                       .child(getActivities(document, whenElement))
+                       .parent(mapElement);
     }
 
     final NodeList defaultNodes = switchElement.getElementsByTagNameNS(NAMESPACE_CORE, "default");
@@ -198,27 +185,28 @@ class WorkflowXmlToBeanXmlTransformer
     if(defaultNodes.getLength() > 0)
     {
       final Element defaultElement = (Element) defaultNodes.item(0); // We should have single default tag as per the xsd
-  
-      final Element defaultEntry = document.createElement("entry");
-      defaultEntry.setAttribute("key", "default");
-      
-      defaultEntry.appendChild(getActivities(document, defaultElement));
-      
-      mapElement.appendChild(defaultEntry);
+
+      XmlElementBuilder.element("entry", document)
+                       .attribute("key", "default")
+                       .child(getActivities(document, defaultElement))
+                       .parent(mapElement);
     }
     
-    final Element constructorElement = createConstructorArgElement(document);
-    constructorElement.setAttribute("name", "switchStatementAsMap");
-    constructorElement.appendChild(mapElement);
-    
-    conditionalActivityBean.appendChild(constructorElement);
+    XmlElementBuilder.element("constructor-arg", document)
+                     .attribute("name", "switchStatementAsMap")
+                     .child(mapElement)
+                     .parent(conditionalActivityBean);
     
     switchElement.getParentNode().replaceChild(conditionalActivityBean, switchElement);
   }
 
   private Element createActivityBeanElement(final Document document, final Element activityElement, final Class<?> activityClass)
   {
-    // TODO: Ajey - ID should be mandatory
+    if(!activityElement.hasAttribute("id"))
+    {
+      throw new IllegalArgumentException("Workflow activity should have unique 'id' attribute defined."); // TODO: Ajey - Revisit !!!
+    }
+    
     final String beanId = activityElement.getAttribute("id") + "_" + activityClass.getSimpleName();
     return createBeanElement(document, beanId, activityClass);
   }  
@@ -249,4 +237,3 @@ class WorkflowXmlToBeanXmlTransformer
   private static final String NAMESPACE_CORE = "http://www.workflowlite.org/schema/core"; 
   private static final Logger LOGGER = LoggerFactory.getLogger(WorkflowXmlToBeanXmlTransformer.class);
 }
-
