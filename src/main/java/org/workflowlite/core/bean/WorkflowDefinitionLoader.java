@@ -1,5 +1,5 @@
 /********************************************************************
- * File Name:    WorkflowDefinitionRepository.java
+ * File Name:    WorkflowDefinitionLoader.java
  *
  * Date Created: Aug 15, 2017
  *
@@ -13,22 +13,15 @@ package org.workflowlite.core.bean;
 
 import java.io.InputStream;
 import java.io.StringReader;
-import java.util.List;
 import java.util.Map;
-
-import javax.inject.Inject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProcessor;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.util.xml.XmlValidationModeDetector;
 import org.workflowlite.core.WorkflowDefinitionsProvider;
 import org.xml.sax.InputSource;
@@ -37,36 +30,15 @@ import org.xml.sax.InputSource;
  * TODO: Update with a detailed description of the interface/class.
  *
  */
-public final class WorkflowDefinitionRepository implements BeanDefinitionRegistryPostProcessor
+public final class WorkflowDefinitionLoader implements BeanDefinitionRegistryPostProcessor
 {
-  private WorkflowDefinitionRepository()
+  private WorkflowDefinitionLoader()
   {    
   }
   
-  /*
-  public void load(final String workflowDefinitionXmlPath)
-  {
-    try
-    {
-      final PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();    
-      for (Resource resource : resolver.getResources(workflowDefinitionXmlPath))
-      {
-        LOGGER.info("Processing resource [{}]", resource);
-        
-        loadDefinitions(resource);
-      }
-    }
-    catch (Exception e)
-    {
-      LOGGER.error("An error occurred while loading workflow definitions.", e);
-      throw new RuntimeException(e); // TODO: Ajey - Throw custom exception !!!
-    }
-  }*/
-
   @Override
   public void postProcessBeanFactory(final ConfigurableListableBeanFactory beanFactory) throws BeansException
   {   
-    LOGGER.info("postProcessBeanFactory called...");
     final Map<String, ? extends WorkflowDefinitionsProvider> definitionsProviders = beanFactory.getBeansOfType(WorkflowDefinitionsProvider.class);
     if(definitionsProviders == null)
        return;
@@ -77,8 +49,6 @@ public final class WorkflowDefinitionRepository implements BeanDefinitionRegistr
   @Override
   public void postProcessBeanDefinitionRegistry(final BeanDefinitionRegistry registry) throws BeansException
   {
-    LOGGER.info("postProcessBeanDefinitionRegistry called...");
-    
     this.beanDefinitionRegistry = registry;
   }
   
@@ -108,6 +78,6 @@ public final class WorkflowDefinitionRepository implements BeanDefinitionRegistr
  
   // Private
   private BeanDefinitionRegistry beanDefinitionRegistry;
-  private static final Logger LOGGER = LoggerFactory.getLogger(WorkflowDefinitionRepository.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(WorkflowDefinitionLoader.class);
 }
 

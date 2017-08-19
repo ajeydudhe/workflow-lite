@@ -14,42 +14,40 @@ package org.workflowlite.core;
 import java.util.Map;
 import java.util.TreeMap;
 
-import javax.inject.Inject;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.workflowlite.core.bean.BeanInstantiator;
-import org.workflowlite.core.bean.WorkflowDefinitionRepository;
-import org.workflowlite.core.utils.LockSentry;
-import org.workflowlite.core.utils.ReaderWriterLock;
 
 /**
- * TODO: Update with a detailed description of the interface/class.
+ * Main class responsible for executing the workflow with given ID and input.
+ * 
+ * @author Ajey_Dudhe
  *
  */
 public final class WorkflowManager
 {
-  @Inject
-  private WorkflowManager(final BeanInstantiator beanInstantiator, final WorkflowDefinitionRepository repository)
+  private WorkflowManager(final BeanInstantiator beanInstantiator)
   {
     this.beanInstantiator = beanInstantiator;
-    this.repository = repository;
   }
   
+  /**
+   * Executes the workflow.
+   * @param workflowId The id of the given workflow.
+   * @param source The input for the workflow.
+   * @return The result from the last activity executed in the workflow.
+   */
   public Object execute(final String workflowId, final Object source)
   {
-    try(LockSentry lock = this.lock.readLock())
-    {
-      LOGGER.debug("Creating instance of workflow with bean id [{}]", workflowId);
-      
-      final Workflow workflow = this.beanInstantiator.getWorkflow(workflowId);
-      
-      LOGGER.info("Executing workflow [{}]", workflow.getName());
+    LOGGER.debug("Creating instance of workflow with bean id [{}]", workflowId);
+    
+    final Workflow workflow = this.beanInstantiator.getWorkflow(workflowId);
+    
+    LOGGER.info("Executing workflow [{}]", workflow.getName());
 
-      final ExecutionContext context = createExecutionContext(workflowId);
-      
-      return workflow.execute(context, source);
-    }
+    final ExecutionContext context = createExecutionContext(workflowId);
+    
+    return workflow.execute(context, source);
   }
 
   // Private
@@ -84,8 +82,6 @@ public final class WorkflowManager
 
   // Private
   private BeanInstantiator beanInstantiator;  
-  private WorkflowDefinitionRepository repository;
-  private final ReaderWriterLock lock = new ReaderWriterLock();
   
   private static final Logger LOGGER = LoggerFactory.getLogger(WorkflowManager.class);
 }

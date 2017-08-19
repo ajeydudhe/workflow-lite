@@ -4,9 +4,8 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="beanInstantiator" class="org.workflowlite.core.bean.BeanInstantiator" scope="singleton" />
-	<bean id="workflowDefinitionRepository" class="org.workflowlite.core.bean.WorkflowDefinitionRepository" scope="singleton" />
+	<bean id="workflowDefinitionLoader" class="org.workflowlite.core.bean.WorkflowDefinitionLoader" scope="singleton" />
 	<bean id="workflowManager" class="org.workflowlite.core.WorkflowManager" scope="singleton">
 		<constructor-arg name="beanInstantiator" ref="beanInstantiator" />
-		<constructor-arg name="repository" ref="workflowDefinitionRepository" />
 	</bean>
 </beans>

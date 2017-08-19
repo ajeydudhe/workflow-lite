@@ -15,20 +15,20 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.workflowlite.core.bean.activity.ActivityBean;
 import org.workflowlite.core.bean.activity.ConditionalActivityBean;
   
 /**
- * TODO: Update with a detailed description of the interface/class.
+ * Workflow class responsible for executing the activities in given sequence.
+ * It also takes care of conditional statement execution.
+ * 
+ * @author Ajey_Dudhe
  *
  */
 public final class Workflow
 {
   private Workflow(final String name, final List<ActivityBean> activities)
   {
-    // TODO: Ajey - input validations ???
     this.name = name;
     
     this.activities = Collections.unmodifiableList(activities);
@@ -61,8 +61,7 @@ public final class Workflow
 
   // Private
   private final String name;
-  private List<ActivityBean> activities;
-  
-  private static final Logger LOGGER = LoggerFactory.getLogger(Workflow.class);
+  private List<ActivityBean> activities;  
+  //private static final Logger LOGGER = LoggerFactory.getLogger(Workflow.class);
 }
 
