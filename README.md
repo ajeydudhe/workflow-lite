@@ -15,3 +15,8 @@ Currently, the library needs to be built manually.
 * Make sure you have [maven](https://maven.apache.org/) installed.
 * Build the project using the command: *mvn install*
 * Create a new maven project and add following dependency
+  	<dependency>
+  		<groupId>org.workflowlite</groupId>
+  		<artifactId>workflow-lite-core</artifactId>
+  		<version>0.0.1-SNAPSHOT</version>
+  	</dependency>
