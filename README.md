@@ -1,5 +1,5 @@
 # Workflow-lite - Simple workflow engine using Spring framework and Spring Expression Language
-**NOTE:**: Work in progress
+**NOTE:* Work in progress
 **Workflow-lite** is a simple workflow engine using the Spring framework. As of now, it can be used to define a simple sequential workflow. 
 * A workflow consists of Activities to be executed in the given order.
 * An activity is a class performing a unit of work.
