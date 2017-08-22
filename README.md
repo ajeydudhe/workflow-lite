@@ -45,12 +45,12 @@ public class ReverseStringActivity extends AbstractActivity
   {
     super(ReverseStringActivity.class.getSimpleName());
     
-    this.value = value;
+	this.value = value;
   }
 
   public Object execute(final ExecutionContext context)
   {
-    **return new StringBuilder(this.value).reverse().toString();**
+    return new StringBuilder(this.value).reverse().toString();
   }
 
   // Private
@@ -60,4 +60,38 @@ public class ReverseStringActivity extends AbstractActivity
    	
 The *ReverseStringActivity* class extends the *AbstractActivity* class with in turn implements the *Activity* interface. The class takes the value to be operated upon as input. It implements the *execute()* method returning the reverse of the input string.
 
-Similarly, we will have the *AlternateCaseActivity* implemented.   	
+Similarly, we will have the *AlternateCaseActivity* implemented.
+
+### The workflow xml template
+Create a bean xml in the project as *src/main/resources/workflows/simple_workflow.xml* folder with following settings:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:wf="http://www.workflowlite.org/schema/core"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.workflowlite.org/schema/core http://www.workflowlite.org/schema/core/workflow.xsd">
+
+</beans>
+```
+
+Notice that we have added custom namespace tag **_xmlns:wf="http://www.workflowlite.org/schema/core"_** and also the corresponding schema xsd location in specified in xsi:schemaLocation.
+
+### The workflow definition
+Following xml snippet defines the workflow to execute the **_ReverseStringActivity_** followed by **_AlternateCaseActivity_**. 
+
+```xml
+	<wf:workflow id="simpleWorkflow">
+		<wf:activities>
+			<wf:activity class="my.poc.workflow.ReverseStringActivity">
+				<constructor-arg value="%{source}" />
+			</wf:activity>
+			<wf:activity class="my.poc.workflow.AlternateCaseActivity">
+				<constructor-arg value="%{source}" />
+			</wf:activity>
+		</wf:activities>
+	</wf:workflow>
+```
+
+Notice, that in **_ReverseStringActivity_** constructor we are injecting the value using Spring Expression which is makred using custom prefix of **_%{_**. The variable **_source_** in the expression refers to the original input provided while executing the workflow. Similarly, the constructor for **_AlternateCaseActivity_** has it's value inject using custom expression. However, instead of **_source_** we ave used **_output_** variable which refers to the output from previous activity which in this case is **_ReverseStringActivity_**. 	
