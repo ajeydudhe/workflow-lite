@@ -15,16 +15,12 @@ import static org.assertj.core.api.Assertions.*;
 
 import javax.inject.Inject;
 
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
-import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.testng.annotations.Test;
   
-@RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations="classpath:wf_definitions.xml")
-public class ConditionalWorkflowTest
+public class ConditionalWorkflowTest extends AbstractTestNGSpringContextTests
 {
   @Test
   public void singleCondition_conditionGetsEvaluatedToTrue()
@@ -33,12 +29,9 @@ public class ConditionalWorkflowTest
     assertThat(result).as("Result").isEqualTo("ABC_TRUE_XYZ");
   }
 
-  @Test
+  @Test(expectedExceptions=RuntimeException.class, expectedExceptionsMessageRegExp="Could not find activities to be executed on given condition.")
   public void singleCondition_conditionGetsEvaluatedToFalse_ThrowsException()
   {
-    thrown.expect(RuntimeException.class);
-    thrown.expectMessage("Could not find activities to be executed on given condition.");
-    
     this.workflowManager.execute(new DefaultExecutionContext("conditionalWorkflowSingleConditionWithTrueCaseHandling"), "abc_xyz");
   }
 
@@ -69,12 +62,25 @@ public class ConditionalWorkflowTest
     result = this.workflowManager.execute(new DefaultExecutionContext("conditionalWorkflowSingleConditionWithTrueFalseAndDefaultCaseHandling"), "pqr");
     assertThat(result).as("Result").isEqualTo("PQR_DEFAULT");    
   }
+
+  @Test(invocationCount=20, threadPoolSize=5)
+  public void singleCondition_ParallelExecution_conditionGetsEvaluatedToDefault()
+  {
+    // True
+    String result = this.workflowManager.execute(new DefaultExecutionContext("conditionalWorkflowSingleConditionWithTrueFalseAndDefaultCaseHandling"), "abc");
+    assertThat(result).as("Result").isEqualTo("ABC_TRUE");    
+
+    // False
+    result = this.workflowManager.execute(new DefaultExecutionContext("conditionalWorkflowSingleConditionWithTrueFalseAndDefaultCaseHandling"), "xyz");
+    assertThat(result).as("Result").isEqualTo("XYZ_FALSE");    
+
+    // False
+    result = this.workflowManager.execute(new DefaultExecutionContext("conditionalWorkflowSingleConditionWithTrueFalseAndDefaultCaseHandling"), "pqr");
+    assertThat(result).as("Result").isEqualTo("PQR_DEFAULT");    
+  }
   
   // Private
   @Inject
   private WorkflowManager workflowManager;
-  
-  @Rule
-  public ExpectedException thrown = ExpectedException.none();
 }
 
