@@ -27,7 +27,8 @@ Currently, the library needs to be built manually.
 For this example, we will create a simple workflow with following string operations:
 * **ReverseStringActivity** takes a string as input and returns reverse string.
 * **AlternateCaseActivity** takes a string as input and returns a string with every alternate character having opposite case e.g. input = abcd; output = aBcD
-The workflow will take a string inout and if the string starts with vowels then we simply reverse the string else we return the string with alternate case.
+
+The workflow will take a string input and if the string starts with vowels then we simply reverse the string else we return the string with alternate case.
 
 ### ReverseStringActivity
 The ReverseStringActivity class will be as follows:
@@ -49,7 +50,7 @@ public class ReverseStringActivity extends AbstractActivity
 
   public Object execute(final ExecutionContext context)
   {
-    return new StringBuilder(this.value).reverse().toString();
+    **return new StringBuilder(this.value).reverse().toString();**
   }
 
   // Private
@@ -57,5 +58,6 @@ public class ReverseStringActivity extends AbstractActivity
 }
 ```
    	
-The *ReverseStringActivity* class extends the *AbstractActivity* class with in turn implements the Activity interface. The class take the value to be operated upon as input. It implements the *execute()* method returning the reverse of the input string.
+The *ReverseStringActivity* class extends the *AbstractActivity* class with in turn implements the *Activity* interface. The class takes the value to be operated upon as input. It implements the *execute()* method returning the reverse of the input string.
+
 Similarly, we will have the *AlternateCaseActivity* implemented.   	
