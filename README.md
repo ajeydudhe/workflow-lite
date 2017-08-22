@@ -82,16 +82,16 @@ Notice that we have added custom namespace tag **_xmlns:wf="http://www.workflowl
 Following xml snippet defines the workflow to execute the **_ReverseStringActivity_** followed by **_AlternateCaseActivity_**. 
 
 ```xml
-	<wf:workflow id="simpleWorkflow">
-		<wf:activities>
-			<wf:activity class="my.poc.workflow.ReverseStringActivity">
-				<constructor-arg value="%{source}" />
-			</wf:activity>
-			<wf:activity class="my.poc.workflow.AlternateCaseActivity">
-				<constructor-arg value="%{output}" />
-			</wf:activity>
-		</wf:activities>
-	</wf:workflow>
+<wf:workflow id="simpleWorkflow">
+	<wf:activities>
+		<wf:activity class="my.poc.workflow.ReverseStringActivity">
+			<constructor-arg value="%{source}" />
+		</wf:activity>
+		<wf:activity class="my.poc.workflow.AlternateCaseActivity">
+			<constructor-arg value="%{output}" />
+		</wf:activity>
+	</wf:activities>
+</wf:workflow>
 ```
 
 Notice, that in **_ReverseStringActivity_** constructor we are injecting the value using Spring Expression which is marked using custom prefix of **_%{_**. The variable **_source_** in the expression refers to the original input provided while executing the workflow. Similarly, the constructor for **_AlternateCaseActivity_** has it's value inject using custom expression. However, instead of **_source_** we ave used **_output_** variable which refers to the output from previous activity which in this case is **_ReverseStringActivity_**.
