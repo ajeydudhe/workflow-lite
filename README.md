@@ -96,6 +96,8 @@ Following xml snippet defines the workflow to execute the **_ReverseStringActivi
 
 Notice, that in **_ReverseStringActivity_** constructor we are injecting the value using Spring Expression which is marked using custom prefix of **_%{_**. The variable **_source_** in the expression refers to the original input provided while executing the workflow. Similarly, the constructor for **_AlternateCaseActivity_** has it's value inject using custom expression. However, instead of **_source_** we have used **_output_** variable which refers to the output from previous activity which in this case is **_ReverseStringActivity_**.
 
+Note that in the custom expression within _**%{}**_ you can perform additional tasks like in this case the **_source_** is a string so you can inject it as, say, upper case with expression as _**%{source.toUpperCase()}**_ or concatenate as _**%{source + '_some_suffix'}**_. 
+
 ### Bean xml
 Add following bean xml at **_src/main/resources/workflow_beans.xml_**
 
