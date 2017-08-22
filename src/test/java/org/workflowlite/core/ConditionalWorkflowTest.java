@@ -28,8 +28,8 @@ public class ConditionalWorkflowTest
 {
   @Test
   public void singleCondition_conditionGetsEvaluatedToTrue()
-  {
-    final String result = (String) this.workflowManager.execute("conditionalWorkflowSingleConditionWithTrueCaseHandling", "abc_123_xyz");
+  {    
+    final String result = (String) this.workflowManager.execute(new DefaultExecutionContext("conditionalWorkflowSingleConditionWithTrueCaseHandling"), "abc_123_xyz");
     assertThat(result).as("Result").isEqualTo("ABC_TRUE_XYZ");
   }
 
@@ -39,18 +39,18 @@ public class ConditionalWorkflowTest
     thrown.expect(RuntimeException.class);
     thrown.expectMessage("Could not find activities to be executed on given condition.");
     
-    this.workflowManager.execute("conditionalWorkflowSingleConditionWithTrueCaseHandling", "abc_xyz");
+    this.workflowManager.execute(new DefaultExecutionContext("conditionalWorkflowSingleConditionWithTrueCaseHandling"), "abc_xyz");
   }
 
   @Test
   public void singleCondition_conditionGetsEvaluatedToFalse()
   {
     // True
-    String result = (String) this.workflowManager.execute("conditionalWorkflowSingleConditionWithTrueAndFalseCaseHandling", "abc_123_xyz");
+    String result = this.workflowManager.execute(new DefaultExecutionContext("conditionalWorkflowSingleConditionWithTrueAndFalseCaseHandling"), "abc_123_xyz");
     assertThat(result).as("Result").isEqualTo("ABC_TRUE_XYZ");
 
     // False
-    result = (String) this.workflowManager.execute("conditionalWorkflowSingleConditionWithTrueAndFalseCaseHandling", "abc_xyz");
+    result = this.workflowManager.execute(new DefaultExecutionContext("conditionalWorkflowSingleConditionWithTrueAndFalseCaseHandling"), "abc_xyz");
     assertThat(result).as("Result").isEqualTo("ABC_XYZ_FALSE");
   }
 
@@ -58,15 +58,15 @@ public class ConditionalWorkflowTest
   public void singleCondition_conditionGetsEvaluatedToDefault()
   {
     // True
-    String result = (String) this.workflowManager.execute("conditionalWorkflowSingleConditionWithTrueFalseAndDefaultCaseHandling", "abc");
+    String result = this.workflowManager.execute(new DefaultExecutionContext("conditionalWorkflowSingleConditionWithTrueFalseAndDefaultCaseHandling"), "abc");
     assertThat(result).as("Result").isEqualTo("ABC_TRUE");    
 
     // False
-    result = (String) this.workflowManager.execute("conditionalWorkflowSingleConditionWithTrueFalseAndDefaultCaseHandling", "xyz");
+    result = this.workflowManager.execute(new DefaultExecutionContext("conditionalWorkflowSingleConditionWithTrueFalseAndDefaultCaseHandling"), "xyz");
     assertThat(result).as("Result").isEqualTo("XYZ_FALSE");    
 
     // False
-    result = (String) this.workflowManager.execute("conditionalWorkflowSingleConditionWithTrueFalseAndDefaultCaseHandling", "pqr");
+    result = this.workflowManager.execute(new DefaultExecutionContext("conditionalWorkflowSingleConditionWithTrueFalseAndDefaultCaseHandling"), "pqr");
     assertThat(result).as("Result").isEqualTo("PQR_DEFAULT");    
   }
   

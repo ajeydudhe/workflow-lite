@@ -10,9 +10,14 @@
  *******************************************************************/
 
 package org.workflowlite.core;
-  
+
 /**
- * TODO: Update with a detailed description of the interface/class.
+ * Simple interface allowing to pass workflow specific data.
+ * <br/><b>Note:</b> This should rarely be used for passing any data between 
+ * activities. Use Spring Depenedncy Injection with Spring Expression Language
+ * to inject such data.
+ * 
+ * @author Ajey_Dudhe
  *
  */
 public interface ExecutionContext

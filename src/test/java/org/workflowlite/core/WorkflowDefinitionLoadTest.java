@@ -29,7 +29,7 @@ public class WorkflowDefinitionLoadTest
 
       final WorkflowManager workflowManager = applicationContext.getBean(WorkflowManager.class);
 
-      final String result = (String) workflowManager.execute("simpleWorkflowWithSingleActivity", "abcxyz");
+      final String result = workflowManager.execute(new DefaultExecutionContext("simpleWorkflowWithSingleActivity"), "abcxyz");
       
       assertThat(result).as("Result").isEqualTo("ZYXCBA");
     }
@@ -42,11 +42,11 @@ public class WorkflowDefinitionLoadTest
     {
       final Workflow workflow = applicationContext.getBean(Workflow.class);
       
-      assertThat(workflow.getName()).as("Workflow name").isEqualTo("simpleWorkflowWithSingleActivity");
+      assertThat(workflow.getName()).as("Workflow name").isEqualTo("simpleWorkflowWithTwoActivities");
 
       final WorkflowManager workflowManager = applicationContext.getBean(WorkflowManager.class);
 
-      final String result = (String) workflowManager.execute("simpleWorkflowWithSingleActivity", "abcxyz");
+      final String result = workflowManager.execute(new DefaultExecutionContext("simpleWorkflowWithTwoActivities"), "abcxyz");
       
       assertThat(result).as("Result").isEqualTo("abcxyzdummy");
     }

@@ -40,7 +40,7 @@ public final class Workflow
   }
   
   @SuppressWarnings("unchecked")
-  public Object execute(final ExecutionContext context, final Object source)
+  public <TSource, TResult> TResult execute(final ExecutionContext context, final TSource source)
   {
     Object previousActivityOutput = source;  
     final LinkedList<ActivityBean> activities = new LinkedList<>(this.activities);
@@ -56,7 +56,7 @@ public final class Workflow
       previousActivityOutput = result;
     }
     
-    return previousActivityOutput;
+    return (TResult) previousActivityOutput;
   }
 
   // Private

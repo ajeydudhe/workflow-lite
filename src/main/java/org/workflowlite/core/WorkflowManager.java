@@ -11,9 +11,6 @@
 
 package org.workflowlite.core;
 
-import java.util.Map;
-import java.util.TreeMap;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.workflowlite.core.bean.BeanInstantiator;
@@ -30,54 +27,22 @@ public final class WorkflowManager
   {
     this.beanInstantiator = beanInstantiator;
   }
-  
+
   /**
-   * Executes the workflow.
-   * @param workflowId The id of the given workflow.
+   * Executes the given workflow specified in {@link ExecutionContext#getWorkflowId()}
+   * @param executionContext The {@link ExecutionContext} for the workflow.
    * @param source The input for the workflow.
-   * @return The result from the last activity executed in the workflow.
+   * @return The result from the last activity executed.
    */
-  public Object execute(final String workflowId, final Object source)
+  public <TSource, TResult> TResult execute(final ExecutionContext executionContext, final TSource source)
   {
-    LOGGER.debug("Creating instance of workflow with bean id [{}]", workflowId);
+    LOGGER.debug("Creating instance of workflow with bean id [{}]", executionContext.getWorkflowId());
     
-    final Workflow workflow = this.beanInstantiator.getWorkflow(workflowId);
+    final Workflow workflow = this.beanInstantiator.getWorkflow(executionContext.getWorkflowId());
     
     LOGGER.info("Executing workflow [{}]", workflow.getName());
 
-    final ExecutionContext context = createExecutionContext(workflowId);
-    
-    return workflow.execute(context, source);
-  }
-
-  // Private
-  
-  private ExecutionContext createExecutionContext(final String workflowId)
-  {
-    return new ExecutionContext()
-    {     
-      @Override
-      public String getWorkflowId()
-      {
-        return workflowId;
-      }
-
-      @Override
-      public <T> void setValue(final String property, final T value)
-      {
-        this.properties.put(property, value);
-      }
-      
-      @SuppressWarnings("unchecked")
-      @Override
-      public <T> T getValue(final String property)
-      {
-        return (T) this.properties.get(property);
-      }
-      
-      // Private
-      private final Map<String, Object> properties = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
-    };
+    return workflow.execute(executionContext, source);
   }
 
   // Private

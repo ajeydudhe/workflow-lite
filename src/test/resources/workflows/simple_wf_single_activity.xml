@@ -8,7 +8,7 @@
 	<wf:workflow id="simpleWorkflowWithSingleActivity">
 		<wf:activities>
 			<wf:activity id="reverseStringActivity" class="org.workflowlite.core.activities.ReverseStringActivity">
-				<constructor-arg name="value" value="${source.toUpperCase()}" />
+				<constructor-arg name="value" value="%{source.toUpperCase()}" />
 			</wf:activity>
 		</wf:activities>
 	</wf:workflow>

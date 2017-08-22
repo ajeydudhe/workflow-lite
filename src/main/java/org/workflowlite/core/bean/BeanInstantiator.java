@@ -146,7 +146,7 @@ public final class BeanInstantiator implements ApplicationContextAware, BeanFact
     }
   };
   
-  private static final String EXPRESSION_PREFIX = "${";
+  private static final String EXPRESSION_PREFIX = "%{";
   private static final String EXPRESSION_SUFFIX = "}";
 }
 
