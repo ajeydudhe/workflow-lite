@@ -22,3 +22,40 @@ Currently, the library needs to be built manually.
   		<version>0.0.1-SNAPSHOT</version>
   	</dependency>
   	```
+
+## Creating the workflow
+For this example, we will create a simple workflow with following string operations:
+* **ReverseStringActivity** takes a string as input and returns reverse string.
+* **AlternateCaseActivity** takes a string as input and returns a string with every alternate character having opposite case e.g. input = abcd; output = aBcD
+The workflow will take a string inout and if the string starts with vowels then we simply reverse the string else we return the string with alternate case.
+
+### ReverseStringActivity
+The ReverseStringActivity class will be as follows:
+
+```java
+package my.poc.workflow;
+
+import org.workflowlite.core.AbstractActivity;
+import org.workflowlite.core.ExecutionContext;
+  
+public class ReverseStringActivity extends AbstractActivity
+{
+  public ReverseStringActivity(final String value)
+  {
+    super(ReverseStringActivity.class.getSimpleName());
+    
+    this.value = value;
+  }
+
+  public Object execute(final ExecutionContext context)
+  {
+    return new StringBuilder(this.value).reverse().toString();
+  }
+
+  // Private
+  private String value;
+}
+```
+   	
+The *ReverseStringActivity* class extends the *AbstractActivity* class with in turn implements the Activity interface. The class take the value to be operated upon as input. It implements the *execute()* method returning the reverse of the input string.
+Similarly, we will have the *AlternateCaseActivity* implemented.   	
