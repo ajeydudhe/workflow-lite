@@ -94,7 +94,7 @@ Following xml snippet defines the workflow to execute the **_ReverseStringActivi
 </wf:workflow>
 ```
 
-Notice, that in **_ReverseStringActivity_** constructor we are injecting the value using Spring Expression which is marked using custom prefix of **_%{_**. The variable **_source_** in the expression refers to the original input provided while executing the workflow. Similarly, the constructor for **_AlternateCaseActivity_** has it's value inject using custom expression. However, instead of **_source_** we ave used **_output_** variable which refers to the output from previous activity which in this case is **_ReverseStringActivity_**.
+Notice, that in **_ReverseStringActivity_** constructor we are injecting the value using Spring Expression which is marked using custom prefix of **_%{_**. The variable **_source_** in the expression refers to the original input provided while executing the workflow. Similarly, the constructor for **_AlternateCaseActivity_** has it's value inject using custom expression. However, instead of **_source_** we have used **_output_** variable which refers to the output from previous activity which in this case is **_ReverseStringActivity_**.
 
 ### Bean xml
 Add following bean xml at **_src/main/resources/workflow_beans.xml_**
@@ -118,9 +118,9 @@ Add following bean xml at **_src/main/resources/workflow_beans.xml_**
 </beans>
 ```
 
-In above bean xml the _<import>_ tag tells to load the predefine bean xml in the workflow-lite library.
+In above bean xml the **_import_** tag tells to load the predefined bean xml **_spring-beans/workflow-lite-core.xml_** in the workflow-lite library jar.
 
-The bean for **_org.workflowlite.core.WorkflowXmlsProvider_** class tell the library to search for the workflow definitions under the workflow/* folder on the classpath.
+The bean for **_org.workflowlite.core.WorkflowXmlsProvider_** class tell the library to search for the workflow definitions under the **_workflow/*_** folder on the classpath.
 
 ### Executing the workflow
 Create a simple JUnit test which loads the bean xml defined above and inject the **_WorkflowManager_** instance.
@@ -148,5 +148,5 @@ public class SimpleWorkflowTest
 }
 ```
 
-In fist call we are passing the input as _abcdef_. The **_ReverseStringActivity_** will convert this to _fedcba_ while the next **_AlternateCaseActivity_** will convert this to alternate case as _fEdCbA_. Similarly, we give the output of previous test as input to the workflow and get the original string _abcdef_ but with alternate case as _aBcDeF_. 
+In the first call we are passing the input as _abcdef_. The **_ReverseStringActivity_** will convert this to _fedcba_ while the next **_AlternateCaseActivity_** will convert this to alternate case as _fEdCbA_. Similarly, we give the output of previous test as input to the workflow and get the original string _abcdef_ but with alternate case as _aBcDeF_. 
  	
