@@ -34,6 +34,7 @@ public final class WorkflowManager
    * @param source The input for the workflow.
    * @return The result from the last activity executed.
    */
+  @SuppressWarnings("unchecked")
   public <TSource, TResult> TResult execute(final ExecutionContext executionContext, final TSource source)
   {
     LOGGER.debug("Creating instance of workflow with bean id [{}]", executionContext.getWorkflowId());
@@ -42,7 +43,7 @@ public final class WorkflowManager
     
     LOGGER.info("Executing workflow [{}]", workflow.getName());
 
-    return workflow.execute(executionContext, source);
+    return (TResult) workflow.execute(executionContext, source);
   }
 
   // Private

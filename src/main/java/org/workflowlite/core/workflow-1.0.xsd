@@ -7,7 +7,7 @@
         attributeFormDefault="unqualified"
         version="1.0">
 
-	<xsd:import namespace="http://www.springframework.org/schema/beans" schemaLocation="http://www.springframework.org/schema/beans/spring-beans-4.3.xsd"/>
+	<xsd:import namespace="http://www.springframework.org/schema/beans" schemaLocation="http://www.springframework.org/schema/beans/spring-beans.xsd"/>
 
 	<xsd:element name="workflow">
 		<xsd:complexType>

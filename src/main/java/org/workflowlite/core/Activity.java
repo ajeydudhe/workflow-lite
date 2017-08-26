@@ -15,9 +15,9 @@ package org.workflowlite.core;
  * TODO: Update with a detailed description of the interface/class.
  *
  */
-public interface Activity
+public interface Activity<TContext extends ExecutionContext, TResult>
 {
   public String getName();
-  public Object execute(ExecutionContext context);
+  public TResult execute(TContext context);
 }
 

@@ -45,7 +45,8 @@ public final class BeanInstantiator implements ApplicationContextAware, BeanFact
     }
   }
   
-  public Activity getActivity(final String activityBeanId, final ExecutionContext context, final Object source, final Object output)
+  @SuppressWarnings("unchecked")
+  public <TContext extends ExecutionContext> Activity<TContext, Object> getActivity(final String activityBeanId, final ExecutionContext context, final Object source, final Object output)
   {
     // Adding the root object having source property so that in the expression we can use the source property.
     try(ThreadLocalSentry<Object> threadLocalSource = EXPRESSION_EVALUATION_ROOT_OBJECT.set(createRootObject(context, source, output));

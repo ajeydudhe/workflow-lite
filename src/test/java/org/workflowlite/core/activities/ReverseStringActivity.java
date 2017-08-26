@@ -20,17 +20,15 @@ import org.workflowlite.core.ExecutionContext;
  * TODO: Update with a detailed description of the interface/class.
  *
  */
-public class ReverseStringActivity extends AbstractActivity
+public class ReverseStringActivity extends AbstractActivity<ExecutionContext, String>
 {
   @Inject
   public ReverseStringActivity(final String value)
   {
-    super(ReverseStringActivity.class.getSimpleName());
-    
     this.value = value;
   }
 
-  public Object execute(final ExecutionContext context)
+  public String execute(final ExecutionContext context)
   {
     return new StringBuilder(this.value).reverse().toString();
   }

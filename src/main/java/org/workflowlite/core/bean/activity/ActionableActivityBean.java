@@ -35,7 +35,7 @@ public final class ActionableActivityBean extends ActivityBean
   {
     LOGGER.debug("Creating instance of activity bean [{}]", this.activityBeanId);
     
-    final Activity activity = this.beanInstantiator.getActivity(this.activityBeanId, context, source, output);
+    final Activity<ExecutionContext, Object> activity = this.beanInstantiator.getActivity(this.activityBeanId, context, source, output);
 
     LOGGER.info("Executing activity [{}]", activity.getName());
     

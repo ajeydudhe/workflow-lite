@@ -14,7 +14,10 @@ package org.workflowlite.core;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.workflowlite.core.bean.activity.ActivityBean;
 import org.workflowlite.core.bean.activity.ConditionalActivityBean;
   
@@ -39,11 +42,18 @@ public final class Workflow
     return this.name;
   }
   
-  @SuppressWarnings("unchecked")
-  public <TSource, TResult> TResult execute(final ExecutionContext context, final TSource source)
+  public Object execute(final ExecutionContext context, final Object source)
   {
-    Object previousActivityOutput = source;  
-    final LinkedList<ActivityBean> activities = new LinkedList<>(this.activities);
+    return execute(context, source, source, new LinkedList<>(this.activities));
+  }
+
+  @SuppressWarnings("unchecked")
+  private Object execute(final ExecutionContext context, 
+                         final Object source, 
+                         final Object output,
+                         final LinkedList<ActivityBean> activities)
+  {
+    Object previousActivityOutput = output;
     for (ActivityBean activityBean = activities.poll(); activityBean != null; activityBean = activities.poll())
     {
       final Object result = activityBean.execute(context, source, previousActivityOutput);
@@ -53,15 +63,52 @@ public final class Workflow
         continue;
       }
       
-      previousActivityOutput = result;
+      // Should we define an interface instead for async activity?
+      // If CompletableFuture is expected output of one activity then it will be an issue. But this should be rare and not a good practice.
+      final boolean isAsyncActivityOutput = (result instanceof CompletableFuture);
+      if(! isAsyncActivityOutput )
+      {      
+        previousActivityOutput = result;
+        continue;
+      }
+      
+      if(this.future == null)
+      {
+        this.future = new CompletableFuture<Object>();
+      }
+      
+      final CompletableFuture<Object> futureResult = (CompletableFuture<Object>) result;
+      futureResult.whenComplete((asyncResult, exception) -> {
+        
+        if(exception != null)
+        {
+          LOGGER.error("Async activity threw exception", exception);
+          this.future.completeExceptionally(exception);
+          return;
+        }
+        
+        LOGGER.info("Async activity returned [{}]", asyncResult);
+        execute(context, source, asyncResult, activities);
+      });
+      
+      return this.future; // If this was the first async activity then this.future is returned back else the returned value is ignored because we are calling execute() from completion of async activity above.
     }
     
-    return (TResult) previousActivityOutput;
+    LOGGER.info("Done executing all the activities in the workflow. Had async activities [{}].", this.future != null);
+    
+    // If there was async activity in between then we have returned this.future. So complete it.
+    if(this.future != null)
+    {
+      this.future.complete(previousActivityOutput); // TODO: Ajey - Need to handle error case.
+    }
+    
+    return previousActivityOutput;
   }
 
   // Private
   private final String name;
-  private List<ActivityBean> activities;  
-  //private static final Logger LOGGER = LoggerFactory.getLogger(Workflow.class);
+  private List<ActivityBean> activities;
+  private CompletableFuture<Object> future = null;
+  private static final Logger LOGGER = LoggerFactory.getLogger(Workflow.class);
 }
 

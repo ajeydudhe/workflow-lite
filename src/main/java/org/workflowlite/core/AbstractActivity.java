@@ -15,20 +15,11 @@ package org.workflowlite.core;
  * TODO: Update with a detailed description of the interface/class.
  *
  */
-public abstract class AbstractActivity implements Activity
+public abstract class AbstractActivity<TContext extends ExecutionContext, TResult> implements Activity<TContext, TResult>
 {
-  protected AbstractActivity(final String name)
-  {
-    // TODO: Ajey - input validation
-    this.name = name;
-  }
-  
   public String getName()
   {
-    return this.name;
+    return this.getClass().getSimpleName();
   }
-
-  // Protected
-  protected final String name;
 }
 
