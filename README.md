@@ -153,7 +153,7 @@ public class SimpleWorkflowTest
 In the first call we are passing the input as _abcdef_. The **_ReverseStringActivity_** will convert this to _fedcba_ while the next **_AlternateCaseActivity_** will convert this to alternate case as _fEdCbA_. Similarly, we give the output of previous test as input to the workflow and get the original string _abcdef_ but with alternate case as _aBcDeF_. 
 
 ## Work in progress
-* Ability for activities to return a **_Future_** i.e. support asynchronous activity execution.
+* Define workflows using UML activity diagrams.
 * Optimize the expression evaluation by caching the expressions.
 * Error handling.
 * Persistence support for workflows.

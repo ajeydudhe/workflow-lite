@@ -87,7 +87,7 @@ public final class Workflow
           return;
         }
         
-        LOGGER.info("Async activity returned [{}]", asyncResult);
+        LOGGER.info("Async activity returned: {}", asyncResult);
         execute(context, source, asyncResult, activities);
       });
       
@@ -96,10 +96,10 @@ public final class Workflow
     
     LOGGER.info("Done executing all the activities in the workflow. Had async activities [{}].", this.future != null);
     
-    // If there was async activity in between then we have returned this.future. So complete it.
+    // If there was async activity in between then we have returned this.future. So complete it with the last known output.
     if(this.future != null)
     {
-      this.future.complete(previousActivityOutput); // TODO: Ajey - Need to handle error case.
+      this.future.complete(previousActivityOutput);
     }
     
     return previousActivityOutput;
