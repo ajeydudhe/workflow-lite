@@ -21,7 +21,7 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.expression.Expression;
 import org.springframework.expression.ParserContext;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
-import org.workflowlite.core.Activity;
+import org.workflowlite.core.Action;
 import org.workflowlite.core.ExecutionContext;
 import org.workflowlite.core.Workflow;
 import org.workflowlite.core.utils.ThreadLocalSentry;
@@ -46,13 +46,13 @@ public final class BeanInstantiator implements ApplicationContextAware, BeanFact
   }
   
   @SuppressWarnings("unchecked")
-  public <TContext extends ExecutionContext> Activity<TContext, Object> getActivity(final String activityBeanId, final ExecutionContext context, final Object source, final Object output)
+  public <TContext extends ExecutionContext> Action<TContext, Object> getActivity(final String activityBeanId, final ExecutionContext context, final Object source, final Object output)
   {
     // Adding the root object having source property so that in the expression we can use the source property.
     try(ThreadLocalSentry<Object> threadLocalSource = EXPRESSION_EVALUATION_ROOT_OBJECT.set(createRootObject(context, source, output));
         ThreadLocalSentry<Boolean> threadLocalExpressionFlag = ENABLE_EXPRESSION_EVALUATION.set(Boolean.TRUE))
     {      
-      return this.applicationContext.getBean(activityBeanId, Activity.class);
+      return this.applicationContext.getBean(activityBeanId, Action.class);
     }
   }
   

@@ -22,16 +22,16 @@
 //CHECKSTYLE:ON
 
 // PACKAGE/IMPORTS --------------------------------------------------
-package org.workflowlite.core.activities;
+package org.workflowlite.core.actions;
 
 import java.util.concurrent.CompletableFuture;
 
-import org.workflowlite.core.AbstractAsyncActivity;
+import org.workflowlite.core.AbstractAsyncAction;
 import org.workflowlite.core.DefaultExecutionContext;
   
-public class AsyncAlternateCaseActivity extends AbstractAsyncActivity<DefaultExecutionContext, String>
+public class AsyncAlternateCaseAction extends AbstractAsyncAction<DefaultExecutionContext, String>
 {
-  public AsyncAlternateCaseActivity(final String value)
+  public AsyncAlternateCaseAction(final String value)
   {
     this.value = value;
   }

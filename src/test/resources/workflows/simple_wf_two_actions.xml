@@ -5,10 +5,13 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 					    http://www.workflowlite.org/schema/core http://www.workflowlite.org/schema/core/workflow.xsd">
 
-	<wf:workflow id="simpleWorkflowWithSingleActivity">
+	<wf:workflow id="simpleWorkflowWithTwoActions">
 		<wf:activities>
-			<wf:activity id="reverseStringActivity" class="org.workflowlite.core.activities.ReverseStringActivity">
-				<constructor-arg name="value" value="%{source.toUpperCase()}" />
+			<wf:activity id="reverseStringAction01" class="org.workflowlite.core.actions.ReverseStringAction">
+				<constructor-arg name="value" value="%{source + 'dummy'}" />
+			</wf:activity>
+			<wf:activity id="reverseStringAction02" class="org.workflowlite.core.actions.ReverseStringAction">
+				<constructor-arg name="value" value="%{output}" />
 			</wf:activity>
 		</wf:activities>
 	</wf:workflow>

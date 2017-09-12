@@ -9,7 +9,7 @@
 		<constructor-arg>
 			<list>
 				<value>classpath:workflows/conditional_workflows.xml</value>
-				<value>classpath:workflows/async_activities_workflows.xml</value>
+				<value>classpath:workflows/async_actions_workflows.xml</value>
 			</list>
 		</constructor-arg>
 	</bean>

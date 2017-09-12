@@ -1,5 +1,5 @@
 /********************************************************************
- * File Name:    AbstractActivity.java
+ * File Name:    Action.java
  *
  * Date Created: Aug 5, 2017
  *
@@ -15,11 +15,9 @@ package org.workflowlite.core;
  * TODO: Update with a detailed description of the interface/class.
  *
  */
-public abstract class AbstractActivity<TContext extends ExecutionContext, TResult> implements Activity<TContext, TResult>
+public interface Action<TContext extends ExecutionContext, TResult>
 {
-  public String getName()
-  {
-    return this.getClass().getSimpleName();
-  }
+  public String getName();
+  public TResult execute(TContext context);
 }
 

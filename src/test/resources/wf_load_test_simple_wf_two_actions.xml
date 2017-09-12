@@ -8,7 +8,7 @@
 	<bean id="workflowDefinitions" class="org.workflowlite.core.WorkflowXmlsProvider">
 		<constructor-arg>
 			<list>
-				<value>file:src/test/resources/workflows/simple_wf_two_activities.xml</value>
+				<value>file:src/test/resources/workflows/simple_wf_two_actions.xml</value>
 			</list>
 		</constructor-arg>
 	</bean>

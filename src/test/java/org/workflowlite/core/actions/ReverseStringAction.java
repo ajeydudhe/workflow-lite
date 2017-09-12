@@ -1,5 +1,5 @@
 /********************************************************************
- * File Name:    ReverseStringActivity.java
+ * File Name:    ReverseStringAction.java
  *
  * Date Created: Aug 6, 2017
  *
@@ -9,21 +9,21 @@
  *
  *******************************************************************/
 
-package org.workflowlite.core.activities;
+package org.workflowlite.core.actions;
 
 import javax.inject.Inject;
 
-import org.workflowlite.core.AbstractActivity;
+import org.workflowlite.core.AbstractAction;
 import org.workflowlite.core.ExecutionContext;
 
 /**
  * TODO: Update with a detailed description of the interface/class.
  *
  */
-public class ReverseStringActivity extends AbstractActivity<ExecutionContext, String>
+public class ReverseStringAction extends AbstractAction<ExecutionContext, String>
 {
   @Inject
-  public ReverseStringActivity(final String value)
+  public ReverseStringAction(final String value)
   {
     this.value = value;
   }

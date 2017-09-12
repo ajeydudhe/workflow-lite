@@ -13,7 +13,7 @@ package org.workflowlite.core.bean.activity;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.workflowlite.core.Activity;
+import org.workflowlite.core.Action;
 import org.workflowlite.core.ExecutionContext;
 import org.workflowlite.core.bean.BeanInstantiator;
   
@@ -35,13 +35,13 @@ public final class ActionableActivityBean extends ActivityBean
   {
     LOGGER.debug("Creating instance of activity bean [{}]", this.activityBeanId);
     
-    final Activity<ExecutionContext, Object> activity = this.beanInstantiator.getActivity(this.activityBeanId, context, source, output);
+    final Action<ExecutionContext, Object> activity = this.beanInstantiator.getActivity(this.activityBeanId, context, source, output);
 
     LOGGER.info("Executing activity [{}]", activity.getName());
     
     final Object result = activity.execute(context);
     
-    LOGGER.info("Activity [{}] result: [{}]", activity.getName(), result); // TODO: Ajey - Log at debug level !!!
+    LOGGER.info("Action [{}] result: [{}]", activity.getName(), result); // TODO: Ajey - Log at debug level !!!
     
     return result;
   }

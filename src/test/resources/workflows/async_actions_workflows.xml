@@ -5,73 +5,73 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 					    http://www.workflowlite.org/schema/core http://www.workflowlite.org/schema/core/workflow.xsd">
 
-	<wf:workflow id="asyncSimpleWorkflowWithSingleActivity">
+	<wf:workflow id="asyncSimpleWorkflowWithSingleAction">
 		<wf:activities>
-			<wf:activity id="reverseStringActivity" class="org.workflowlite.core.activities.AsyncReverseStringActivity">
+			<wf:activity id="reverseStringAction" class="org.workflowlite.core.actions.AsyncReverseStringAction">
 				<constructor-arg name="value" value="%{source.toUpperCase()}" />
 			</wf:activity>
 		</wf:activities>
 	</wf:workflow>
 	
-	<wf:workflow id="asyncSimpleWorkflowWithTwoActivities">
+	<wf:workflow id="asyncSimpleWorkflowWithTwoActions">
 		<wf:activities>
-			<wf:activity class="org.workflowlite.core.activities.AsyncReverseStringActivity">
+			<wf:activity class="org.workflowlite.core.actions.AsyncReverseStringAction">
 				<constructor-arg name="value" value="%{source}" />
 			</wf:activity>
-			<wf:activity class="org.workflowlite.core.activities.AsyncAlternateCaseActivity">
+			<wf:activity class="org.workflowlite.core.actions.AsyncAlternateCaseAction">
 				<constructor-arg name="value" value="%{output}" />
 			</wf:activity>
 		</wf:activities>
 	</wf:workflow>
 
-	<wf:workflow id="asyncSimpleWorkflowWithBothSyncAndAsyncActivities">
+	<wf:workflow id="asyncSimpleWorkflowWithBothSyncAndAsyncActions">
 		<wf:activities>
-			<wf:activity class="org.workflowlite.core.activities.AsyncAlternateCaseActivity">
+			<wf:activity class="org.workflowlite.core.actions.AsyncAlternateCaseAction">
 				<constructor-arg name="value" value="%{source + 'xyz'}" />
 			</wf:activity>
-			<wf:activity class="org.workflowlite.core.activities.ReverseStringActivity">
+			<wf:activity class="org.workflowlite.core.actions.ReverseStringAction">
 				<constructor-arg name="value" value="%{output}" />
 			</wf:activity>
-			<wf:activity class="org.workflowlite.core.activities.AsyncAlternateCaseActivity">
+			<wf:activity class="org.workflowlite.core.actions.AsyncAlternateCaseAction">
 				<constructor-arg name="value" value="%{output}" />
 			</wf:activity>
-			<wf:activity class="org.workflowlite.core.activities.ReverseStringActivity">
+			<wf:activity class="org.workflowlite.core.actions.ReverseStringAction">
 				<constructor-arg name="value" value="%{output}" />
 			</wf:activity>
 		</wf:activities>
 	</wf:workflow>
 
-	<wf:workflow id="asyncSimpleWorkflowWithBothSyncAndAsyncActivitiesThrowsExecutionException">
+	<wf:workflow id="asyncSimpleWorkflowWithBothSyncAndAsyncActionsThrowsExecutionException">
 		<wf:activities>
-			<wf:activity class="org.workflowlite.core.activities.AsyncAlternateCaseActivity">
+			<wf:activity class="org.workflowlite.core.actions.AsyncAlternateCaseAction">
 				<constructor-arg name="value" value="%{source + 'xyz'}" />
 			</wf:activity>
-			<wf:activity class="org.workflowlite.core.activities.AsyncReverseStringActivity">
+			<wf:activity class="org.workflowlite.core.actions.AsyncReverseStringAction">
 				<constructor-arg name="value" value="%{output}" />
 				<property name="throwException" value="true" />
 			</wf:activity>
-			<wf:activity class="org.workflowlite.core.activities.AsyncAlternateCaseActivity">
+			<wf:activity class="org.workflowlite.core.actions.AsyncAlternateCaseAction">
 				<constructor-arg name="value" value="%{output}" />
 			</wf:activity>
-			<wf:activity class="org.workflowlite.core.activities.ReverseStringActivity">
+			<wf:activity class="org.workflowlite.core.actions.ReverseStringAction">
 				<constructor-arg name="value" value="%{output}" />
 			</wf:activity>
 		</wf:activities>
 	</wf:workflow>
 
-	<wf:workflow id="asyncSimpleWorkflowWithBothSyncAndAsyncActivitiesThrowsCancellationException">
+	<wf:workflow id="asyncSimpleWorkflowWithBothSyncAndAsyncActionsThrowsCancellationException">
 		<wf:activities>
-			<wf:activity class="org.workflowlite.core.activities.AsyncAlternateCaseActivity">
+			<wf:activity class="org.workflowlite.core.actions.AsyncAlternateCaseAction">
 				<constructor-arg name="value" value="%{source + 'xyz'}" />
 			</wf:activity>
-			<wf:activity class="org.workflowlite.core.activities.AsyncReverseStringActivity">
+			<wf:activity class="org.workflowlite.core.actions.AsyncReverseStringAction">
 				<constructor-arg name="value" value="%{output}" />
 				<property name="cancel" value="true" />
 			</wf:activity>
-			<wf:activity class="org.workflowlite.core.activities.AsyncAlternateCaseActivity">
+			<wf:activity class="org.workflowlite.core.actions.AsyncAlternateCaseAction">
 				<constructor-arg name="value" value="%{output}" />
 			</wf:activity>
-			<wf:activity class="org.workflowlite.core.activities.ReverseStringActivity">
+			<wf:activity class="org.workflowlite.core.actions.ReverseStringAction">
 				<constructor-arg name="value" value="%{output}" />
 			</wf:activity>
 		</wf:activities>

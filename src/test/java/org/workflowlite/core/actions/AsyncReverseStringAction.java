@@ -1,5 +1,5 @@
 /********************************************************************
- * File Name:    AsyncReverseStringActivity.java
+ * File Name:    AsyncReverseStringAction.java
  *
  * Date Created: Aug 24, 2017
  *
@@ -9,17 +9,17 @@
  *
  *******************************************************************/
 
-package org.workflowlite.core.activities;
+package org.workflowlite.core.actions;
 
 import java.util.concurrent.CompletableFuture;
 
 
-import org.workflowlite.core.AbstractAsyncActivity;
+import org.workflowlite.core.AbstractAsyncAction;
 import org.workflowlite.core.DefaultExecutionContext;
   
-public class AsyncReverseStringActivity extends AbstractAsyncActivity<DefaultExecutionContext, String>
+public class AsyncReverseStringAction extends AbstractAsyncAction<DefaultExecutionContext, String>
 {
-  protected AsyncReverseStringActivity(final String value)
+  protected AsyncReverseStringAction(final String value)
   {
     this.value = value;
   }
