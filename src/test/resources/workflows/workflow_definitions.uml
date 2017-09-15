@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_bpnRgJeiEeeTxrN0tt94rw" name="model">
+  <packagedElement xmi:type="uml:Activity" xmi:id="_b8fKMJeiEeeTxrN0tt94rw" name="SimpleActivityWithSingleaAction" node="_4fyyoJeiEeeTxrN0tt94rw _5g9UsJeiEeeTxrN0tt94rw _6i8WIJeiEeeTxrN0tt94rw">
+    <edge xmi:type="uml:ControlFlow" xmi:id="_BeFjUJejEeeTxrN0tt94rw" target="_5g9UsJeiEeeTxrN0tt94rw" source="_4fyyoJeiEeeTxrN0tt94rw"/>
+    <edge xmi:type="uml:ControlFlow" xmi:id="_CsTC4JejEeeTxrN0tt94rw" target="_6i8WIJeiEeeTxrN0tt94rw" source="_5g9UsJeiEeeTxrN0tt94rw"/>
+    <node xmi:type="uml:InitialNode" xmi:id="_4fyyoJeiEeeTxrN0tt94rw" name="InitialNode1" outgoing="_BeFjUJejEeeTxrN0tt94rw"/>
+    <node xmi:type="uml:OpaqueAction" xmi:id="_5g9UsJeiEeeTxrN0tt94rw" name="ReverseStringAction" incoming="_BeFjUJejEeeTxrN0tt94rw" outgoing="_CsTC4JejEeeTxrN0tt94rw">
+      <language>JAVA</language>
+      <body>&lt;bean class=&quot;org.workflowlite.core.actions.ReverseStringAction&quot;>&#xD;
+	&lt;constructor-arg name=&quot;value&quot; value=&quot;%{source.toUpperCase()}&quot; />&#xD;
+&lt;/bean>&#xD;
+</body>
+    </node>
+    <node xmi:type="uml:ActivityFinalNode" xmi:id="_6i8WIJeiEeeTxrN0tt94rw" name="ActivityFinalNode1" incoming="_CsTC4JejEeeTxrN0tt94rw"/>
+  </packagedElement>
+</uml:Model>

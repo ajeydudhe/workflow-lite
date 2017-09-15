@@ -1,5 +1,5 @@
 /********************************************************************
- * File Name:    ActionableActivityBean.java
+ * File Name:    ExecutableActionBean.java
  *
  * Date Created: Aug 16, 2017
  *
@@ -9,7 +9,7 @@
  *
  *******************************************************************/
 
-package org.workflowlite.core.bean.activity;
+package org.workflowlite.core.bean.action;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,9 +21,9 @@ import org.workflowlite.core.bean.BeanInstantiator;
  * TODO: Update with a detailed description of the interface/class.
  *
  */
-public final class ActionableActivityBean extends ActivityBean
+public final class ExecutableActionBean extends ActionBean
 {
-  private ActionableActivityBean(final String activityBeanId, final BeanInstantiator beanInstantiator)
+  private ExecutableActionBean(final String activityBeanId, final BeanInstantiator beanInstantiator)
   {
     super(beanInstantiator);
     
@@ -49,6 +49,6 @@ public final class ActionableActivityBean extends ActivityBean
   // Private
   private final String activityBeanId;
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(ActionableActivityBean.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(ExecutableActionBean.class);
 }
 

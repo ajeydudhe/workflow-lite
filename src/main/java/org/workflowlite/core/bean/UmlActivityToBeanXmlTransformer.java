@@ -1,7 +1,7 @@
 /********************************************************************
- * File Name:    WorkflowDefinitionsProvider.java
+ * File Name:    UmlActivityToBeanXmlTransformer.java
  *
- * Date Created: Aug 18, 2017
+ * Date Created: Sep 15, 2017
  *
  * ------------------------------------------------------------------
  * 
@@ -9,17 +9,20 @@
  *
  *******************************************************************/
 
-package org.workflowlite.core;
+package org.workflowlite.core.bean;
 
 import java.io.InputStream;
-import java.util.List;
   
 /**
  * TODO: Update with a detailed description of the interface/class.
  *
  */
-public interface WorkflowDefinitionsProvider
+class UmlActivityToBeanXmlTransformer
 {
-  public List<InputStream> getDefinitions();
+  public UmlActivityToBeanXmlTransformer(final InputStream inputStream)
+  {
+    //this.inputStream = inputStream;
+  }
+  
 }
 

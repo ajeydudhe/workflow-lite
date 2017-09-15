@@ -18,8 +18,8 @@ import java.util.concurrent.CompletableFuture;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.workflowlite.core.bean.activity.ActivityBean;
-import org.workflowlite.core.bean.activity.ConditionalActivityBean;
+import org.workflowlite.core.bean.action.ActionBean;
+import org.workflowlite.core.bean.action.ConditionalActionBean;
   
 /**
  * Workflow class responsible for executing the activities in given sequence.
@@ -30,7 +30,7 @@ import org.workflowlite.core.bean.activity.ConditionalActivityBean;
  */
 public final class Workflow
 {
-  private Workflow(final String name, final List<ActivityBean> activities)
+  private Workflow(final String name, final List<ActionBean> activities)
   {
     this.name = name;
     
@@ -51,15 +51,15 @@ public final class Workflow
   private Object execute(final ExecutionContext context, 
                          final Object source, 
                          final Object output,
-                         final LinkedList<ActivityBean> activities)
+                         final LinkedList<ActionBean> activities)
   {
     Object previousActivityOutput = output;
-    for (ActivityBean activityBean = activities.poll(); activityBean != null; activityBean = activities.poll())
+    for (ActionBean activityBean = activities.poll(); activityBean != null; activityBean = activities.poll())
     {
       final Object result = activityBean.execute(context, source, previousActivityOutput);
-      if(activityBean instanceof ConditionalActivityBean) // TODO: Ajey - Avoid type casting. Can we use visitor here ???
+      if(activityBean instanceof ConditionalActionBean) // TODO: Ajey - Avoid type casting. Can we use visitor here ???
       {
-        activities.addAll(0, (List<ActivityBean>)result);
+        activities.addAll(0, (List<ActionBean>)result);
         continue;
       }
       
@@ -107,7 +107,7 @@ public final class Workflow
 
   // Private
   private final String name;
-  private List<ActivityBean> activities;
+  private List<ActionBean> activities;
   private CompletableFuture<Object> future = null;
   private static final Logger LOGGER = LoggerFactory.getLogger(Workflow.class);
 }

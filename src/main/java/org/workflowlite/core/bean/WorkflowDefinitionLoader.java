@@ -43,7 +43,7 @@ public final class WorkflowDefinitionLoader implements BeanDefinitionRegistryPos
     if(definitionsProviders == null)
        return;
     
-    definitionsProviders.values().forEach(provider -> provider.getDefinitionXmls().forEach(stream -> loadDefinitions(stream)));
+    definitionsProviders.values().forEach(provider -> provider.getDefinitions().forEach(stream -> loadDefinitions(stream)));
   }
 
   @Override

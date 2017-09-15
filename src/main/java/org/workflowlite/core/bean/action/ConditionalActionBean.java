@@ -1,5 +1,5 @@
 /********************************************************************
- * File Name:    ConditionalActivityBean.java
+ * File Name:    ConditionalActionBean.java
  *
  * Date Created: Aug 16, 2017
  *
@@ -9,7 +9,7 @@
  *
  *******************************************************************/
 
-package org.workflowlite.core.bean.activity;
+package org.workflowlite.core.bean.action;
 
 import java.util.List;
 import java.util.Map;
@@ -24,9 +24,9 @@ import org.workflowlite.core.bean.BeanInstantiator;
  * TODO: Update with a detailed description of the interface/class.
  *
  */
-public final class ConditionalActivityBean extends ActivityBean
+public final class ConditionalActionBean extends ActionBean
 {
-  private ConditionalActivityBean(final Map<String, Object> switchStatementAsMap, final BeanInstantiator beanInstantiator)
+  private ConditionalActionBean(final Map<String, Object> switchStatementAsMap, final BeanInstantiator beanInstantiator)
   {
     super(beanInstantiator);
     
@@ -46,11 +46,11 @@ public final class ConditionalActivityBean extends ActivityBean
     LOGGER.info("Condition [{}] evaluated to [{}]", conditionExpression, conclusion);
     
     // TODO: Ajey - Handle null conclusion
-    List<ActivityBean> activities = (List<ActivityBean>) this.switchStatementAsMap.get(conclusion.toString());
+    List<ActionBean> activities = (List<ActionBean>) this.switchStatementAsMap.get(conclusion.toString());
     
     if(activities == null)
     {
-      activities = (List<ActivityBean>) this.switchStatementAsMap.get("default");
+      activities = (List<ActionBean>) this.switchStatementAsMap.get("default");
     }
     
     if(activities == null)
@@ -63,6 +63,6 @@ public final class ConditionalActivityBean extends ActivityBean
   
   // Private
   private final Map<String, Object> switchStatementAsMap;
-  private final static Logger LOGGER = LoggerFactory.getLogger(ConditionalActivityBean.class);
+  private final static Logger LOGGER = LoggerFactory.getLogger(ConditionalActionBean.class);
 }
 

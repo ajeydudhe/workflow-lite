@@ -26,8 +26,8 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.ls.DOMImplementationLS;
 import org.w3c.dom.ls.LSSerializer;
 import org.workflowlite.core.Workflow;
-import org.workflowlite.core.bean.activity.ActionableActivityBean;
-import org.workflowlite.core.bean.activity.ConditionalActivityBean;
+import org.workflowlite.core.bean.action.ConditionalActionBean;
+import org.workflowlite.core.bean.action.ExecutableActionBean;
 import org.workflowlite.core.utils.xml.XmlElementBuilder;
 import org.xml.sax.InputSource;
   
@@ -144,7 +144,7 @@ class WorkflowXmlToBeanXmlTransformer
     final String newBeanId = getActivityBeanId(activityElement.getAttribute("id"));
     activityElement.setAttribute("id", newBeanId);
     
-    final Element actionableActivityBean = createActivityBeanElement(document, activityElement, ActionableActivityBean.class);
+    final Element actionableActivityBean = createActivityBeanElement(document, activityElement, ExecutableActionBean.class);
    
     XmlElementBuilder.element("constructor-arg", document)
                      .attribute("name", "activityBeanId")
@@ -167,7 +167,7 @@ class WorkflowXmlToBeanXmlTransformer
 
   private void addConditionalActivityBean(final Document document, final Element switchElement)
   {
-    final Element conditionalActivityBean = createActivityBeanElement(document, switchElement, ConditionalActivityBean.class);
+    final Element conditionalActivityBean = createActivityBeanElement(document, switchElement, ConditionalActionBean.class);
 
     final Element mapElement = XmlElementBuilder.element("map", document)
                                                 .attribute("key-type", String.class.getName())

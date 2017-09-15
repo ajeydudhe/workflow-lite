@@ -1,5 +1,5 @@
 /********************************************************************
- * File Name:    ActivityBean.java
+ * File Name:    ActionBean.java
  *
  * Date Created: Aug 16, 2017
  *
@@ -9,7 +9,7 @@
  *
  *******************************************************************/
 
-package org.workflowlite.core.bean.activity;
+package org.workflowlite.core.bean.action;
 
 import org.workflowlite.core.ExecutionContext;
 import org.workflowlite.core.bean.BeanInstantiator;
@@ -18,9 +18,9 @@ import org.workflowlite.core.bean.BeanInstantiator;
  * TODO: Update with a detailed description of the interface/class.
  *
  */
-public abstract class ActivityBean
+public abstract class ActionBean
 {
-  protected ActivityBean(final BeanInstantiator beanInstantiator)
+  protected ActionBean(final BeanInstantiator beanInstantiator)
   {
     this.beanInstantiator = beanInstantiator;
   }

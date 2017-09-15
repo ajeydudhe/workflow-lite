@@ -1,5 +1,5 @@
 /********************************************************************
- * File Name:    WorkflowXmlsProvider.java
+ * File Name:    UmlActivityDefinitionsProvider.java
  *
  * Date Created: Aug 18, 2017
  *
@@ -24,11 +24,11 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
  * TODO: Update with a detailed description of the interface/class.
  *
  */
-public class WorkflowXmlsProvider implements WorkflowDefinitionsProvider
+public class UmlActivityDefinitionsProvider implements WorkflowDefinitionsProvider
 {
-  public WorkflowXmlsProvider(final List<String> workflowXmlFilePaths)
+  public UmlActivityDefinitionsProvider(final List<String> umlFilePaths)
   {
-    this.workflowXmlFilePaths = workflowXmlFilePaths;
+    this.umlFilePaths = umlFilePaths;
   }
   
   @Override
@@ -39,7 +39,8 @@ public class WorkflowXmlsProvider implements WorkflowDefinitionsProvider
       final List<InputStream> definitionStreams = new ArrayList<>();
       final PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
 
-      for (String xmlPath : this.workflowXmlFilePaths)
+      // TODO: Ajey - If the definitions are in resources then we need to put them in temp file since uml2 apis cannot read resources.
+      for (String xmlPath : this.umlFilePaths)
       {
         for (Resource resource : resolver.getResources(xmlPath))
         {
@@ -57,7 +58,7 @@ public class WorkflowXmlsProvider implements WorkflowDefinitionsProvider
   }
   
   // Private
-  private final List<String> workflowXmlFilePaths;
-  private static final Logger LOGGER = LoggerFactory.getLogger(WorkflowXmlsProvider.class);
+  private final List<String> umlFilePaths;
+  private static final Logger LOGGER = LoggerFactory.getLogger(UmlActivityDefinitionsProvider.class);
 }
 
