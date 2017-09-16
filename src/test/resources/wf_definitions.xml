@@ -5,11 +5,10 @@
 
 	<import resource="spring-beans/workflow-lite-core.xml"/>
 	
-	<bean id="workflowDefinitions" class="org.workflowlite.core.WorkflowXmlsProvider">
+	<bean id="workflowDefinitions" class="org.workflowlite.core.UmlActivityDefinitionsProvider">
 		<constructor-arg>
 			<list>
-				<value>classpath:workflows/conditional_workflows.xml</value>
-				<value>classpath:workflows/async_actions_workflows.xml</value>
+				<value>classpath:workflows/workflow_definitions.uml</value>
 			</list>
 		</constructor-arg>
 	</bean>

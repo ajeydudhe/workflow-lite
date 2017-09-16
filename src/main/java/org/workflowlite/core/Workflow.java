@@ -19,8 +19,10 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.ActivityEdge;
 import org.eclipse.uml2.uml.ActivityNode;
+import org.eclipse.uml2.uml.DecisionNode;
 import org.eclipse.uml2.uml.FinalNode;
 import org.eclipse.uml2.uml.InitialNode;
+import org.eclipse.uml2.uml.MergeNode;
 import org.eclipse.uml2.uml.OpaqueAction;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.slf4j.Logger;
@@ -54,7 +56,7 @@ public final class Workflow
   {
     final InitialNode initialNode = (InitialNode) EcoreUtil.getObjectByType(this.umlActivity.getNodes(), UMLPackage.Literals.INITIAL_NODE);
     
-    return execute(context, source, source, initialNode.getOutgoings().get(0).getTarget());
+    return execute(context, source, source, getNextNode(initialNode));
   }
 
   private Object execute(final ExecutionContext context, final Object source, final Object output, final ActivityNode activityNode)
@@ -69,7 +71,17 @@ public final class Workflow
       return output;
     }
 
-    throw new IllegalArgumentException(String.format("Uml node of type '%s' is not supported.", activityNode.eClass().getName()));
+    if(activityNode instanceof DecisionNode)
+    {
+      return execute(context, source, output, (DecisionNode)activityNode);
+    }
+
+    if(activityNode instanceof MergeNode)
+    {
+      return execute(context, source, output, getNextNode(activityNode));
+    }
+
+    throw new IllegalArgumentException(String.format("Uml '%s' is not supported.", activityNode.eClass().getName()));
   }
 
   private Object execute(final ExecutionContext context, final Object source, final Object output, final OpaqueAction umlAction)
@@ -80,8 +92,37 @@ public final class Workflow
                                                                                                   output);
     final Object actionOutput = actionImplementation.execute(context);
     
-    return execute(context, source, actionOutput, umlAction.getOutgoings().get(0).getTarget());
+    // TODO: Ajey - avoid recursion !!!
+    return execute(context, source, actionOutput, getNextNode(umlAction));
   }
+
+  private Object execute(final ExecutionContext context, final Object source, final Object output, final DecisionNode umlDecision)
+  {
+    final Object conclusion = this.beanInstantiator.evaluateExpression(umlDecision.getName(), context, source, output);
+
+    LOGGER.info("Condition [{}] evaluated to [{}]", umlDecision.getName(), conclusion);
+    
+    for (ActivityEdge whenCondition : umlDecision.getOutgoings())
+    {
+      if(whenCondition.getName().equalsIgnoreCase(conclusion.toString()))
+      {
+        return execute(context, source, output, whenCondition.getTarget());
+      }
+    }
+    
+    throw new RuntimeException("Could not find action to be executed on given condition."); // TODO: Ajey - Throw custom exception !!!
+  }
+  
+  private ActivityNode getNextNode(final ActivityNode umlNode)
+  {
+    if(umlNode.getOutgoings().isEmpty())
+    {
+      throw new IllegalArgumentException(String.format("Uml node '%s' (%s) does not point to next node.", umlNode.getName(), umlNode.eClass().getName())); // TODO: Ajey - Throw custom exception !!!
+    }
+    
+    return umlNode.getOutgoings().get(0).getTarget();
+  }
+  
   /*
   @SuppressWarnings("unchecked")
   private Object execute(final ExecutionContext context, 
