@@ -11,8 +11,6 @@
 
 package org.workflowlite.core;
 
-import java.util.LinkedList;
-import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -28,8 +26,6 @@ import org.eclipse.uml2.uml.UMLPackage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.workflowlite.core.bean.BeanInstantiator;
-import org.workflowlite.core.bean.action.ActionBean;
-import org.workflowlite.core.bean.action.ConditionalActionBean;
 import org.workflowlite.core.uml.UmlUtils;
   
 /**
@@ -56,49 +52,54 @@ public final class Workflow
   {
     final InitialNode initialNode = (InitialNode) EcoreUtil.getObjectByType(this.umlActivity.getNodes(), UMLPackage.Literals.INITIAL_NODE);
     
-    return execute(context, source, source, getNextNode(initialNode));
+    ActivityNode nextNode = getNextNode(initialNode);
+    while(! (nextNode instanceof FinalNode) )
+    {
+      nextNode = execute(context, source, nextNode);
+    }
+    
+    return this.output;
   }
 
-  private Object execute(final ExecutionContext context, final Object source, final Object output, final ActivityNode activityNode)
+  private ActivityNode execute(final ExecutionContext context, final Object source, final ActivityNode activityNode)
   {
     if(activityNode instanceof OpaqueAction)
     {
-      return execute(context, source, output, (OpaqueAction)activityNode);
+      return execute(context, source, (OpaqueAction)activityNode);
     }
     
     if(activityNode instanceof FinalNode)
     {
-      return output;
+      return activityNode;
     }
 
     if(activityNode instanceof DecisionNode)
     {
-      return execute(context, source, output, (DecisionNode)activityNode);
+      return execute(context, source, (DecisionNode)activityNode);
     }
 
     if(activityNode instanceof MergeNode)
     {
-      return execute(context, source, output, getNextNode(activityNode));
+      return execute(context, source, getNextNode(activityNode));
     }
 
     throw new IllegalArgumentException(String.format("Uml '%s' is not supported.", activityNode.eClass().getName()));
   }
 
-  private Object execute(final ExecutionContext context, final Object source, final Object output, final OpaqueAction umlAction)
+  private ActivityNode execute(final ExecutionContext context, final Object source, final OpaqueAction umlAction)
   {
     final Action<ExecutionContext, Object> actionImplementation = this.beanInstantiator.getAction(UmlUtils.createBeanId(umlAction), 
                                                                                                   context, 
                                                                                                   source, 
-                                                                                                  output);
-    final Object actionOutput = actionImplementation.execute(context);
+                                                                                                  this.output);
+    this.output = actionImplementation.execute(context);
     
-    // TODO: Ajey - avoid recursion !!!
-    return execute(context, source, actionOutput, getNextNode(umlAction));
+    return getNextNode(umlAction);
   }
 
-  private Object execute(final ExecutionContext context, final Object source, final Object output, final DecisionNode umlDecision)
+  private ActivityNode execute(final ExecutionContext context, final Object source, final DecisionNode umlDecision)
   {
-    final Object conclusion = this.beanInstantiator.evaluateExpression(umlDecision.getName(), context, source, output);
+    final Object conclusion = this.beanInstantiator.evaluateExpression(umlDecision.getName(), context, source, this.output);
 
     LOGGER.info("Condition [{}] evaluated to [{}]", umlDecision.getName(), conclusion);
     
@@ -106,7 +107,7 @@ public final class Workflow
     {
       if(whenCondition.getName().equalsIgnoreCase(conclusion.toString()))
       {
-        return execute(context, source, output, whenCondition.getTarget());
+        return whenCondition.getTarget();
       }
     }
     
@@ -185,6 +186,7 @@ public final class Workflow
   private final Activity umlActivity;
   private final BeanInstantiator beanInstantiator;
   private CompletableFuture<Object> future = null;
+  private Object output = null;
   private static final Logger LOGGER = LoggerFactory.getLogger(Workflow.class);
 }
 
