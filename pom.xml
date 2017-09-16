@@ -25,6 +25,13 @@
 		<artifactId>spring-context</artifactId>
 		<version>${org.springframework-version}</version>
 	</dependency>
+
+	<!-- TODO: Avoid using spring state machine library and use the eclipse library directly !!! -->  
+	<dependency>
+	    <groupId>org.springframework.statemachine</groupId>
+	    <artifactId>spring-statemachine-uml</artifactId>
+	    <version>1.2.6.RELEASE</version>
+	</dependency>
   
 	<!-- Logging -->
 	<dependency>

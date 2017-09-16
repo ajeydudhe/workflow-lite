@@ -23,13 +23,9 @@ public class WorkflowDefinitionLoadTest
   {
     try(final ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("wf_load_test_simple_wf_single_action.xml"))
     {
-      final Workflow workflow = applicationContext.getBean(Workflow.class);
-      
-      assertThat(workflow.getName()).as("Workflow name").isEqualTo("simpleWorkflowWithSingleAction");
-
       final WorkflowManager workflowManager = applicationContext.getBean(WorkflowManager.class);
 
-      final String result = workflowManager.execute(new DefaultExecutionContext("simpleWorkflowWithSingleAction"), "abcxyz");
+      final String result = workflowManager.execute(new DefaultExecutionContext("SimpleActivityWithSingleAction"), "abcxyz");
       
       assertThat(result).as("Result").isEqualTo("ZYXCBA");
     }
@@ -40,13 +36,9 @@ public class WorkflowDefinitionLoadTest
   {
     try(final ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("wf_load_test_simple_wf_two_actions.xml"))
     {
-      final Workflow workflow = applicationContext.getBean(Workflow.class);
-      
-      assertThat(workflow.getName()).as("Workflow name").isEqualTo("simpleWorkflowWithTwoActions");
-
       final WorkflowManager workflowManager = applicationContext.getBean(WorkflowManager.class);
 
-      final String result = workflowManager.execute(new DefaultExecutionContext("simpleWorkflowWithTwoActions"), "abcxyz");
+      final String result = workflowManager.execute(new DefaultExecutionContext("SimpleActivityWithTwoActions"), "abcxyz");
       
       assertThat(result).as("Result").isEqualTo("abcxyzdummy");
     }
@@ -57,13 +49,9 @@ public class WorkflowDefinitionLoadTest
   {
     try(final ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("wf_load_test_simple_wf_two_actions.xml"))
     {
-      final Workflow workflow = applicationContext.getBean(Workflow.class);
-      
-      assertThat(workflow.getName()).as("Workflow name").isEqualTo("simpleWorkflowWithTwoActions");
-
       final WorkflowManager workflowManager = applicationContext.getBean(WorkflowManager.class);
 
-      final String result = workflowManager.execute(new DefaultExecutionContext("simpleWorkflowWithTwoActions"), "abcxyz");
+      final String result = workflowManager.execute(new DefaultExecutionContext("SimpleActivityWithTwoActions"), "abcxyz");
       
       assertThat(result).as("Result").isEqualTo("abcxyzdummy");
     }

@@ -29,6 +29,7 @@ import org.workflowlite.core.Workflow;
 import org.workflowlite.core.bean.action.ConditionalActionBean;
 import org.workflowlite.core.bean.action.ExecutableActionBean;
 import org.workflowlite.core.utils.xml.XmlElementBuilder;
+import org.workflowlite.core.utils.xml.XmlUtils;
 import org.xml.sax.InputSource;
   
 /**
@@ -51,7 +52,7 @@ class WorkflowXmlToBeanXmlTransformer
       final DocumentLoader docLoader = new DefaultDocumentLoader();
       final Document document = docLoader.loadDocument(new InputSource(inputStream), null, null, XmlValidationModeDetector.VALIDATION_XSD, true);
       
-      LOGGER.debug("B4 transforming workflow defintion xml: {}{}", System.lineSeparator(), getXml(document));
+      LOGGER.debug("B4 transforming workflow defintion xml: {}{}", System.lineSeparator(), XmlUtils.getXml(document));
       
       final NodeList workflows = document.getElementsByTagNameNS(NAMESPACE_CORE, "workflow");
       
@@ -67,7 +68,7 @@ class WorkflowXmlToBeanXmlTransformer
       }
       
       // Hack !!!
-      final String workflowDefinitionXml = getXml(document).replace("xmlns=\"\"", "");
+      final String workflowDefinitionXml = XmlUtils.getXml(document).replace("xmlns=\"\"", "");
       
       LOGGER.debug("After transforming workflow definition xml: {}{}", System.lineSeparator(), workflowDefinitionXml);
       
@@ -234,16 +235,6 @@ class WorkflowXmlToBeanXmlTransformer
   private String getActivityBeanId(final String currentId)
   {
     return currentId + "_" + this.nActivities + "_" + this.currentWorkflowId;
-  }
-  
-  private String getXml(final Document document)
-  {
-    final DOMImplementationLS doc = (DOMImplementationLS) document.getImplementation();
-    
-    final LSSerializer writer = doc.createLSSerializer();
-    writer.getDomConfig().setParameter("format-pretty-print", Boolean.TRUE); // Set this to true if the output needs to be beautified.
-        
-    return writer.writeToString(document);
   }
   
   // Private

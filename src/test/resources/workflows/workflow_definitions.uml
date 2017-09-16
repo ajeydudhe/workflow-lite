@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_bpnRgJeiEeeTxrN0tt94rw" name="model">
-  <packagedElement xmi:type="uml:Activity" xmi:id="_b8fKMJeiEeeTxrN0tt94rw" name="SimpleActivityWithSingleaAction" node="_4fyyoJeiEeeTxrN0tt94rw _5g9UsJeiEeeTxrN0tt94rw _6i8WIJeiEeeTxrN0tt94rw">
+  <packagedElement xmi:type="uml:Activity" xmi:id="_b8fKMJeiEeeTxrN0tt94rw" name="SimpleActivityWithSingleAction" node="_4fyyoJeiEeeTxrN0tt94rw _5g9UsJeiEeeTxrN0tt94rw _6i8WIJeiEeeTxrN0tt94rw">
     <edge xmi:type="uml:ControlFlow" xmi:id="_BeFjUJejEeeTxrN0tt94rw" target="_5g9UsJeiEeeTxrN0tt94rw" source="_4fyyoJeiEeeTxrN0tt94rw"/>
     <edge xmi:type="uml:ControlFlow" xmi:id="_CsTC4JejEeeTxrN0tt94rw" target="_6i8WIJeiEeeTxrN0tt94rw" source="_5g9UsJeiEeeTxrN0tt94rw"/>
     <node xmi:type="uml:InitialNode" xmi:id="_4fyyoJeiEeeTxrN0tt94rw" name="InitialNode1" outgoing="_BeFjUJejEeeTxrN0tt94rw"/>
@@ -12,5 +12,25 @@
 </body>
     </node>
     <node xmi:type="uml:ActivityFinalNode" xmi:id="_6i8WIJeiEeeTxrN0tt94rw" name="ActivityFinalNode1" incoming="_CsTC4JejEeeTxrN0tt94rw"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Activity" xmi:id="_MQYZoJsDEeeKqMSL01v2zA" name="SimpleActivityWithTwoActions" node="_UbCt8JsDEeeKqMSL01v2zA _cMScsJsDEeeKqMSL01v2zA _dUUbwJsDEeeKqMSL01v2zA _fJ1y8JsDEeeKqMSL01v2zA">
+    <edge xmi:type="uml:ControlFlow" xmi:id="_s_48wJsDEeeKqMSL01v2zA" target="_cMScsJsDEeeKqMSL01v2zA" source="_UbCt8JsDEeeKqMSL01v2zA"/>
+    <edge xmi:type="uml:ControlFlow" xmi:id="_uMzb0JsDEeeKqMSL01v2zA" target="_dUUbwJsDEeeKqMSL01v2zA" source="_cMScsJsDEeeKqMSL01v2zA"/>
+    <edge xmi:type="uml:ControlFlow" xmi:id="_vbhRsJsDEeeKqMSL01v2zA" target="_fJ1y8JsDEeeKqMSL01v2zA" source="_dUUbwJsDEeeKqMSL01v2zA"/>
+    <node xmi:type="uml:InitialNode" xmi:id="_UbCt8JsDEeeKqMSL01v2zA" name="InitialNode1" outgoing="_s_48wJsDEeeKqMSL01v2zA"/>
+    <node xmi:type="uml:OpaqueAction" xmi:id="_cMScsJsDEeeKqMSL01v2zA" name="ReverseString01" incoming="_s_48wJsDEeeKqMSL01v2zA" outgoing="_uMzb0JsDEeeKqMSL01v2zA">
+      <language>JAVA</language>
+      <body>&lt;bean class=&quot;org.workflowlite.core.actions.ReverseStringAction&quot;>&#xD;
+	&lt;constructor-arg name=&quot;value&quot; value=&quot;%{source + 'dummy'}&quot; />&#xD;
+&lt;/bean></body>
+    </node>
+    <node xmi:type="uml:OpaqueAction" xmi:id="_dUUbwJsDEeeKqMSL01v2zA" name="ReverseString02" incoming="_uMzb0JsDEeeKqMSL01v2zA" outgoing="_vbhRsJsDEeeKqMSL01v2zA">
+      <language>JAVA</language>
+      <body>&lt;bean class=&quot;org.workflowlite.core.actions.ReverseStringAction&quot;>&#xD;
+	&lt;constructor-arg name=&quot;value&quot; value=&quot;%{output}&quot; />&#xD;
+&lt;/bean>&#xD;
+</body>
+    </node>
+    <node xmi:type="uml:ActivityFinalNode" xmi:id="_fJ1y8JsDEeeKqMSL01v2zA" name="ActivityFinalNode1" incoming="_vbhRsJsDEeeKqMSL01v2zA"/>
   </packagedElement>
 </uml:Model>

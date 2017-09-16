@@ -11,15 +11,24 @@
 
 package org.workflowlite.core;
 
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.uml2.uml.Activity;
+import org.eclipse.uml2.uml.ActivityEdge;
+import org.eclipse.uml2.uml.ActivityNode;
+import org.eclipse.uml2.uml.FinalNode;
+import org.eclipse.uml2.uml.InitialNode;
+import org.eclipse.uml2.uml.OpaqueAction;
+import org.eclipse.uml2.uml.UMLPackage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.workflowlite.core.bean.BeanInstantiator;
 import org.workflowlite.core.bean.action.ActionBean;
 import org.workflowlite.core.bean.action.ConditionalActionBean;
+import org.workflowlite.core.uml.UmlUtils;
   
 /**
  * Workflow class responsible for executing the activities in given sequence.
@@ -30,28 +39,54 @@ import org.workflowlite.core.bean.action.ConditionalActionBean;
  */
 public final class Workflow
 {
-  private Workflow(final String name, final List<ActionBean> activities)
+  private Workflow(final Activity umlActivity, final BeanInstantiator beanInstantiator)
   {
-    this.name = name;
-    
-    this.activities = Collections.unmodifiableList(activities);
+    this.umlActivity = umlActivity;
+    this.beanInstantiator = beanInstantiator;
   }
   
   public String getName()
   {
-    return this.name;
+    return this.umlActivity.getName();
   }
   
   public Object execute(final ExecutionContext context, final Object source)
   {
-    return execute(context, source, source, new LinkedList<>(this.activities));
+    final InitialNode initialNode = (InitialNode) EcoreUtil.getObjectByType(this.umlActivity.getNodes(), UMLPackage.Literals.INITIAL_NODE);
+    
+    return execute(context, source, source, initialNode.getOutgoings().get(0).getTarget());
   }
 
+  private Object execute(final ExecutionContext context, final Object source, final Object output, final ActivityNode activityNode)
+  {
+    if(activityNode instanceof OpaqueAction)
+    {
+      return execute(context, source, output, (OpaqueAction)activityNode);
+    }
+    
+    if(activityNode instanceof FinalNode)
+    {
+      return output;
+    }
+
+    throw new IllegalArgumentException(String.format("Uml node of type '%s' is not supported.", activityNode.eClass().getName()));
+  }
+
+  private Object execute(final ExecutionContext context, final Object source, final Object output, final OpaqueAction umlAction)
+  {
+    final Action<ExecutionContext, Object> actionImplementation = this.beanInstantiator.getAction(UmlUtils.createBeanId(umlAction), 
+                                                                                                  context, 
+                                                                                                  source, 
+                                                                                                  output);
+    final Object actionOutput = actionImplementation.execute(context);
+    
+    return execute(context, source, actionOutput, umlAction.getOutgoings().get(0).getTarget());
+  }
+  /*
   @SuppressWarnings("unchecked")
   private Object execute(final ExecutionContext context, 
                          final Object source, 
-                         final Object output,
-                         final LinkedList<ActionBean> activities)
+                         final Object output)
   {
     Object previousActivityOutput = output;
     for (ActionBean activityBean = activities.poll(); activityBean != null; activityBean = activities.poll())
@@ -104,10 +139,10 @@ public final class Workflow
     
     return previousActivityOutput;
   }
-
+*/
   // Private
-  private final String name;
-  private List<ActionBean> activities;
+  private final Activity umlActivity;
+  private final BeanInstantiator beanInstantiator;
   private CompletableFuture<Object> future = null;
   private static final Logger LOGGER = LoggerFactory.getLogger(Workflow.class);
 }

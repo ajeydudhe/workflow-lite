@@ -48,7 +48,6 @@ public final class WorkflowManager
 
   // Private
   private BeanInstantiator beanInstantiator;  
-  
   private static final Logger LOGGER = LoggerFactory.getLogger(WorkflowManager.class);
 }
 

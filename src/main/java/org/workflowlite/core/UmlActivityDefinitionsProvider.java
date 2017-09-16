@@ -39,7 +39,6 @@ public class UmlActivityDefinitionsProvider implements WorkflowDefinitionsProvid
       final List<InputStream> definitionStreams = new ArrayList<>();
       final PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
 
-      // TODO: Ajey - If the definitions are in resources then we need to put them in temp file since uml2 apis cannot read resources.
       for (String xmlPath : this.umlFilePaths)
       {
         for (Resource resource : resolver.getResources(xmlPath))

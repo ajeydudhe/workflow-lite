@@ -24,12 +24,22 @@ public class XmlElementBuilder
 {
   private XmlElementBuilder(final String elementName, final Document document)
   {
-    this.element = document.createElement(elementName);
+    this(document.createElement(elementName));
+  }
+
+  private XmlElementBuilder(final Element element)
+  {
+    this.element = element;
   }
   
   public static XmlElementBuilder element(final String elementName, final Document document)
   {
     return new XmlElementBuilder(elementName, document);
+  }
+
+  public static XmlElementBuilder element(final Element element)
+  {
+    return new XmlElementBuilder(element);
   }
   
   public XmlElementBuilder attribute(final String name, final String value)
