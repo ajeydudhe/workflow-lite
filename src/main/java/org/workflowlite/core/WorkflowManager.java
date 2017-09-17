@@ -13,7 +13,6 @@ package org.workflowlite.core;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.workflowlite.core.bean.BeanInstantiator;
 
 /**
  * Main class responsible for executing the workflow with given ID and input.

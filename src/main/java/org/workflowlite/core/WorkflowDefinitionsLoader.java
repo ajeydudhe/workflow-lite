@@ -9,7 +9,7 @@
  *
  *******************************************************************/
 
-package org.workflowlite.core.bean;
+package org.workflowlite.core;
 
 import java.io.InputStream;
 import java.io.StringReader;
@@ -17,6 +17,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.Map;
+
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.ActivityNode;
@@ -37,8 +38,6 @@ import org.springframework.util.xml.XmlValidationModeDetector;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-import org.workflowlite.core.UmlActivityDefinitionsProvider;
-import org.workflowlite.core.Workflow;
 import org.workflowlite.core.utils.TempFileSentry;
 import org.workflowlite.core.utils.xml.XmlElementBuilder;
 import org.workflowlite.core.utils.xml.XmlUtils;
@@ -152,7 +151,7 @@ public final class WorkflowDefinitionsLoader implements BeanDefinitionRegistryPo
       
       XmlElementBuilder.element((Element) beanNode)
                        .attribute("scope", "prototype")
-                       .attribute("id", org.workflowlite.core.uml.UmlUtils.createBeanId(action))
+                       .attribute("id", org.workflowlite.core.utils.UmlUtils.createBeanId(action))
                        .build();
       
       beans.getFirstChild().appendChild(beans.importNode(beanNode, true));

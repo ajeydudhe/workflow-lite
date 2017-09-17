@@ -1,13 +1,13 @@
 # Workflow-lite - Simple workflow engine using Spring framework and Spring Expression Language
 
-**NOTE:** Work in progress
+**NOTE:** Work in progress. Need to update the readme as per the new implementation which uses UML activity diagram to define workflow !!!
 
 **Workflow-lite** is a simple workflow engine using the Spring framework. As of now, it can be used to define a simple sequential workflow. 
-* A workflow consists of Activities to be executed in the given order.
-* An activity is a class performing a unit of work.
-* An activity can be defined as normal Spring bean with required dependencies injected.
-* Apart from this the output of one activity can be injected into the other activity.
-* Using the [Spring Expression Language](https://docs.spring.io/spring/docs/current/spring-framework-reference/html/expressions.html) one can inject original source, output of previous activity, properties from execution context etc. into the activity to be instantiated.
+* A workflow consists of Actions to be executed in the given order.
+* An action is a class performing a unit of work.
+* An action can be defined as normal Spring bean with required dependencies injected.
+* Apart from this the output of one action can be injected into the other action.
+* Using the [Spring Expression Language](https://docs.spring.io/spring/docs/current/spring-framework-reference/html/expressions.html) one can inject original source, output of previous action, properties from execution context etc. into the action to be instantiated.
 
 ## Adding the library reference
 Currently, the library needs to be built manually.
@@ -63,41 +63,6 @@ The **_ReverseStringActivity_** class extends the **_AbstractActivity_** class w
 Similarly, we will have the **_AlternateCaseActivity_** implemented.
 
 ### Workflow definition xml template
-Create a bean xml in the project as **_src/main/resources/workflows/simple_workflow.xml_** folder with following settings:
-
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:wf="http://www.workflowlite.org/schema/core"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-						http://www.workflowlite.org/schema/core http://www.workflowlite.org/schema/core/workflow.xsd">
-
-</beans>
-```
-
-Notice that we have added custom namespace tag **_xmlns:wf="http://www.workflowlite.org/schema/core"_** and also the corresponding schema xsd location in specified in xsi:schemaLocation.
-
-### Workflow definition xml
-Following xml snippet defines the workflow to execute the **_ReverseStringActivity_** followed by **_AlternateCaseActivity_**. 
-
-```xml
-<wf:workflow id="simpleWorkflow">
-	<wf:activities>
-		<wf:activity class="my.poc.workflow.ReverseStringActivity">
-			<constructor-arg value="%{source}" />
-		</wf:activity>
-		<wf:activity class="my.poc.workflow.AlternateCaseActivity">
-			<constructor-arg value="%{output}" />
-		</wf:activity>
-	</wf:activities>
-</wf:workflow>
-```
-
-Notice, that in **_ReverseStringActivity_** constructor we are injecting the value using Spring Expression which is marked using custom prefix of **_%{_**. The variable **_source_** in the expression refers to the original input provided while executing the workflow. Similarly, the constructor for **_AlternateCaseActivity_** has it's value inject using custom expression. However, instead of **_source_** we have used **_output_** variable which refers to the output from previous activity which in this case is **_ReverseStringActivity_**.
-
-Note that in the custom expression within _**%{}**_ you can perform additional tasks like in this case the **_source_** is a string so you can inject it as, say, upper case with expression as _**%{source.toUpperCase()}**_ or concatenate as _**%{source + '_some_suffix'}**_. 
-
 ### Bean xml
 Add following bean xml at **_src/main/resources/workflow_beans.xml_**
 

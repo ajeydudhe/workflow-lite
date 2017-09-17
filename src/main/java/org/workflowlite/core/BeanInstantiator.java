@@ -9,7 +9,7 @@
  *
  *******************************************************************/
 
-package org.workflowlite.core.bean;
+package org.workflowlite.core;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanExpressionContext;
@@ -21,9 +21,6 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.expression.Expression;
 import org.springframework.expression.ParserContext;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
-import org.workflowlite.core.Action;
-import org.workflowlite.core.ExecutionContext;
-import org.workflowlite.core.Workflow;
 import org.workflowlite.core.utils.ThreadLocalSentry;
   
 /**

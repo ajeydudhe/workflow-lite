@@ -9,7 +9,7 @@
  *
  *******************************************************************/
 
-package org.workflowlite.core.uml;
+package org.workflowlite.core.utils;
 
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.uml2.uml.NamedElement;

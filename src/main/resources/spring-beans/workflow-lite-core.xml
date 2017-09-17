@@ -5,8 +5,8 @@
 
 	<bean id="workflow-lite-workflow-bean" class="org.workflowlite.core.Workflow" scope="prototype" />
 	
-	<bean id="beanInstantiator" class="org.workflowlite.core.bean.BeanInstantiator" scope="singleton" />
-	<bean id="workflowDefinitionsLoader" class="org.workflowlite.core.bean.WorkflowDefinitionsLoader" scope="singleton" />
+	<bean id="beanInstantiator" class="org.workflowlite.core.BeanInstantiator" scope="singleton" />
+	<bean id="workflowDefinitionsLoader" class="org.workflowlite.core.WorkflowDefinitionsLoader" scope="singleton" />
 	<bean id="workflowManager" class="org.workflowlite.core.WorkflowManager" scope="singleton">
 		<constructor-arg name="beanInstantiator" ref="beanInstantiator" />
 	</bean>
