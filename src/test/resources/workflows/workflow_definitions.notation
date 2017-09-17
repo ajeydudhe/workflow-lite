@@ -239,6 +239,8 @@
             <layoutConstraint xmi:type="notation:Location" xmi:id="_IU1NQ5sHEeeKqMSL01v2zA" x="25" y="-5"/>
           </children>
           <styles xmi:type="notation:HintedDiagramLinkStyle" xmi:id="_IU0mMJsHEeeKqMSL01v2zA"/>
+          <styles xmi:type="notation:BooleanValueStyle" xmi:id="_hPzxkJteEeeKqMSL01v2zA" name="shapeVisibility"/>
+          <styles xmi:type="notation:StringListValueStyle" xmi:id="_EU5PgJtgEeeKqMSL01v2zA" name="cssClass"/>
           <element xmi:type="uml:DecisionNode" href="workflow_definitions.uml#_IUnK0JsHEeeKqMSL01v2zA"/>
           <layoutConstraint xmi:type="notation:Bounds" xmi:id="_IU0mMZsHEeeKqMSL01v2zA" x="359" y="58" width="32"/>
         </children>
@@ -261,6 +263,11 @@
           <styles xmi:type="notation:HintedDiagramLinkStyle" xmi:id="_gHUOMZsLEeeKqMSL01v2zA"/>
           <element xmi:type="uml:ActivityFinalNode" href="workflow_definitions.uml#_gHSZAJsLEeeKqMSL01v2zA"/>
           <layoutConstraint xmi:type="notation:Bounds" xmi:id="_gHUOMpsLEeeKqMSL01v2zA" x="363" y="280"/>
+        </children>
+        <children xmi:type="notation:Shape" xmi:id="_OM1O4JtpEeeKqMSL01v2zA" type="3080">
+          <children xmi:type="notation:DecorationNode" xmi:id="_ONpuQJtpEeeKqMSL01v2zA" type="5138"/>
+          <element xmi:type="uml:Comment" href="workflow_definitions.uml#_OMbmQJtpEeeKqMSL01v2zA"/>
+          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_OM1O4ZtpEeeKqMSL01v2zA" x="395" y="57" height="29"/>
         </children>
         <layoutConstraint xmi:type="notation:Bounds" xmi:id="_DOT_cZsHEeeKqMSL01v2zA"/>
       </children>

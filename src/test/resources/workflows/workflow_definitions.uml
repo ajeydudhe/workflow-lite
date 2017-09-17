@@ -34,6 +34,9 @@
     <node xmi:type="uml:ActivityFinalNode" xmi:id="_fJ1y8JsDEeeKqMSL01v2zA" name="ActivityFinalNode1" incoming="_vbhRsJsDEeeKqMSL01v2zA"/>
   </packagedElement>
   <packagedElement xmi:type="uml:Activity" xmi:id="_CEAIYJsHEeeKqMSL01v2zA" name="ConditionalWorkflowSingleConditionWithTrueCaseHandling" node="_GDrC8JsHEeeKqMSL01v2zA _IUnK0JsHEeeKqMSL01v2zA _hiRtIJsHEeeKqMSL01v2zA _k5p4oJsHEeeKqMSL01v2zA _gHSZAJsLEeeKqMSL01v2zA">
+    <ownedComment xmi:type="uml:Comment" xmi:id="_OMbmQJtpEeeKqMSL01v2zA">
+      <body>%{source.contains('123')}</body>
+    </ownedComment>
     <edge xmi:type="uml:ControlFlow" xmi:id="_xfrlAJsHEeeKqMSL01v2zA" target="_IUnK0JsHEeeKqMSL01v2zA" source="_GDrC8JsHEeeKqMSL01v2zA"/>
     <edge xmi:type="uml:ControlFlow" xmi:id="_hJVr4JsLEeeKqMSL01v2zA" target="_gHSZAJsLEeeKqMSL01v2zA" source="_k5p4oJsHEeeKqMSL01v2zA"/>
     <edge xmi:type="uml:ControlFlow" xmi:id="_X3epgJsMEeeKqMSL01v2zA" name="true" target="_hiRtIJsHEeeKqMSL01v2zA" source="_IUnK0JsHEeeKqMSL01v2zA"/>

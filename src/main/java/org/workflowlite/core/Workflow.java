@@ -52,6 +52,7 @@ public final class Workflow
   {
     final InitialNode initialNode = (InitialNode) EcoreUtil.getObjectByType(this.umlActivity.getNodes(), UMLPackage.Literals.INITIAL_NODE);
     
+    // TODO: Ajey - Handle infinite loops. Consumer should take care of such situations but good to guards against it here. But might be diffcult and will need higher value of iterations or configurable value to determine if we have infinite loop. 
     return executeAll(context, source, getNextNode(initialNode));
   }
 
