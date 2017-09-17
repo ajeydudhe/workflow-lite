@@ -36,7 +36,7 @@ public class AsyncActionTest extends AbstractTestNGSpringContextTests
   @Test
   public void mixedActionExecution_returnsCompletableFuture() throws InterruptedException, ExecutionException
   {    
-    final CompletableFuture<String> future = workflowManager.execute(new DefaultExecutionContext("asyncSimpleWorkflowWithBothSyncAndAsyncActions"), "abcd");
+    final CompletableFuture<String> future = workflowManager.execute(new DefaultExecutionContext("AsyncSimpleWorkflowWithBothSyncAndAsyncActions"), "abcd");
     
     final String result = future.get();
     
@@ -46,7 +46,7 @@ public class AsyncActionTest extends AbstractTestNGSpringContextTests
   @Test(expectedExceptions=ExecutionException.class, expectedExceptionsMessageRegExp="java.lang.RuntimeException: Dummy exception thrown from AsyncReverseStringAction.")
   public void mixedActionExecution_ThrowsExecutionException() throws InterruptedException, ExecutionException
   {    
-    final CompletableFuture<String> future = workflowManager.execute(new DefaultExecutionContext("asyncSimpleWorkflowWithBothSyncAndAsyncActionsThrowsExecutionException"), "abcd");
+    final CompletableFuture<String> future = workflowManager.execute(new DefaultExecutionContext("AsyncSimpleWorkflowWithBothSyncAndAsyncActionsThrowsExecutionException"), "abcd");
     
     future.get();
   }
@@ -54,7 +54,7 @@ public class AsyncActionTest extends AbstractTestNGSpringContextTests
   @Test(expectedExceptions=CancellationException.class)
   public void mixedActionExecution_ThrowsCancellationException() throws InterruptedException, ExecutionException
   {    
-    final CompletableFuture<String> future = workflowManager.execute(new DefaultExecutionContext("asyncSimpleWorkflowWithBothSyncAndAsyncActionsThrowsCancellationException"), "abcd");
+    final CompletableFuture<String> future = workflowManager.execute(new DefaultExecutionContext("AsyncSimpleWorkflowWithBothSyncAndAsyncActionsThrowsCancellationException"), "abcd");
     
     future.get();
   }
@@ -62,7 +62,7 @@ public class AsyncActionTest extends AbstractTestNGSpringContextTests
   @Test(invocationCount=20, threadPoolSize=5)
   public void mixedActionExecution_multipleThreads_returnsCompletableFuture() throws InterruptedException, ExecutionException
   {    
-    final CompletableFuture<String> future = workflowManager.execute(new DefaultExecutionContext("asyncSimpleWorkflowWithBothSyncAndAsyncActions"), "abcd");
+    final CompletableFuture<String> future = workflowManager.execute(new DefaultExecutionContext("AsyncSimpleWorkflowWithBothSyncAndAsyncActions"), "abcd");
     
     final String result = future.get();
     

@@ -11,17 +11,12 @@
 
 package org.workflowlite.core.bean;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.StringReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.Map;
-import java.util.UUID;
-
-import org.apache.logging.log4j.core.util.IOUtils;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.uml2.uml.Activity;
 import org.eclipse.uml2.uml.ActivityNode;
@@ -31,7 +26,6 @@ import org.eclipse.uml2.uml.UMLPackage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProcessor;
@@ -45,7 +39,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.workflowlite.core.UmlActivityDefinitionsProvider;
 import org.workflowlite.core.Workflow;
-import org.workflowlite.core.WorkflowDefinitionsProvider;
 import org.workflowlite.core.utils.TempFileSentry;
 import org.workflowlite.core.utils.xml.XmlElementBuilder;
 import org.workflowlite.core.utils.xml.XmlUtils;
@@ -152,8 +145,6 @@ public final class WorkflowDefinitionsLoader implements BeanDefinitionRegistryPo
    
     try
     {
-      LOGGER.info("Bean definition: {}{}", System.lineSeparator(), action.getBodies().get(0));
-      
       final DocumentLoader docLoader = new DefaultDocumentLoader();
       final Document document = docLoader.loadDocument(new InputSource(new StringReader(action.getBodies().get(0))), null, null, XmlValidationModeDetector.VALIDATION_NONE, true);
       
