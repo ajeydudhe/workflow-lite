@@ -18,15 +18,15 @@ public class AsyncActionTest extends AbstractTestNGSpringContextTests
   @Test
   public void singleActionExecution_returnsCompletableFuture() throws InterruptedException, ExecutionException
   {
-    final CompletableFuture<String> future = workflowManager.execute(new DefaultExecutionContext("asyncSimpleWorkflowWithSingleAction"), "abc");
+    final CompletableFuture<String> future = workflowManager.execute(new DefaultExecutionContext("AsyncSimpleWorkflowWithSingleAction"), "abcd");
     final String result = future.get();
-    assertThat(result).as("Async Result").isEqualTo("CBA");
+    assertThat(result).as("Async Result").isEqualTo("DCBA");
   }
   
   @Test
   public void twoActionExecution_returnsCompletableFuture() throws InterruptedException, ExecutionException
   {
-    final CompletableFuture<String> future = workflowManager.execute(new DefaultExecutionContext("asyncSimpleWorkflowWithTwoActions"), "abcd");
+    final CompletableFuture<String> future = workflowManager.execute(new DefaultExecutionContext("AsyncSimpleWorkflowWithTwoActions"), "abcd");
     
     final String result = future.get();
     

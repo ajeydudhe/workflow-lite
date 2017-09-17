@@ -60,6 +60,21 @@ public final class Workflow
     while(! (nextNode instanceof FinalNode) )
     {
       nextNode = execute(context, source, nextNode);
+      
+      // Should we define an interface instead for async activity?
+      // If CompletableFuture is expected output of one activity then it will be an issue. But this should be rare and not a good practice.
+      if(this.output instanceof CompletableFuture)
+      {      
+        return handleAsyncResult(context, source, nextNode);
+      }
+    }
+    
+    LOGGER.info("Done executing all the activities in the workflow. Had async activities [{}].", this.future != null);
+    
+    // If there was async activity in between then we have returned this.future. So complete it with the last known output.
+    if(this.future != null)
+    {
+      this.future.complete(this.output);
     }
     
     return this.output;
@@ -118,6 +133,34 @@ public final class Workflow
     throw new RuntimeException("Could not find action to be executed on given condition."); // TODO: Ajey - Throw custom exception !!!
   }
   
+  @SuppressWarnings("unchecked")
+  private Object handleAsyncResult(final ExecutionContext context, final Object source, final ActivityNode nextNode)
+  {
+    if(this.future == null)
+    {
+      this.future = new CompletableFuture<Object>();
+    }
+    
+    final CompletableFuture<Object> futureResult = (CompletableFuture<Object>) this.output;
+    futureResult.whenComplete((asyncResult, exception) -> {
+      
+      if(exception != null)
+      {
+        LOGGER.error("Async activity threw exception", exception);
+        this.future.completeExceptionally(exception);
+        return;
+      }
+      
+      LOGGER.info("Async activity returned: {}", asyncResult);
+      
+      this.output = asyncResult;
+      
+      executeAll(context, source, nextNode);
+    });
+    
+    return this.future; // If this was the first async activity then this.future is returned back else the returned value is ignored because we are calling execute() from completion of async activity above.
+  }
+
   private ActivityNode getNextNode(final ActivityNode umlNode)
   {
     if(umlNode.getOutgoings().isEmpty())

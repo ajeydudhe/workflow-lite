@@ -85,4 +85,36 @@
     </node>
     <node xmi:type="uml:ActivityFinalNode" xmi:id="_ccvH8JsNEeeKqMSL01v2zA" name="ActivityFinalNode1" incoming="_0l9_gJsSEeeKqMSL01v2zA"/>
   </packagedElement>
+  <packagedElement xmi:type="uml:Activity" xmi:id="_YNiAIJtbEeeKqMSL01v2zA" name="AsyncSimpleWorkflowWithSingleAction" node="_bWeuEJtbEeeKqMSL01v2zA _c9sjgJtbEeeKqMSL01v2zA _guFr8JtbEeeKqMSL01v2zA">
+    <edge xmi:type="uml:ControlFlow" xmi:id="_kGCfMJtbEeeKqMSL01v2zA" target="_c9sjgJtbEeeKqMSL01v2zA" source="_bWeuEJtbEeeKqMSL01v2zA"/>
+    <edge xmi:type="uml:ControlFlow" xmi:id="_lAPdoJtbEeeKqMSL01v2zA" target="_guFr8JtbEeeKqMSL01v2zA" source="_c9sjgJtbEeeKqMSL01v2zA"/>
+    <node xmi:type="uml:InitialNode" xmi:id="_bWeuEJtbEeeKqMSL01v2zA" name="InitialNode1" outgoing="_kGCfMJtbEeeKqMSL01v2zA"/>
+    <node xmi:type="uml:OpaqueAction" xmi:id="_c9sjgJtbEeeKqMSL01v2zA" name="ReverseString" incoming="_kGCfMJtbEeeKqMSL01v2zA" outgoing="_lAPdoJtbEeeKqMSL01v2zA">
+      <language>JAVA</language>
+      <body>&lt;bean class=&quot;org.workflowlite.core.actions.AsyncReverseStringAction&quot;>&#xD;
+	&lt;constructor-arg name=&quot;value&quot; value=&quot;%{source.toUpperCase()}&quot; />&#xD;
+&lt;/bean></body>
+    </node>
+    <node xmi:type="uml:ActivityFinalNode" xmi:id="_guFr8JtbEeeKqMSL01v2zA" name="ActivityFinalNode1" incoming="_lAPdoJtbEeeKqMSL01v2zA"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Activity" xmi:id="__yR8wJtbEeeKqMSL01v2zA" name="AsyncSimpleWorkflowWithTwoActions" node="_C9tW8JtcEeeKqMSL01v2zA _EvA8gJtcEeeKqMSL01v2zA _FVtwIJtcEeeKqMSL01v2zA _G7e0EJtcEeeKqMSL01v2zA">
+    <edge xmi:type="uml:ControlFlow" xmi:id="_ZFrToJtcEeeKqMSL01v2zA" target="_EvA8gJtcEeeKqMSL01v2zA" source="_C9tW8JtcEeeKqMSL01v2zA"/>
+    <edge xmi:type="uml:ControlFlow" xmi:id="_Z5VlMJtcEeeKqMSL01v2zA" target="_FVtwIJtcEeeKqMSL01v2zA" source="_EvA8gJtcEeeKqMSL01v2zA"/>
+    <edge xmi:type="uml:ControlFlow" xmi:id="_a6wl8JtcEeeKqMSL01v2zA" target="_G7e0EJtcEeeKqMSL01v2zA" source="_FVtwIJtcEeeKqMSL01v2zA"/>
+    <node xmi:type="uml:InitialNode" xmi:id="_C9tW8JtcEeeKqMSL01v2zA" name="InitialNode1" outgoing="_ZFrToJtcEeeKqMSL01v2zA"/>
+    <node xmi:type="uml:OpaqueAction" xmi:id="_EvA8gJtcEeeKqMSL01v2zA" name="ReverseString01" incoming="_ZFrToJtcEeeKqMSL01v2zA" outgoing="_Z5VlMJtcEeeKqMSL01v2zA">
+      <language>JAVA</language>
+      <body>&lt;bean class=&quot;org.workflowlite.core.actions.AsyncReverseStringAction&quot;>&#xD;
+	&lt;constructor-arg name=&quot;value&quot; value=&quot;%{source}&quot; />&#xD;
+&lt;/bean>&#xD;
+</body>
+    </node>
+    <node xmi:type="uml:OpaqueAction" xmi:id="_FVtwIJtcEeeKqMSL01v2zA" name="ReverseString02" incoming="_Z5VlMJtcEeeKqMSL01v2zA" outgoing="_a6wl8JtcEeeKqMSL01v2zA">
+      <language>JAVA</language>
+      <body>&lt;bean class=&quot;org.workflowlite.core.actions.AsyncAlternateCaseAction&quot;>&#xD;
+	&lt;constructor-arg name=&quot;value&quot; value=&quot;%{output}&quot; />&#xD;
+&lt;/bean></body>
+    </node>
+    <node xmi:type="uml:ActivityFinalNode" xmi:id="_G7e0EJtcEeeKqMSL01v2zA" name="ActivityFinalNode1" incoming="_a6wl8JtcEeeKqMSL01v2zA"/>
+  </packagedElement>
 </uml:Model>
