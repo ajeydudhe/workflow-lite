@@ -52,7 +52,11 @@ public final class Workflow
   {
     final InitialNode initialNode = (InitialNode) EcoreUtil.getObjectByType(this.umlActivity.getNodes(), UMLPackage.Literals.INITIAL_NODE);
     
-    ActivityNode nextNode = getNextNode(initialNode);
+    return executeAll(context, source, getNextNode(initialNode));
+  }
+
+  private Object executeAll(final ExecutionContext context, final Object source, ActivityNode nextNode)
+  {
     while(! (nextNode instanceof FinalNode) )
     {
       nextNode = execute(context, source, nextNode);

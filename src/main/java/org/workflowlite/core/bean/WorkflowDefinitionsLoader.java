@@ -46,6 +46,7 @@ import org.w3c.dom.Node;
 import org.workflowlite.core.UmlActivityDefinitionsProvider;
 import org.workflowlite.core.Workflow;
 import org.workflowlite.core.WorkflowDefinitionsProvider;
+import org.workflowlite.core.utils.TempFileSentry;
 import org.workflowlite.core.utils.xml.XmlElementBuilder;
 import org.workflowlite.core.utils.xml.XmlUtils;
 import org.xml.sax.InputSource;
@@ -80,16 +81,12 @@ public final class WorkflowDefinitionsLoader implements BeanDefinitionRegistryPo
   
   private void loadDefinitions(final InputStream definitionStream)
   {
-    try
+    try(TempFileSentry umlFile = new TempFileSentry("workflow-lite-", ".uml"))
     {
-      final File umlFile = File.createTempFile("workflow-lite-", ".uml"); // TODO: Ajey - Delete the file
-      
-      LOGGER.info("Created temp file for uml definition: {}", umlFile.getPath());
-      
-      Files.copy(definitionStream, Paths.get(umlFile.getPath()), StandardCopyOption.REPLACE_EXISTING);
+      Files.copy(definitionStream, Paths.get(umlFile.get().getPath()), StandardCopyOption.REPLACE_EXISTING);
       
       // Load the bean definitions
-      final String beanDefinitionsXml = transform(umlFile.getPath());
+      final String beanDefinitionsXml = transform(umlFile.get().getPath());
 
       final XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(this.beanDefinitionRegistry);
       reader.setValidationMode(XmlValidationModeDetector.VALIDATION_XSD);
