@@ -11,43 +11,17 @@
 
 package org.workflowlite.core;
 
-import java.util.Map;
-import java.util.TreeMap;
-
 /**
  * Default {@link ExecutionContext} implementation allowing to store/retrieve properties.
  * 
  * @author Ajey_Dudhe
  *
  */
-public class DefaultExecutionContext implements ExecutionContext
+public class DefaultExecutionContext extends AbstractExecutionContext
 {
   public DefaultExecutionContext(final String workflowId)
   {
-    this.workflowId = workflowId;
+    super(workflowId);
   }
-  
-  @Override
-  public String getWorkflowId()
-  {
-    return this.workflowId;
-  }
-
-  @SuppressWarnings("unchecked")
-  @Override
-  public <T> T getValue(final String property)
-  {
-    return (T) this.properties.get(property);
-  }
-
-  @Override
-  public <T> void setValue(String property, T value)
-  {
-    this.properties.put(property, value);
-  }
-  
-  // Private
-  private final String workflowId;
-  private final Map<String, Object> properties = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 }
 

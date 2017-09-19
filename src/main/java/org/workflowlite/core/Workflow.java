@@ -25,6 +25,7 @@ import org.eclipse.uml2.uml.OpaqueAction;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.StringUtils;
 import org.workflowlite.core.utils.UmlUtils;
   
 /**
@@ -132,6 +133,11 @@ public final class Workflow
       
       for (ActivityEdge whenCondition : umlDecision.getOutgoings())
       {
+        if( ! StringUtils.hasText(whenCondition.getName()))
+        {
+          throw new RuntimeException("Outgoing edge from DecisionNode should have values defined."); // TODO: Ajey - Throw custom exception !!!
+        }
+        
         if(whenCondition.getName().equalsIgnoreCase(conclusion.toString()))
         {
           return whenCondition.getTarget();

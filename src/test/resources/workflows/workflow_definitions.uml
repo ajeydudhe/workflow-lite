@@ -225,4 +225,37 @@
     </node>
     <node xmi:type="uml:ActivityFinalNode" xmi:id="_LbeA4JtxEeeKqMSL01v2zA" name="ActivityFinalNode1" incoming="_0I0kUJtxEeeKqMSL01v2zA"/>
   </packagedElement>
+  <packagedElement xmi:type="uml:Activity" xmi:id="_EQ5l4JuYEeeKqMSL01v2zA" name="StudentScoreCardWorkflow" node="_KIN-kJuYEeeKqMSL01v2zA _LjKSkJuYEeeKqMSL01v2zA _UcH3UJuYEeeKqMSL01v2zA _YUSbsJuYEeeKqMSL01v2zA _yE7IMJuYEeeKqMSL01v2zA _dnCkIJxbEeeKqMSL01v2zA">
+    <ownedComment xmi:type="uml:Comment" xmi:id="_-10AwJuYEeeKqMSL01v2zA">
+      <body>Extracurricular Activity?</body>
+    </ownedComment>
+    <edge xmi:type="uml:ControlFlow" xmi:id="_vPH_sJxcEeeKqMSL01v2zA" target="_dnCkIJxbEeeKqMSL01v2zA" source="_KIN-kJuYEeeKqMSL01v2zA"/>
+    <edge xmi:type="uml:ControlFlow" xmi:id="_wPOKwJxcEeeKqMSL01v2zA" target="_LjKSkJuYEeeKqMSL01v2zA" source="_dnCkIJxbEeeKqMSL01v2zA"/>
+    <edge xmi:type="uml:ControlFlow" xmi:id="_yTgWsJxcEeeKqMSL01v2zA" name="true" target="_YUSbsJuYEeeKqMSL01v2zA" source="_LjKSkJuYEeeKqMSL01v2zA"/>
+    <edge xmi:type="uml:ControlFlow" xmi:id="_zf5RUJxcEeeKqMSL01v2zA" name="false" target="_UcH3UJuYEeeKqMSL01v2zA" source="_LjKSkJuYEeeKqMSL01v2zA"/>
+    <edge xmi:type="uml:ControlFlow" xmi:id="_0Zo8wJxcEeeKqMSL01v2zA" target="_yE7IMJuYEeeKqMSL01v2zA" source="_UcH3UJuYEeeKqMSL01v2zA"/>
+    <edge xmi:type="uml:ControlFlow" xmi:id="_0Jr_wJxdEeeKqMSL01v2zA" target="_UcH3UJuYEeeKqMSL01v2zA" source="_YUSbsJuYEeeKqMSL01v2zA"/>
+    <node xmi:type="uml:InitialNode" xmi:id="_KIN-kJuYEeeKqMSL01v2zA" name="InitialNode1" outgoing="_vPH_sJxcEeeKqMSL01v2zA"/>
+    <node xmi:type="uml:DecisionNode" xmi:id="_LjKSkJuYEeeKqMSL01v2zA" name="%{context.completedExtracurricularActivities(source.getName())}" incoming="_wPOKwJxcEeeKqMSL01v2zA" outgoing="_yTgWsJxcEeeKqMSL01v2zA _zf5RUJxcEeeKqMSL01v2zA"/>
+    <node xmi:type="uml:OpaqueAction" xmi:id="_UcH3UJuYEeeKqMSL01v2zA" name="PublishScore" incoming="_zf5RUJxcEeeKqMSL01v2zA _0Jr_wJxdEeeKqMSL01v2zA" outgoing="_0Zo8wJxcEeeKqMSL01v2zA">
+      <language>JAVA</language>
+      <body>&lt;bean class=&quot;org.workflowlite.core.samples.PublishStudentScoreAction&quot;>&#xD;
+	&lt;constructor-arg name=&quot;studentName&quot; value=&quot;%{source.name}&quot; />&#xD;
+	&lt;constructor-arg name=&quot;score&quot; value=&quot;%{output}&quot; />&#xD;
+&lt;/bean></body>
+    </node>
+    <node xmi:type="uml:OpaqueAction" xmi:id="_YUSbsJuYEeeKqMSL01v2zA" name="AddBonusMarks" incoming="_yTgWsJxcEeeKqMSL01v2zA" outgoing="_0Jr_wJxdEeeKqMSL01v2zA">
+      <language>JAVA</language>
+      <body>&lt;bean class=&quot;org.workflowlite.core.samples.AddBonusMarksAction&quot;>&#xD;
+	&lt;constructor-arg value=&quot;%{output}&quot; />&#xD;
+&lt;/bean></body>
+    </node>
+    <node xmi:type="uml:ActivityFinalNode" xmi:id="_yE7IMJuYEeeKqMSL01v2zA" name="ActivityFinalNode1" incoming="_0Zo8wJxcEeeKqMSL01v2zA"/>
+    <node xmi:type="uml:OpaqueAction" xmi:id="_dnCkIJxbEeeKqMSL01v2zA" name="CalculateTotalScore" incoming="_vPH_sJxcEeeKqMSL01v2zA" outgoing="_wPOKwJxcEeeKqMSL01v2zA">
+      <language>JAVA</language>
+      <body>&lt;bean class=&quot;org.workflowlite.core.samples.CalculateTotalScoreAction&quot;>&#xD;
+	&lt;constructor-arg value=&quot;%{source.scores}&quot; />&#xD;
+&lt;/bean></body>
+    </node>
+  </packagedElement>
 </uml:Model>

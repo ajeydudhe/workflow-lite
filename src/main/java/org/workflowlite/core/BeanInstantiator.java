@@ -35,19 +35,14 @@ public final class BeanInstantiator implements ApplicationContextAware, BeanFact
   
   public Workflow getWorkflow(final String workflowBeanId)
   {
-    // TODO: Ajey - We can remove this flag once we start creating beans from custom xml tags
-    try(ThreadLocalSentry<Boolean> threadLocal = ENABLE_EXPRESSION_EVALUATION.set(Boolean.FALSE))
-    {
-      return this.applicationContext.getBean(workflowBeanId, Workflow.class);
-    }
+    return this.applicationContext.getBean(workflowBeanId, Workflow.class);
   }
   
   @SuppressWarnings("unchecked")
   public <TContext extends ExecutionContext> Action<TContext, Object> getAction(final String activityBeanId, final ExecutionContext context, final Object source, final Object output)
   {
     // Adding the root object having source property so that in the expression we can use the source property.
-    try(ThreadLocalSentry<Object> threadLocalSource = EXPRESSION_EVALUATION_ROOT_OBJECT.set(createRootObject(context, source, output));
-        ThreadLocalSentry<Boolean> threadLocalExpressionFlag = ENABLE_EXPRESSION_EVALUATION.set(Boolean.TRUE))
+    try(ThreadLocalSentry<Object> threadLocalSource = EXPRESSION_EVALUATION_ROOT_OBJECT.set(createRootObject(context, source, output)))
     {      
       return this.applicationContext.getBean(activityBeanId, Action.class);
     }
@@ -66,11 +61,6 @@ public final class BeanInstantiator implements ApplicationContextAware, BeanFact
       return this.existingExpressionResolver.evaluate(expression, evalContext);
     }
 
-    if(ENABLE_EXPRESSION_EVALUATION.get() == Boolean.FALSE)
-    {
-      return expression; // Return the expression as is since we will evaluate it later
-    }
-    
     return this.doEvaluate(expression, EXPRESSION_EVALUATION_ROOT_OBJECT.get());
   }
 
@@ -98,8 +88,9 @@ public final class BeanInstantiator implements ApplicationContextAware, BeanFact
 
       @SuppressWarnings("unused")
       public Object getSource() {
-        return source;
+        return source; // TODO: Ajey - Should be able to configure the variable name here instead of using source. For example, student, event etc. Use PropertyAccessor on evaluation context.
       }
+      
       @SuppressWarnings("unused")
       public Object getOutput() {
         return output;
@@ -121,7 +112,6 @@ public final class BeanInstantiator implements ApplicationContextAware, BeanFact
   private final SpelExpressionParser expressionParser = new SpelExpressionParser();
   
   private static final ThreadLocalSentry<Object> EXPRESSION_EVALUATION_ROOT_OBJECT = new ThreadLocalSentry<>(null);
-  private static final ThreadLocalSentry<Boolean> ENABLE_EXPRESSION_EVALUATION = new ThreadLocalSentry<>(Boolean.FALSE);
   
   private static final ParserContext PARSER_CONTEXT = new ParserContext()
   {    
