@@ -7,7 +7,13 @@
 * An action is a class performing a unit of work.
 * An action can be defined as normal Spring bean with required dependencies injected.
 * Apart from this the output of one action can be injected into the other action.
+* Supports conditional flow.
 * Using the [Spring Expression Language](https://docs.spring.io/spring/docs/current/spring-framework-reference/html/expressions.html) one can inject original source, output of previous action, properties from execution context etc. into the action to be instantiated.
+* The workflow can be defined using UML2 activity diagram.
+
+## Pre-requisites
+* [Maven](https://maven.apache.org/) for building the project.
+* [Papyrus](https://eclipse.org/papyrus/) eclipse plug-in for defining the workflow using UML activity diagram. 
 
 ## Adding the library reference
 Currently, the library needs to be built manually.
@@ -23,102 +29,9 @@ Currently, the library needs to be built manually.
   	</dependency>
   	```
 
-## Creating the workflow
-For this example, we will create a simple workflow with following string operations:
-* **ReverseStringActivity** takes a string as input and returns reverse string.
-* **AlternateCaseActivity** takes a string as input and returns a string with every alternate character having opposite case e.g. input = abcd; output = aBcD
-
-The workflow will take a string input and if the string starts with vowels then we simply reverse the string else we return the string with alternate case.
-
-### ReverseStringActivity
-The ReverseStringActivity class will be as follows:
-
-```java
-package my.poc.workflow;
-
-import org.workflowlite.core.AbstractActivity;
-import org.workflowlite.core.ExecutionContext;
-  
-public class ReverseStringActivity extends AbstractActivity
-{
-  public ReverseStringActivity(final String value)
-  {
-    super(ReverseStringActivity.class.getSimpleName());
-    
-	this.value = value;
-  }
-
-  public Object execute(final ExecutionContext context)
-  {
-    return new StringBuilder(this.value).reverse().toString();
-  }
-
-  // Private
-  private String value;
-}
-```
-   	
-The **_ReverseStringActivity_** class extends the **_AbstractActivity_** class with in turn implements the **_Activity_** interface. The class takes the value to be operated upon as input. It implements the **_execute()_** method returning the reverse of the input string.
-
-Similarly, we will have the **_AlternateCaseActivity_** implemented.
-
-### Workflow definition xml template
-### Bean xml
-Add following bean xml at **_src/main/resources/workflow_beans.xml_**
-
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
-
-	<import resource="spring-beans/workflow-lite-core.xml"/>
-	
-	<bean id="workflowDefinitions" class="org.workflowlite.core.WorkflowXmlsProvider">
-		<constructor-arg>
-			<list>
-				<value>classpath:workflows/*.xml</value>
-			</list>
-		</constructor-arg>
-	</bean>
-	
-</beans>
-```
-
-In above bean xml the **_import_** tag tells to load the predefined bean xml **_spring-beans/workflow-lite-core.xml_** in the workflow-lite library jar.
-
-The bean for **_org.workflowlite.core.WorkflowXmlsProvider_** class tell the library to search for the workflow definitions under the **_workflow/*_** folder on the classpath.
-
-### Executing the workflow
-Create a simple JUnit test which loads the bean xml defined above and inject the **_WorkflowManager_** instance.
-Following simple test method verifies the workflow:
-
-```java
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations="classpath:workflow_beans.xml")
-public class SimpleWorkflowTest
-{
-
-  @Test
-  public void testSimpleWorkflow()
-  {
-    String output = this.workflowManager.execute(new DefaultExecutionContext("simpleWorkflow"), "abcdef");
-    assertThat(output).as("Workflow output").isEqualTo("fEdCbA");
-
-    output = this.workflowManager.execute(new DefaultExecutionContext("simpleWorkflow"), output);
-    assertThat(output).as("Workflow output").isEqualTo("aBcDeF");
-  }
-  
-  // Private
-  @Inject
-  private WorkflowManager workflowManager;
-}
-```
-
-In the first call we are passing the input as _abcdef_. The **_ReverseStringActivity_** will convert this to _fedcba_ while the next **_AlternateCaseActivity_** will convert this to alternate case as _fEdCbA_. Similarly, we give the output of previous test as input to the workflow and get the original string _abcdef_ but with alternate case as _aBcDeF_. 
+## Defining the workflow using UML activity diagram
 
 ## Work in progress
-* Define workflows using UML activity diagrams.
 * Optimize the expression evaluation by caching the expressions.
 * Error handling.
 * Persistence support for workflows.
