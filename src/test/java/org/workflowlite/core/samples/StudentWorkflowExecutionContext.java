@@ -21,7 +21,7 @@ public class StudentWorkflowExecutionContext extends AbstractExecutionContext
 {
   public StudentWorkflowExecutionContext()
   {
-    super("StudentScoreCardWorkflow");
+    super("StudentScoreCardWorkflow", "student");
   }
   
   public boolean completedExtracurricularActivities(final String studentName)

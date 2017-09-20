@@ -18,9 +18,14 @@ import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.expression.AccessException;
+import org.springframework.expression.EvaluationContext;
 import org.springframework.expression.Expression;
 import org.springframework.expression.ParserContext;
+import org.springframework.expression.PropertyAccessor;
+import org.springframework.expression.TypedValue;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
+import org.springframework.expression.spel.support.StandardEvaluationContext;
 import org.workflowlite.core.utils.ThreadLocalSentry;
   
 /**
@@ -42,7 +47,7 @@ public final class BeanInstantiator implements ApplicationContextAware, BeanFact
   public <TContext extends ExecutionContext> Action<TContext, Object> getAction(final String activityBeanId, final ExecutionContext context, final Object source, final Object output)
   {
     // Adding the root object having source property so that in the expression we can use the source property.
-    try(ThreadLocalSentry<Object> threadLocalSource = EXPRESSION_EVALUATION_ROOT_OBJECT.set(createRootObject(context, source, output)))
+    try(ThreadLocalSentry<EvaluationContext> threadLocalSource = EXPRESSION_EVALUATION_CONTEXT.set(new WorkflowExpressionEvaluationContext(context, source, output)))
     {      
       return this.applicationContext.getBean(activityBeanId, Action.class);
     }
@@ -50,7 +55,7 @@ public final class BeanInstantiator implements ApplicationContextAware, BeanFact
   
   public Object evaluateExpression(final String expression, final ExecutionContext context, final Object source, final Object output)
   {
-    return this.doEvaluate(expression, createRootObject(context, source, output));
+    return this.doEvaluate(expression, new WorkflowExpressionEvaluationContext(context, source, output));
   }
   
   @Override
@@ -61,7 +66,7 @@ public final class BeanInstantiator implements ApplicationContextAware, BeanFact
       return this.existingExpressionResolver.evaluate(expression, evalContext);
     }
 
-    return this.doEvaluate(expression, EXPRESSION_EVALUATION_ROOT_OBJECT.get());
+    return this.doEvaluate(expression, EXPRESSION_EVALUATION_CONTEXT.get());
   }
 
   @Override
@@ -77,33 +82,12 @@ public final class BeanInstantiator implements ApplicationContextAware, BeanFact
     this.applicationContext = applicationContext;
   }
   
-  private static Object createRootObject(final ExecutionContext context, final Object source, final Object output)
-  {
-    return new Object() {
-      
-      @SuppressWarnings("unused")
-      public ExecutionContext getContext() {
-        return context;
-      }
-
-      @SuppressWarnings("unused")
-      public Object getSource() {
-        return source; // TODO: Ajey - Should be able to configure the variable name here instead of using source. For example, student, event etc. Use PropertyAccessor on evaluation context.
-      }
-      
-      @SuppressWarnings("unused")
-      public Object getOutput() {
-        return output;
-      }
-    };
-  }
-  
-  private Object doEvaluate(final String expression, final Object source)
+  private Object doEvaluate(final String expression, final EvaluationContext evaluationContext)
   {
     // TODO: Ajey - Cache the expression object
     final Expression expressionObject = this.expressionParser.parseExpression(expression, PARSER_CONTEXT);
     
-    return expressionObject.getValue(source);
+    return expressionObject.getValue(evaluationContext);
   }
 
   // Private
@@ -111,7 +95,7 @@ public final class BeanInstantiator implements ApplicationContextAware, BeanFact
   private BeanExpressionResolver existingExpressionResolver;
   private final SpelExpressionParser expressionParser = new SpelExpressionParser();
   
-  private static final ThreadLocalSentry<Object> EXPRESSION_EVALUATION_ROOT_OBJECT = new ThreadLocalSentry<>(null);
+  private static final ThreadLocalSentry<EvaluationContext> EXPRESSION_EVALUATION_CONTEXT = new ThreadLocalSentry<>(null);
   
   private static final ParserContext PARSER_CONTEXT = new ParserContext()
   {    

@@ -21,7 +21,12 @@ public class DefaultExecutionContext extends AbstractExecutionContext
 {
   public DefaultExecutionContext(final String workflowId)
   {
-    super(workflowId);
+    this(workflowId, "source");
+  }
+
+  public DefaultExecutionContext(final String workflowId, final String sourcePropertyName)
+  {
+    super(workflowId, sourcePropertyName);
   }
 }
 
