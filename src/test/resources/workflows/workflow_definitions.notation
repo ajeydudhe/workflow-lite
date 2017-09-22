@@ -1436,7 +1436,7 @@
         <layoutConstraint xmi:type="notation:Bounds" xmi:id="_GXrFMZuYEeeKqMSL01v2zA"/>
       </children>
       <element xmi:type="uml:Activity" href="workflow_definitions.uml#_EQ5l4JuYEeeKqMSL01v2zA"/>
-      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_GXrFMpuYEeeKqMSL01v2zA"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_GXrFMpuYEeeKqMSL01v2zA" x="-263" y="-3" width="630" height="363"/>
     </children>
     <styles xmi:type="notation:StringValueStyle" xmi:id="_GXrFM5uYEeeKqMSL01v2zA" name="diagram_compatibility_version" stringValue="1.0.0"/>
     <styles xmi:type="notation:DiagramStyle" xmi:id="_GXrFNJuYEeeKqMSL01v2zA"/>
