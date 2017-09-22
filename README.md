@@ -21,6 +21,7 @@ Workflow-lite on the other hand allows to define the actions as normal Java clas
 
 ## Adding the library reference
 Currently, the library needs to be built manually.
+
 * Download the source.
 * Make sure you have [maven](https://maven.apache.org/) installed.
 * Build the project using the command: *mvn install*
