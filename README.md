@@ -55,7 +55,26 @@ Using the Papyrus plugin create the activity diagram as follow:
 ### Implementing the actions
 All the workflow actions needs to implement the [Action](src/main/java/org/workflowlite/core/Action.java) interface. Also, instead of directly implementing the interface consider extending the [AbstractAction](src/main/java/org/workflowlite/core/AbstractAction.java) or [AbstractAsyncAction](src/main/java/org/workflowlite/core/AbstractAsyncAction.java) as follows:
 
-**TBD:** Add code snippet !!!
+```java
+public class PublishStudentScoreAction extends AbstractAction<ExecutionContext, String>
+{
+  public PublishStudentScoreAction(final String studentName, final int score)
+  {
+    this.studentName = studentName;
+    this.score = score;
+  }
+  
+  @Override
+  public String execute(final ExecutionContext context)
+  {
+    return String.format("Student '%s' scored %d marks.", this.studentName, this.score);
+  }
+  
+  // Private
+  private final String studentName;
+  private final int score;
+}
+```
 
 As seen above, the [PublishStudentScoreAction](src/test/java/org/workflowlite/core/samples/PublishStudentScoreAction.java) simply takes the student name and score as constructor parameters and then in *execute()* returns a simple formatted string. Note that we are not using [ExecutionContext](src/main/java/org/workflowlite/core/ExecutionContext.java) object to pass parameters to actions but using constructor injection. Similarly, implement other actions.
 
@@ -89,29 +108,29 @@ To define the conditional flow we will again use the Spring expression.
 
 ### Registering the workflow
 Now that we have implemented and actions and also linked them with the given classes it's time to register the workflows by implementing the [WorkflowDefinitionsProvider](src/main/java/org/workflowlite/core/WorkflowDefinitionsProvider.java) interface. When the application starts then it will check all the beans implementing this interface and invoke them one by one. The interface definition is simple as follows:
-	```java
-	public interface WorkflowDefinitionsProvider
-	{
-	  public List<InputStream> getDefinitions();
-	}
-	``` 
+```java
+public interface WorkflowDefinitionsProvider
+{
+  public List<InputStream> getDefinitions();
+}
+``` 
 It just expects the list of streams of UML files having the workflow definitions. The [UmlActivityDefinitionsProvider](src/main/java/org/workflowlite/core/UmlActivityDefinitionsProvider.java) implements the above interface. It simply takes the file names as input and then will resolve them and return the list of sreams as expected. In your application bean add the following bean definition:
-	```xml
-	<beans xmlns="http://www.springframework.org/schema/beans"
-		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+```xml
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<import resource="spring-beans/workflow-lite-core.xml"/>
 	
-		<import resource="spring-beans/workflow-lite-core.xml"/>
-		
-		<bean id="workflowDefinitions" class="org.workflowlite.core.UmlActivityDefinitionsProvider">
-			<constructor-arg>
-				<list>
-					<value>classpath:workflows/workflow_definitions.uml</value>
-				</list>
-			</constructor-arg>
-		</bean>
-	</beans>
-	``` 
+	<bean id="workflowDefinitions" class="org.workflowlite.core.UmlActivityDefinitionsProvider">
+		<constructor-arg>
+			<list>
+				<value>classpath:workflows/workflow_definitions.uml</value>
+			</list>
+		</constructor-arg>
+	</bean>
+</beans>
+``` 
 In above sample, we are inlcude the workflow-lite-core.xml which has the required framework beans defined. Then we have the *UmlActivityDefinitionsProvider* taking the list of files having the UML definitions.
 
 ## Asynchronous execution
