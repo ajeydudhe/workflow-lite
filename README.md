@@ -53,36 +53,10 @@ Using the Papyrus plugin create the activity diagram as follow:
 * Add the _Decision_ node to represent the condition. Since Papyrus does not show the name of condition use the comment to call out the condition.
 
 ### Implementing the actions
-All the workflow actions needs to implement the *Action* interface defined as follows:
-	```java
-	public interface Action<TContext extends ExecutionContext, TResult>
-	{
-	  public String getName();
-	  public TResult execute(TContext context);
-	}
-	```
-Instead of implementing the interface one can directly extend the [_**AbstractAction**_](src/main/java/org/workflowlite/core/AbstractAction.java) or [_**AbstractAsyncAction**_](src/main/java/org/workflowlite/core/AbstractAsyncAction.java) as follows:
-	```java
-	public class PublishStudentScoreAction extends AbstractAction<ExecutionContext, String>
-	{
-	  public PublishStudentScoreAction(final String studentName, final int score)
-	  {
-	    this.studentName = studentName;
-	    this.score = score;
-	  }
-	  
-	  @Override
-	  public String execute(final ExecutionContext context)
-	  {
-	    return String.format("Student '%s' scored %d marks.", this.studentName, this.score);
-	  }
-	  
-	  // Private
-	  private final String studentName;
-	  private final int score;
-	}
-	```
-As seen above, the _**PublishStudentScoreAction**_ simply takes the student name and score as constructor parameters and then in *execute()* returns a simple formated string. Note that we are not using [_**ExecutionContext**_](src/main/java/org/workflowlite/core/ExecutionContext.java) object to pass parameters to actions but using constructor injection. Similarly, implement other actions.
+All the workflow actions needs to implement the [_**Action**_](src/main/java/org/workflowlite/core/Action.java) interface. Also, instead of directly implementing the interface consider extending the [_**AbstractAction**_](src/main/java/org/workflowlite/core/AbstractAction.java) or [_**AbstractAsyncAction**_](src/main/java/org/workflowlite/core/AbstractAsyncAction.java) as follows:
+
+
+As seen above, the [_**PublishStudentScoreAction**_](src/test/java/org/workflowlite/core/samples/PublishStudentScoreAction.java) simply takes the student name and score as constructor parameters and then in *execute()* returns a simple formatted string. Note that we are not using [_**ExecutionContext**_](src/main/java/org/workflowlite/core/ExecutionContext.java) object to pass parameters to actions but using constructor injection. Similarly, implement other actions.
 
 ### Linking the UML activity diagram with implementation
 So far we have created UML activity diagram describing the workflow we need to execute and implemented the actions. 
