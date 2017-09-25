@@ -55,13 +55,13 @@ Using the Papyrus plugin create the activity diagram as follow:
 ### Implementing the actions
 All the workflow actions needs to implement the *Action* interface defined as follows:
 	```java
-	public interface Action<TContext extends ExecutionContext, TResult>
-	{
-	  public String getName();
-	  public TResult execute(TContext context);
-	}
+		public interface Action<TContext extends ExecutionContext, TResult>
+		{
+		  public String getName();
+		  public TResult execute(TContext context);
+		}
 	```
-Instead of implementing the interface one can directly extend the *AbstractAction* or *AbstractAsyncAction* as follows:
+Instead of implementing the interface one can directly extend the [_**AbstractAction**_](src/main/java/org/workflowlite/core/AbstractAction.java) or [_**AbstractAsyncAction**_](src/main/java/org/workflowlite/core/AbstractAsyncAction.java) as follows:
 	```java
 	public class PublishStudentScoreAction extends AbstractAction<ExecutionContext, String>
 	{
