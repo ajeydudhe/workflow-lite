@@ -53,13 +53,39 @@ Using the Papyrus plugin create the activity diagram as follow:
 * Add the _Decision_ node to represent the condition. Since Papyrus does not show the name of condition use the comment to call out the condition.
 
 ### Implementing the actions
-All the workflow actions needs to implement the [_**Action**_](src/main/java/org/workflowlite/core/Action.java) interface. Also, instead of directly implementing the interface consider extending the [_**AbstractAction**_](src/main/java/org/workflowlite/core/AbstractAction.java) or [_**AbstractAsyncAction**_](src/main/java/org/workflowlite/core/AbstractAsyncAction.java) as follows:
+All the workflow actions needs to implement the [Action](src/main/java/org/workflowlite/core/Action.java) interface. Also, instead of directly implementing the interface consider extending the [AbstractAction](src/main/java/org/workflowlite/core/AbstractAction.java) or [AbstractAsyncAction](src/main/java/org/workflowlite/core/AbstractAsyncAction.java) as follows:
 
+**TBD:** Add code snippet !!!
 
-As seen above, the [_**PublishStudentScoreAction**_](src/test/java/org/workflowlite/core/samples/PublishStudentScoreAction.java) simply takes the student name and score as constructor parameters and then in *execute()* returns a simple formatted string. Note that we are not using [_**ExecutionContext**_](src/main/java/org/workflowlite/core/ExecutionContext.java) object to pass parameters to actions but using constructor injection. Similarly, implement other actions.
+As seen above, the [PublishStudentScoreAction](src/test/java/org/workflowlite/core/samples/PublishStudentScoreAction.java) simply takes the student name and score as constructor parameters and then in *execute()* returns a simple formatted string. Note that we are not using [ExecutionContext](src/main/java/org/workflowlite/core/ExecutionContext.java) object to pass parameters to actions but using constructor injection. Similarly, implement other actions.
 
 ### Linking the UML activity diagram with implementation
-So far we have created UML activity diagram describing the workflow we need to execute and implemented the actions. 
+So far we have created UML activity diagram describing the workflow we need to execute and implemented the actions. But how do we link them? This is also a very simple steps. We will use String dependency injection here and define the workflow actions as beans.
+
+* Go to the activity diagram and select an **Opaque** node.
+* In the properties view click the *UML* tab.
+* Select *Add* option on *Language*.
+* Select *JAVA* as language and click Ok.
+* On the right hand side paste the Spring bean definition for the class. For example, following bean is for [CalculateTotalScoreAction](src/test/java/org/workflowlite/core/samples/CalculateTotalScoreAction.java) action.
+	```xml
+	<bean class="org.workflowlite.core.samples.CalculateTotalScoreAction">
+		<constructor-arg value="%{student.scores}" />
+	</bean>
+	```
+
+In above bean definition we have used Spring Expression Language to pass the input. Our expression definition starts with **%{** and ends with **}**. For this example, we are passing the value of property *stores* on the student object. The *student* object is our input to the workflow. In our [StudentWorkflowExecutionContext](src/test/java/org/workflowlite/core/samples/StudentWorkflowExecutionContext.java) we have mentioned that the input to the workflow should be refered as *student* in the expressions. Also, there are *context* and *output* variables available. **context** refers to the [ExecutionContext](src/main/java/org/workflowlite/core/ExecutionContext.java) instance while **output** refers to the output from previous action.
+
+**Defining the condition**
+
+To define the conditional flow we will again use the Spring expression.
+
+* Go to the activity diagram and select an **Decision** node.
+* Here, we will put the Spring expression as name of the node.
+* For this example, we use the expression as *%{context.completedExtracurricularActivities(student.getName())}*
+* Above expression states that invoke the *completedExtracurricularActivities* method on the *context* instance passing in the student name.
+* The Spring expression result is then used to determine which flow to execute.
+* For this to happen, we need to select the outgoing links and name them as per the expected output from expression.
+* In our example, the outgoing links from decision node has name as *true* and *false* since our expression returns these values. Note that we will always do toString() on the expression result to match the outgoing link names. 
 
 ## Asynchronous execution
 In most of the cases an action will perform some asynchronous operation or will wait on some other asynchronous operation to complete. Hence, the overall workflow execution itself needs to be asynchronous. Handling this is very easy. The action needs to return a [CompletableFuture<T>](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CompletableFuture.html) and that's all.
