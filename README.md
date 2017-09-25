@@ -87,6 +87,33 @@ To define the conditional flow we will again use the Spring expression.
 * For this to happen, we need to select the outgoing links and name them as per the expected output from expression.
 * In our example, the outgoing links from decision node has name as *true* and *false* since our expression returns these values. Note that we will always do toString() on the expression result to match the outgoing link names. 
 
+### Registering the workflow
+Now that we have implemented and actions and also linked them with the given classes it's time to register the workflows by implementing the [WorkflowDefinitionsProvider](src/main/java/org/workflowlite/core/WorkflowDefinitionsProvider.java) interface. When the application starts then it will check all the beans implementing this interface and invoke them one by one. The interface definition is simple as follows:
+	```java
+	public interface WorkflowDefinitionsProvider
+	{
+	  public List<InputStream> getDefinitions();
+	}
+	``` 
+It just expects the list of streams of UML files having the workflow definitions. The [UmlActivityDefinitionsProvider](src/main/java/org/workflowlite/core/UmlActivityDefinitionsProvider.java) implements the above interface. It simply takes the file names as input and then will resolve them and return the list of sreams as expected. In your application bean add the following bean definition:
+	```xml
+	<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+		<import resource="spring-beans/workflow-lite-core.xml"/>
+		
+		<bean id="workflowDefinitions" class="org.workflowlite.core.UmlActivityDefinitionsProvider">
+			<constructor-arg>
+				<list>
+					<value>classpath:workflows/workflow_definitions.uml</value>
+				</list>
+			</constructor-arg>
+		</bean>
+	</beans>
+	``` 
+In above sample, we are inlcude the workflow-lite-core.xml which has the required framework beans defined. Then we have the *UmlActivityDefinitionsProvider* taking the list of files having the UML definitions.
+
 ## Asynchronous execution
 In most of the cases an action will perform some asynchronous operation or will wait on some other asynchronous operation to complete. Hence, the overall workflow execution itself needs to be asynchronous. Handling this is very easy. The action needs to return a [CompletableFuture<T>](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CompletableFuture.html) and that's all.
 
