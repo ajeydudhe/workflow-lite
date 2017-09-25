@@ -54,7 +54,6 @@ Using the Papyrus plugin create the activity diagram as follow:
 
 ### Implementing the actions
 All the workflow actions needs to implement the *Action* interface defined as follows:
-
 	```java
 	public interface Action<TContext extends ExecutionContext, TResult>
 	{
@@ -62,9 +61,7 @@ All the workflow actions needs to implement the *Action* interface defined as fo
 	  public TResult execute(TContext context);
 	}
 	```
-	
 Instead of implementing the interface one can directly extend the *AbstractAction* or *AbstractAsyncAction* as follows:
-
 	```java
 	public class PublishStudentScoreAction extends AbstractAction<ExecutionContext, String>
 	{
