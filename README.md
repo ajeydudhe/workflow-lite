@@ -114,7 +114,9 @@ public interface WorkflowDefinitionsProvider
   public List<InputStream> getDefinitions();
 }
 ``` 
-It just expects the list of streams of UML files having the workflow definitions. The [UmlActivityDefinitionsProvider](src/main/java/org/workflowlite/core/UmlActivityDefinitionsProvider.java) implements the above interface. It simply takes the file names as input and then will resolve them and return the list of sreams as expected. In your application bean add the following bean definition:
+
+It just expects the list of streams of UML files having the workflow definitions. The [UmlActivityDefinitionsProvider](src/main/java/org/workflowlite/core/UmlActivityDefinitionsProvider.java) implements the above interface. It simply takes the file names as input and then will resolve them and return the list of streams. In your application bean add the following bean definition:
+
 ```xml
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -130,11 +132,51 @@ It just expects the list of streams of UML files having the workflow definitions
 		</constructor-arg>
 	</bean>
 </beans>
-``` 
-In above sample, we are inlcude the workflow-lite-core.xml which has the required framework beans defined. Then we have the *UmlActivityDefinitionsProvider* taking the list of files having the UML definitions.
+```
+ 
+In above sample, we are including the [workflow-lite-core.xml](src/main/resources/spring-beans/workflow-lite-core.xml) which has the required framework beans defined. Then we have the *UmlActivityDefinitionsProvider* taking the list of files having the UML definitions. You can use classpath or filepath.
+
+### Executing the workflows
+The [StudentScoreCardWorkflowTest](src/test/java/org/workflowlite/core/StudentScoreCardWorkflowTest.java) shows how we are going to execute the workflow. We are using JUnit to write the tests as follows:
+
+```java
+@ContextConfiguration(locations="classpath:wf_definitions.xml")
+public class StudentScoreCardWorkflowTest extends AbstractTestNGSpringContextTests 
+{
+  @Test
+  public void resultForNormalStudent_resultWithoutBonusMarks() 
+  {
+    final Student student = new Student("John Doe");
+    student.addScore("History", 60);
+    student.addScore("Science", 70);
+    
+    final String result = this.workflowManager.execute(new StudentWorkflowExecutionContext(), student);
+    assertThat(result).as("Result").isEqualTo("Student 'John Doe' scored 130 marks.");
+  }
+
+  @Test
+  public void resultForNormalStudent_resultWithBonusMarks() 
+  {
+    final Student student = new Student("Octavia Wilford");
+    student.addScore("History", 60);
+    student.addScore("Science", 70);
+    
+    final String result = this.workflowManager.execute(new StudentWorkflowExecutionContext(), student);
+    assertThat(result).as("Result").isEqualTo("Student 'Octavia Wilford' scored 140 marks.");
+  }
+  
+  // Private
+  @Inject
+  private WorkflowManager workflowManager;
+}
+```
+
+The **@ContextConfiguration** points to the bean XML to be used which imports the workflow-lite beans and specifies the path to the UML definition file as mentioned in previous section. Next we inject the instance of [WorkflowManager](src/main/java/org/workflowlite/core/WorkflowManager.java). The two tests are simple. They create the student instance, adds the marks and then execute the workflow passing the student instance. The logic to detemine whether student has participated in any extracurricular activity or not is simple. If the student name starts with a vowel (aeiou) then we return true else false. So the first test with student name as *John Doe* will not have any bonus marks added while the second test with student name as *Octavia Wilford* will have the bonus marks added. 
+
+Also, notice that we are passing the instance of [StudentWorkflowExecutionContext](src\test\java\org\workflowlite\core\samples\StudentWorkflowExecutionContext.java). The constructor of this class takes the workflow id as input which should be the name of the UML activity and the alias to be used for refering the input which in this case is *student* since we are passing student instance. The alias is used in the Spring expressions for passing the inputs to actions or evaluating the condition.    
 
 ## Asynchronous execution
-In most of the cases an action will perform some asynchronous operation or will wait on some other asynchronous operation to complete. Hence, the overall workflow execution itself needs to be asynchronous. Handling this is very easy. The action needs to return a [CompletableFuture<T>](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CompletableFuture.html) and that's all.
+In most of the cases an action will perform some asynchronous operation or will wait on some other asynchronous operation to complete. Hence, the overall workflow execution itself needs to be asynchronous. Handling this is very easy. The action needs to simply return a [CompletableFuture<T>](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CompletableFuture.html) and that's all. The output from the workflow itself will be a *CompletableFuture<T>* and consumer should use appropriate methods on it to listen for result or error.
 
 ## Work in progress
 * Optimize the expression evaluation by caching the expressions.
