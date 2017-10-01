@@ -1,7 +1,5 @@
 # Workflow-lite - Simple workflow engine using Spring framework and Spring Expression Language
 
-**NOTE:** Work in progress. Need to update the readme as per the new implementation which uses UML activity diagram to define workflow !!!
-
 **Workflow-lite** is a simple workflow engine using the Spring framework. As of now, it can be used to define a simple sequential workflow.
 
 * A workflow consists of Actions to be executed in the given order.
@@ -92,22 +90,30 @@ So far we have created UML activity diagram describing the workflow we need to e
 	</bean>
 	```
 
-In above bean definition we have used Spring Expression Language to pass the input. Our expression definition starts with **%{** and ends with **}**. For this example, we are passing the value of property *stores* on the student object. The *student* object is our input to the workflow. In our [StudentWorkflowExecutionContext](src/test/java/org/workflowlite/core/samples/StudentWorkflowExecutionContext.java) we have mentioned that the input to the workflow should be refered as *student* in the expressions. Also, there are *context* and *output* variables available. **context** refers to the [ExecutionContext](src/main/java/org/workflowlite/core/ExecutionContext.java) instance while **output** refers to the output from previous action.
+In above bean definition we have used Spring Expression Language to pass the input. Our expression definition starts with **%{** and ends with **}**. For this example, we are passing the value of property *stores* on the student object. The *student* object is our input to the workflow. In our [StudentWorkflowExecutionContext](src/test/java/org/workflowlite/core/samples/StudentWorkflowExecutionContext.java) we have mentioned that the input to the workflow should be referred as *student* in the expressions. Also, there are *context* and *output* variables available. **context** refers to the [ExecutionContext](src/main/java/org/workflowlite/core/ExecutionContext.java) instance while **output** refers to the output from previous action. The [PublishStudentScoreAction](src/test/java/org/workflowlite/core/samples/PublishStudentScoreAction.java) takes two inputs: one from original input referred to as **student.name** in the expression below and other from previous activity referred to as **output** below. The **student** variable refers to [Student](src/test/java/org/workflowlite/core/samples/Student.java) instance while **output** is a simple numeric value. 
+
+```xml
+<bean class="org.workflowlite.core.samples.PublishStudentScoreAction">
+	<constructor-arg name="studentName" value="%{student.name}" />
+	<constructor-arg name="score" value="%{output}" />
+</bean>
+```
 
 **Defining the condition**
 
 To define the conditional flow we will again use the Spring expression.
 
-* Go to the activity diagram and select an **Decision** node.
+* Go to the activity diagram and select a **Decision** node.
 * Here, we will put the Spring expression as name of the node.
-* For this example, we use the expression as *%{context.completedExtracurricularActivities(student.getName())}*
+* For this example, we use the expression as **%{context.completedExtracurricularActivities(student.getName())}**
 * Above expression states that invoke the *completedExtracurricularActivities* method on the *context* instance passing in the student name.
 * The Spring expression result is then used to determine which flow to execute.
 * For this to happen, we need to select the outgoing links and name them as per the expected output from expression.
 * In our example, the outgoing links from decision node has name as *true* and *false* since our expression returns these values. Note that we will always do toString() on the expression result to match the outgoing link names. 
 
 ### Registering the workflow
-Now that we have implemented and actions and also linked them with the given classes it's time to register the workflows by implementing the [WorkflowDefinitionsProvider](src/main/java/org/workflowlite/core/WorkflowDefinitionsProvider.java) interface. When the application starts then it will check all the beans implementing this interface and invoke them one by one. The interface definition is simple as follows:
+Now that we have implemented the actions and also linked them with the given classes, it's time to register the workflows by implementing the [WorkflowDefinitionsProvider](src/main/java/org/workflowlite/core/WorkflowDefinitionsProvider.java) interface. When the application starts, it checks all the beans implementing this interface and invoke them one by one. The interface definition is simple as follows:
+
 ```java
 public interface WorkflowDefinitionsProvider
 {
@@ -115,7 +121,7 @@ public interface WorkflowDefinitionsProvider
 }
 ``` 
 
-It just expects the list of streams of UML files having the workflow definitions. The [UmlActivityDefinitionsProvider](src/main/java/org/workflowlite/core/UmlActivityDefinitionsProvider.java) implements the above interface. It simply takes the file names as input and then will resolve them and return the list of streams. In your application bean add the following bean definition:
+It just expects the list of streams of UML files having the workflow definitions. The [UmlActivityDefinitionsProvider](src/main/java/org/workflowlite/core/UmlActivityDefinitionsProvider.java) implements the above interface. It simply takes the file names as input and then will resolve them and return the list of streams. In your application bean, add the following bean definition:
 
 ```xml
 <beans xmlns="http://www.springframework.org/schema/beans"
@@ -134,10 +140,10 @@ It just expects the list of streams of UML files having the workflow definitions
 </beans>
 ```
  
-In above sample, we are including the [workflow-lite-core.xml](src/main/resources/spring-beans/workflow-lite-core.xml) which has the required framework beans defined. Then we have the *UmlActivityDefinitionsProvider* taking the list of files having the UML definitions. You can use classpath or filepath.
+In above sample, we are including the [workflow-lite-core.xml](src/main/resources/spring-beans/workflow-lite-core.xml) which has the required framework beans defined. Then we have the *UmlActivityDefinitionsProvider* taking the list of files having the UML definitions. For this example, our UML definitions are in [workflow_definitions.uml](src/test/resources/workflows/workflow_definitions.uml). You can use classpath or filepath.
 
 ### Executing the workflows
-The [StudentScoreCardWorkflowTest](src/test/java/org/workflowlite/core/StudentScoreCardWorkflowTest.java) shows how we are going to execute the workflow. We are using JUnit to write the tests as follows:
+The [StudentScoreCardWorkflowTest](src/test/java/org/workflowlite/core/StudentScoreCardWorkflowTest.java) shows how we are going to execute the workflow. We are using **TestNG** to write the tests as follows:
 
 ```java
 @ContextConfiguration(locations="classpath:wf_definitions.xml")
@@ -171,7 +177,7 @@ public class StudentScoreCardWorkflowTest extends AbstractTestNGSpringContextTes
 }
 ```
 
-The **@ContextConfiguration** points to the bean XML to be used which imports the workflow-lite beans and specifies the path to the UML definition file as mentioned in previous section. Next we inject the instance of [WorkflowManager](src/main/java/org/workflowlite/core/WorkflowManager.java). The two tests are simple. They create the student instance, adds the marks and then execute the workflow passing the student instance. The logic to detemine whether student has participated in any extracurricular activity or not is simple. If the student name starts with a vowel (aeiou) then we return true else false. So the first test with student name as *John Doe* will not have any bonus marks added while the second test with student name as *Octavia Wilford* will have the bonus marks added. 
+The **@ContextConfiguration** points to the bean XML [wf_definitions.xml](src/test/resources/wf_definitions.xml) to be used which imports the [workflow-lite](src/main/resources/spring-beans/workflow-lite-core.xml) beans and specifies the path to the UML definition file as mentioned in previous section. Next we inject the instance of [WorkflowManager](src/main/java/org/workflowlite/core/WorkflowManager.java). The two tests are simple. They create the student instance, adds the marks and then execute the workflow passing the student instance. The logic to detemine whether student has participated in any extracurricular activity or not is simple. If the student name starts with a vowel (aeiou) then we return true else false. So the first test with student name as *John Doe* will not have any bonus marks added while the second test with student name as *Octavia Wilford* will have the bonus marks added. 
 
 Also, notice that we are passing the instance of [StudentWorkflowExecutionContext](src\test\java\org\workflowlite\core\samples\StudentWorkflowExecutionContext.java). The constructor of this class takes the workflow id as input which should be the name of the UML activity and the alias to be used for refering the input which in this case is *student* since we are passing student instance. The alias is used in the Spring expressions for passing the inputs to actions or evaluating the condition.    
 
