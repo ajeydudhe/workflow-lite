@@ -29,7 +29,7 @@ Currently, the library needs to be built manually.
 * Create a new maven project and add following dependency
   	```xml
   	<dependency>
-  		<groupId>org.workflowlite</groupId>
+  		<groupId>org.expedientframework.workflowlite</groupId>
   		<artifactId>workflow-lite-core</artifactId>
   		<version>0.0.1-SNAPSHOT</version>
   	</dependency>
@@ -85,7 +85,7 @@ So far we have created UML activity diagram describing the workflow we need to e
 * Select *JAVA* as language and click Ok.
 * On the right hand side paste the Spring bean definition for the class. For example, following bean is for [CalculateTotalScoreAction](src/test/java/org/workflowlite/core/samples/CalculateTotalScoreAction.java) action.
 	```xml
-	<bean class="org.workflowlite.core.samples.CalculateTotalScoreAction">
+	<bean class="org.expedientframework.workflowlite.core.samples.CalculateTotalScoreAction">
 		<constructor-arg value="%{student.scores}" />
 	</bean>
 	```
@@ -93,7 +93,7 @@ So far we have created UML activity diagram describing the workflow we need to e
 In above bean definition we have used Spring Expression Language to pass the input. Our expression definition starts with **%{** and ends with **}**. For this example, we are passing the value of property *stores* on the student object. The *student* object is our input to the workflow. In our [StudentWorkflowExecutionContext](src/test/java/org/workflowlite/core/samples/StudentWorkflowExecutionContext.java) we have mentioned that the input to the workflow should be referred as *student* in the expressions. Also, there are *context* and *output* variables available. **context** refers to the [ExecutionContext](src/main/java/org/workflowlite/core/ExecutionContext.java) instance while **output** refers to the output from previous action. The [PublishStudentScoreAction](src/test/java/org/workflowlite/core/samples/PublishStudentScoreAction.java) takes two inputs: one from original input referred to as **student.name** in the expression below and other from previous activity referred to as **output** below. The **student** variable refers to [Student](src/test/java/org/workflowlite/core/samples/Student.java) instance while **output** is a simple numeric value. 
 
 ```xml
-<bean class="org.workflowlite.core.samples.PublishStudentScoreAction">
+<bean class="org.expedientframework.workflowlite.core.samples.PublishStudentScoreAction">
 	<constructor-arg name="studentName" value="%{student.name}" />
 	<constructor-arg name="score" value="%{output}" />
 </bean>
@@ -130,7 +130,7 @@ It just expects the list of streams of UML files having the workflow definitions
 
 	<import resource="spring-beans/workflow-lite-core.xml"/>
 	
-	<bean id="workflowDefinitions" class="org.workflowlite.core.UmlActivityDefinitionsProvider">
+	<bean id="workflowDefinitions" class="org.expedientframework.workflowlite.core.UmlActivityDefinitionsProvider">
 		<constructor-arg>
 			<list>
 				<value>classpath:workflows/workflow_definitions.uml</value>
