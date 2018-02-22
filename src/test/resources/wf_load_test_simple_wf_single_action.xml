@@ -5,7 +5,7 @@
 
 	<import resource="spring-beans/workflow-lite-core.xml"/>
 	
-	<bean id="workflowDefinitions" class="org.workflowlite.core.UmlActivityDefinitionsProvider">
+	<bean id="workflowDefinitions" class="org.expedientframework.workflowlite.core.UmlActivityDefinitionsProvider">
 		<constructor-arg>
 			<list>
 				<value>classpath:workflows/workflow_definitions.uml</value>

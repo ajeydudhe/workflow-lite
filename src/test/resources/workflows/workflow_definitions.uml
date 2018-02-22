@@ -6,7 +6,7 @@
     <node xmi:type="uml:InitialNode" xmi:id="_4fyyoJeiEeeTxrN0tt94rw" name="InitialNode1" outgoing="_BeFjUJejEeeTxrN0tt94rw"/>
     <node xmi:type="uml:OpaqueAction" xmi:id="_5g9UsJeiEeeTxrN0tt94rw" name="ReverseStringAction" incoming="_BeFjUJejEeeTxrN0tt94rw" outgoing="_CsTC4JejEeeTxrN0tt94rw">
       <language>JAVA</language>
-      <body>&lt;bean class=&quot;org.workflowlite.core.actions.ReverseStringAction&quot;>&#xD;
+      <body>&lt;bean class=&quot;org.expedientframework.workflowlite.core.actions.ReverseStringAction&quot;>&#xD;
 	&lt;constructor-arg name=&quot;value&quot; value=&quot;%{source.toUpperCase()}&quot; />&#xD;
 &lt;/bean>&#xD;
 </body>
@@ -20,13 +20,13 @@
     <node xmi:type="uml:InitialNode" xmi:id="_UbCt8JsDEeeKqMSL01v2zA" name="InitialNode1" outgoing="_s_48wJsDEeeKqMSL01v2zA"/>
     <node xmi:type="uml:OpaqueAction" xmi:id="_cMScsJsDEeeKqMSL01v2zA" name="ReverseString01" incoming="_s_48wJsDEeeKqMSL01v2zA" outgoing="_uMzb0JsDEeeKqMSL01v2zA">
       <language>JAVA</language>
-      <body>&lt;bean class=&quot;org.workflowlite.core.actions.ReverseStringAction&quot;>&#xD;
+      <body>&lt;bean class=&quot;org.expedientframework.workflowlite.core.actions.ReverseStringAction&quot;>&#xD;
 	&lt;constructor-arg name=&quot;value&quot; value=&quot;%{source + 'dummy'}&quot; />&#xD;
 &lt;/bean></body>
     </node>
     <node xmi:type="uml:OpaqueAction" xmi:id="_dUUbwJsDEeeKqMSL01v2zA" name="ReverseString02" incoming="_uMzb0JsDEeeKqMSL01v2zA" outgoing="_vbhRsJsDEeeKqMSL01v2zA">
       <language>JAVA</language>
-      <body>&lt;bean class=&quot;org.workflowlite.core.actions.ReverseStringAction&quot;>&#xD;
+      <body>&lt;bean class=&quot;org.expedientframework.workflowlite.core.actions.ReverseStringAction&quot;>&#xD;
 	&lt;constructor-arg name=&quot;value&quot; value=&quot;%{output}&quot; />&#xD;
 &lt;/bean>&#xD;
 </body>
@@ -45,13 +45,13 @@
     <node xmi:type="uml:DecisionNode" xmi:id="_IUnK0JsHEeeKqMSL01v2zA" name="%{source.contains('123')}" incoming="_xfrlAJsHEeeKqMSL01v2zA" outgoing="_X3epgJsMEeeKqMSL01v2zA"/>
     <node xmi:type="uml:OpaqueAction" xmi:id="_hiRtIJsHEeeKqMSL01v2zA" name="ReserseString" incoming="_X3epgJsMEeeKqMSL01v2zA" outgoing="_bSOSEJsMEeeKqMSL01v2zA">
       <language>JAVA</language>
-      <body>&lt;bean class=&quot;org.workflowlite.core.actions.ReverseStringAction&quot;>&#xD;
+      <body>&lt;bean class=&quot;org.expedientframework.workflowlite.core.actions.ReverseStringAction&quot;>&#xD;
 	&lt;constructor-arg name=&quot;value&quot; value=&quot;%{source.replace('123', 'true')}&quot; />&#xD;
 &lt;/bean></body>
     </node>
     <node xmi:type="uml:OpaqueAction" xmi:id="_k5p4oJsHEeeKqMSL01v2zA" name="ReserseStringToUpper" incoming="_bSOSEJsMEeeKqMSL01v2zA" outgoing="_hJVr4JsLEeeKqMSL01v2zA">
       <language>JAVA</language>
-      <body>&lt;bean class=&quot;org.workflowlite.core.actions.ReverseStringAction&quot;>&#xD;
+      <body>&lt;bean class=&quot;org.expedientframework.workflowlite.core.actions.ReverseStringAction&quot;>&#xD;
 	&lt;constructor-arg name=&quot;value&quot; value=&quot;%{output.toUpperCase()}&quot; />&#xD;
 &lt;/bean></body>
     </node>
@@ -68,20 +68,20 @@
     <node xmi:type="uml:DecisionNode" xmi:id="_3RvQ8JsMEeeKqMSL01v2zA" name="%{source.contains('123')}" incoming="_FsecMJsNEeeKqMSL01v2zA" outgoing="_GfyIcJsNEeeKqMSL01v2zA _KOkHUJsNEeeKqMSL01v2zA"/>
     <node xmi:type="uml:OpaqueAction" xmi:id="_9V6Z4JsMEeeKqMSL01v2zA" name="ReverseString01" incoming="_GfyIcJsNEeeKqMSL01v2zA" outgoing="_sFCgQJsSEeeKqMSL01v2zA">
       <language>JAVA</language>
-      <body>&lt;bean class=&quot;org.workflowlite.core.actions.ReverseStringAction&quot;>&#xD;
+      <body>&lt;bean class=&quot;org.expedientframework.workflowlite.core.actions.ReverseStringAction&quot;>&#xD;
 	&lt;constructor-arg name=&quot;value&quot; value=&quot;%{source.replace('123', 'true')}&quot; />&#xD;
 &lt;/bean></body>
     </node>
     <node xmi:type="uml:OpaqueAction" xmi:id="_9zPPEJsMEeeKqMSL01v2zA" name="ReverseString02" incoming="_KOkHUJsNEeeKqMSL01v2zA" outgoing="_RFZcQJsNEeeKqMSL01v2zA">
       <language>JAVA</language>
-      <body>&lt;bean class=&quot;org.workflowlite.core.actions.ReverseStringAction&quot;>&#xD;
+      <body>&lt;bean class=&quot;org.expedientframework.workflowlite.core.actions.ReverseStringAction&quot;>&#xD;
 	&lt;constructor-arg name=&quot;value&quot; value=&quot;%{source + '_false'}&quot; />&#xD;
 &lt;/bean>&#xD;
 </body>
     </node>
     <node xmi:type="uml:OpaqueAction" xmi:id="_-Z3KMJsMEeeKqMSL01v2zA" name="ReverseString03" incoming="_RFZcQJsNEeeKqMSL01v2zA _sFCgQJsSEeeKqMSL01v2zA" outgoing="_0l9_gJsSEeeKqMSL01v2zA">
       <language>JAVA</language>
-      <body>&lt;bean class=&quot;org.workflowlite.core.actions.ReverseStringAction&quot;>&#xD;
+      <body>&lt;bean class=&quot;org.expedientframework.workflowlite.core.actions.ReverseStringAction&quot;>&#xD;
 	&lt;constructor-arg name=&quot;value&quot; value=&quot;%{output.toUpperCase()}&quot; />&#xD;
 &lt;/bean>&#xD;
 </body>
@@ -94,7 +94,7 @@
     <node xmi:type="uml:InitialNode" xmi:id="_bWeuEJtbEeeKqMSL01v2zA" name="InitialNode1" outgoing="_kGCfMJtbEeeKqMSL01v2zA"/>
     <node xmi:type="uml:OpaqueAction" xmi:id="_c9sjgJtbEeeKqMSL01v2zA" name="ReverseString" incoming="_kGCfMJtbEeeKqMSL01v2zA" outgoing="_lAPdoJtbEeeKqMSL01v2zA">
       <language>JAVA</language>
-      <body>&lt;bean class=&quot;org.workflowlite.core.actions.AsyncReverseStringAction&quot;>&#xD;
+      <body>&lt;bean class=&quot;org.expedientframework.workflowlite.core.actions.AsyncReverseStringAction&quot;>&#xD;
 	&lt;constructor-arg name=&quot;value&quot; value=&quot;%{source.toUpperCase()}&quot; />&#xD;
 &lt;/bean></body>
     </node>
@@ -107,14 +107,14 @@
     <node xmi:type="uml:InitialNode" xmi:id="_C9tW8JtcEeeKqMSL01v2zA" name="InitialNode1" outgoing="_ZFrToJtcEeeKqMSL01v2zA"/>
     <node xmi:type="uml:OpaqueAction" xmi:id="_EvA8gJtcEeeKqMSL01v2zA" name="ReverseString" incoming="_ZFrToJtcEeeKqMSL01v2zA" outgoing="_Z5VlMJtcEeeKqMSL01v2zA">
       <language>JAVA</language>
-      <body>&lt;bean class=&quot;org.workflowlite.core.actions.AsyncReverseStringAction&quot;>&#xD;
+      <body>&lt;bean class=&quot;org.expedientframework.workflowlite.core.actions.AsyncReverseStringAction&quot;>&#xD;
 	&lt;constructor-arg name=&quot;value&quot; value=&quot;%{source}&quot; />&#xD;
 &lt;/bean>&#xD;
 </body>
     </node>
     <node xmi:type="uml:OpaqueAction" xmi:id="_FVtwIJtcEeeKqMSL01v2zA" name="AlternateCase" incoming="_Z5VlMJtcEeeKqMSL01v2zA" outgoing="_a6wl8JtcEeeKqMSL01v2zA">
       <language>JAVA</language>
-      <body>&lt;bean class=&quot;org.workflowlite.core.actions.AsyncAlternateCaseAction&quot;>&#xD;
+      <body>&lt;bean class=&quot;org.expedientframework.workflowlite.core.actions.AsyncAlternateCaseAction&quot;>&#xD;
 	&lt;constructor-arg name=&quot;value&quot; value=&quot;%{output}&quot; />&#xD;
 &lt;/bean></body>
     </node>
@@ -130,28 +130,28 @@
     <node xmi:type="uml:ActivityFinalNode" xmi:id="_i750EJtrEeeKqMSL01v2zA" name="ActivityFinalNode1" incoming="_Wr2FwJttEeeKqMSL01v2zA"/>
     <node xmi:type="uml:OpaqueAction" xmi:id="_juyCgJtrEeeKqMSL01v2zA" name="AlternateCase01" incoming="_u3NTAJtsEeeKqMSL01v2zA" outgoing="_voDhIJtsEeeKqMSL01v2zA">
       <language>JAVA</language>
-      <body>&lt;bean class=&quot;org.workflowlite.core.actions.AsyncAlternateCaseAction&quot;>&#xD;
+      <body>&lt;bean class=&quot;org.expedientframework.workflowlite.core.actions.AsyncAlternateCaseAction&quot;>&#xD;
 	&lt;constructor-arg name=&quot;value&quot; value=&quot;%{source + 'xyz'}&quot; />&#xD;
 &lt;/bean>&#xD;
 </body>
     </node>
     <node xmi:type="uml:OpaqueAction" xmi:id="_kTkxoJtrEeeKqMSL01v2zA" name="ReverseString01" incoming="_voDhIJtsEeeKqMSL01v2zA" outgoing="_wp-RIJtsEeeKqMSL01v2zA">
       <language>JAVA</language>
-      <body>&lt;bean class=&quot;org.workflowlite.core.actions.ReverseStringAction&quot;>&#xD;
+      <body>&lt;bean class=&quot;org.expedientframework.workflowlite.core.actions.ReverseStringAction&quot;>&#xD;
 	&lt;constructor-arg name=&quot;value&quot; value=&quot;%{output}&quot; />&#xD;
 &lt;/bean>&#xD;
 </body>
     </node>
     <node xmi:type="uml:OpaqueAction" xmi:id="_ky4j0JtrEeeKqMSL01v2zA" name="AlternateCase02" incoming="_wp-RIJtsEeeKqMSL01v2zA" outgoing="_VwDy8JttEeeKqMSL01v2zA">
       <language>JAVA</language>
-      <body>&lt;bean class=&quot;org.workflowlite.core.actions.AsyncAlternateCaseAction&quot;>&#xD;
+      <body>&lt;bean class=&quot;org.expedientframework.workflowlite.core.actions.AsyncAlternateCaseAction&quot;>&#xD;
 	&lt;constructor-arg name=&quot;value&quot; value=&quot;%{output}&quot; />&#xD;
 &lt;/bean>&#xD;
 </body>
     </node>
     <node xmi:type="uml:OpaqueAction" xmi:id="_29EcUJtrEeeKqMSL01v2zA" name="ReverseString02" incoming="_VwDy8JttEeeKqMSL01v2zA" outgoing="_Wr2FwJttEeeKqMSL01v2zA">
       <language>JAVA</language>
-      <body>&lt;bean class=&quot;org.workflowlite.core.actions.ReverseStringAction&quot;>&#xD;
+      <body>&lt;bean class=&quot;org.expedientframework.workflowlite.core.actions.ReverseStringAction&quot;>&#xD;
 	&lt;constructor-arg name=&quot;value&quot; value=&quot;%{output}&quot; />&#xD;
 &lt;/bean></body>
     </node>
@@ -166,27 +166,27 @@
     <node xmi:type="uml:ActivityFinalNode" xmi:id="_6X-yEJttEeeKqMSL01v2zA" name="ActivityFinalNode1" incoming="_mW-FYJtuEeeKqMSL01v2zA"/>
     <node xmi:type="uml:OpaqueAction" xmi:id="_7c9dIJttEeeKqMSL01v2zA" name="AlternateCase01" incoming="_iq9GoJtuEeeKqMSL01v2zA" outgoing="_jqB-AJtuEeeKqMSL01v2zA">
       <language>JAVA</language>
-      <body>&lt;bean class=&quot;org.workflowlite.core.actions.AsyncAlternateCaseAction&quot;>&#xD;
+      <body>&lt;bean class=&quot;org.expedientframework.workflowlite.core.actions.AsyncAlternateCaseAction&quot;>&#xD;
 	&lt;constructor-arg name=&quot;value&quot; value=&quot;%{source + 'xyz'}&quot; />&#xD;
 &lt;/bean>&#xD;
 </body>
     </node>
     <node xmi:type="uml:OpaqueAction" xmi:id="_72-foJttEeeKqMSL01v2zA" name="ReverseString01" incoming="_jqB-AJtuEeeKqMSL01v2zA" outgoing="_kjQFAJtuEeeKqMSL01v2zA">
       <language>JAVA</language>
-      <body>&lt;bean class=&quot;org.workflowlite.core.actions.AsyncReverseStringAction&quot;>&#xD;
+      <body>&lt;bean class=&quot;org.expedientframework.workflowlite.core.actions.AsyncReverseStringAction&quot;>&#xD;
 	&lt;constructor-arg name=&quot;value&quot; value=&quot;%{output}&quot; />&#xD;
 	&lt;property name=&quot;throwException&quot; value=&quot;true&quot; />&#xD;
 &lt;/bean></body>
     </node>
     <node xmi:type="uml:OpaqueAction" xmi:id="_8WgUQJttEeeKqMSL01v2zA" name="AlternateCase01" incoming="_kjQFAJtuEeeKqMSL01v2zA" outgoing="_lj_JQJtuEeeKqMSL01v2zA">
       <language>JAVA</language>
-      <body>&lt;bean class=&quot;org.workflowlite.core.actions.AsyncAlternateCaseAction&quot;>&#xD;
+      <body>&lt;bean class=&quot;org.expedientframework.workflowlite.core.actions.AsyncAlternateCaseAction&quot;>&#xD;
 	&lt;constructor-arg name=&quot;value&quot; value=&quot;%{output}&quot; />&#xD;
 &lt;/bean></body>
     </node>
     <node xmi:type="uml:OpaqueAction" xmi:id="_9WjcAJttEeeKqMSL01v2zA" name="ReverseString02" incoming="_lj_JQJtuEeeKqMSL01v2zA" outgoing="_mW-FYJtuEeeKqMSL01v2zA">
       <language>JAVA</language>
-      <body>&lt;bean class=&quot;org.workflowlite.core.actions.ReverseStringAction&quot;>&#xD;
+      <body>&lt;bean class=&quot;org.expedientframework.workflowlite.core.actions.ReverseStringAction&quot;>&#xD;
 	&lt;constructor-arg name=&quot;value&quot; value=&quot;%{output}&quot; />&#xD;
 &lt;/bean></body>
     </node>
@@ -200,26 +200,26 @@
     <node xmi:type="uml:InitialNode" xmi:id="_HkjZsJtxEeeKqMSL01v2zA" name="InitialNode1" outgoing="_wvAv4JtxEeeKqMSL01v2zA"/>
     <node xmi:type="uml:OpaqueAction" xmi:id="_Icr7kJtxEeeKqMSL01v2zA" name="AlternateCase01" incoming="_wvAv4JtxEeeKqMSL01v2zA" outgoing="_xvQE4JtxEeeKqMSL01v2zA">
       <language>JAVA</language>
-      <body>&lt;bean class=&quot;org.workflowlite.core.actions.AsyncAlternateCaseAction&quot;>&#xD;
+      <body>&lt;bean class=&quot;org.expedientframework.workflowlite.core.actions.AsyncAlternateCaseAction&quot;>&#xD;
 	&lt;constructor-arg name=&quot;value&quot; value=&quot;%{source + 'xyz'}&quot; />&#xD;
 &lt;/bean></body>
     </node>
     <node xmi:type="uml:OpaqueAction" xmi:id="_I_wMYJtxEeeKqMSL01v2zA" name="ReverseString01" incoming="_xvQE4JtxEeeKqMSL01v2zA" outgoing="_yeMOgJtxEeeKqMSL01v2zA">
       <language>JAVA</language>
-      <body>&lt;bean class=&quot;org.workflowlite.core.actions.AsyncReverseStringAction&quot;>&#xD;
+      <body>&lt;bean class=&quot;org.expedientframework.workflowlite.core.actions.AsyncReverseStringAction&quot;>&#xD;
 	&lt;constructor-arg name=&quot;value&quot; value=&quot;%{output}&quot; />&#xD;
 	&lt;property name=&quot;cancel&quot; value=&quot;true&quot; />&#xD;
 &lt;/bean></body>
     </node>
     <node xmi:type="uml:OpaqueAction" xmi:id="_JlcTYJtxEeeKqMSL01v2zA" name="AlternateCase02" incoming="_yeMOgJtxEeeKqMSL01v2zA" outgoing="_zM6VsJtxEeeKqMSL01v2zA">
       <language>JAVA</language>
-      <body>&lt;bean class=&quot;org.workflowlite.core.actions.AsyncAlternateCaseAction&quot;>&#xD;
+      <body>&lt;bean class=&quot;org.expedientframework.workflowlite.core.actions.AsyncAlternateCaseAction&quot;>&#xD;
 	&lt;constructor-arg name=&quot;value&quot; value=&quot;%{output}&quot; />&#xD;
 &lt;/bean></body>
     </node>
     <node xmi:type="uml:OpaqueAction" xmi:id="_KDkZ0JtxEeeKqMSL01v2zA" name="ReverseString02" incoming="_zM6VsJtxEeeKqMSL01v2zA" outgoing="_0I0kUJtxEeeKqMSL01v2zA">
       <language>JAVA</language>
-      <body>&lt;bean class=&quot;org.workflowlite.core.actions.ReverseStringAction&quot;>&#xD;
+      <body>&lt;bean class=&quot;org.expedientframework.workflowlite.core.actions.ReverseStringAction&quot;>&#xD;
 	&lt;constructor-arg name=&quot;value&quot; value=&quot;%{output}&quot; />&#xD;
 &lt;/bean></body>
     </node>
@@ -239,21 +239,21 @@
     <node xmi:type="uml:DecisionNode" xmi:id="_LjKSkJuYEeeKqMSL01v2zA" name="%{context.completedExtracurricularActivities(student.getName())}" incoming="_wPOKwJxcEeeKqMSL01v2zA" outgoing="_yTgWsJxcEeeKqMSL01v2zA _zf5RUJxcEeeKqMSL01v2zA"/>
     <node xmi:type="uml:OpaqueAction" xmi:id="_UcH3UJuYEeeKqMSL01v2zA" name="PublishScore" incoming="_zf5RUJxcEeeKqMSL01v2zA _0Jr_wJxdEeeKqMSL01v2zA" outgoing="_0Zo8wJxcEeeKqMSL01v2zA">
       <language>JAVA</language>
-      <body>&lt;bean class=&quot;org.workflowlite.core.samples.PublishStudentScoreAction&quot;>&#xD;
+      <body>&lt;bean class=&quot;org.expedientframework.workflowlite.core.samples.PublishStudentScoreAction&quot;>&#xD;
 	&lt;constructor-arg name=&quot;studentName&quot; value=&quot;%{student.name}&quot; />&#xD;
 	&lt;constructor-arg name=&quot;score&quot; value=&quot;%{output}&quot; />&#xD;
 &lt;/bean></body>
     </node>
     <node xmi:type="uml:OpaqueAction" xmi:id="_YUSbsJuYEeeKqMSL01v2zA" name="AddBonusMarks" incoming="_yTgWsJxcEeeKqMSL01v2zA" outgoing="_0Jr_wJxdEeeKqMSL01v2zA">
       <language>JAVA</language>
-      <body>&lt;bean class=&quot;org.workflowlite.core.samples.AddBonusMarksAction&quot;>&#xD;
+      <body>&lt;bean class=&quot;org.expedientframework.workflowlite.core.samples.AddBonusMarksAction&quot;>&#xD;
 	&lt;constructor-arg value=&quot;%{output}&quot; />&#xD;
 &lt;/bean></body>
     </node>
     <node xmi:type="uml:ActivityFinalNode" xmi:id="_yE7IMJuYEeeKqMSL01v2zA" name="ActivityFinalNode1" incoming="_0Zo8wJxcEeeKqMSL01v2zA"/>
     <node xmi:type="uml:OpaqueAction" xmi:id="_dnCkIJxbEeeKqMSL01v2zA" name="CalculateTotalScore" incoming="_vPH_sJxcEeeKqMSL01v2zA" outgoing="_wPOKwJxcEeeKqMSL01v2zA">
       <language>JAVA</language>
-      <body>&lt;bean class=&quot;org.workflowlite.core.samples.CalculateTotalScoreAction&quot;>&#xD;
+      <body>&lt;bean class=&quot;org.expedientframework.workflowlite.core.samples.CalculateTotalScoreAction&quot;>&#xD;
 	&lt;constructor-arg value=&quot;%{student.scores}&quot; />&#xD;
 &lt;/bean></body>
     </node>
