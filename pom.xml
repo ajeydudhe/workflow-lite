@@ -1,84 +1,76 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>org.workflowlite</groupId>
-  <artifactId>workflow-lite-core</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-
-  <properties>
-  	<javax.inject.version>1</javax.inject.version>
-  	<org.springframework-version>4.3.10.RELEASE</org.springframework-version>  
-	<org.slf4j-version>1.7.25</org.slf4j-version>
-	<log4j.version>2.8.2</log4j.version>
-	<testng.version>6.11</testng.version>
-  	<assertj.version>3.8.0</assertj.version>
-  	<hamcrest.core.version>1.3</hamcrest.core.version>
-  </properties>
-  
-  <dependencies>
-	<dependency>
-		<groupId>javax.inject</groupId>
-		<artifactId>javax.inject</artifactId>
-		<version>${javax.inject.version}</version>
-	</dependency>
-	<dependency>
-		<groupId>org.springframework</groupId>
-		<artifactId>spring-context</artifactId>
-		<version>${org.springframework-version}</version>
-	</dependency>
-
-	<!-- TODO: Avoid using spring state machine library and use the eclipse library directly !!! -->  
-	<dependency>
-	    <groupId>org.springframework.statemachine</groupId>
-	    <artifactId>spring-statemachine-uml</artifactId>
-	    <version>1.2.6.RELEASE</version>
-	</dependency>
-  
-	<!-- Logging -->
-	<dependency>
-		<groupId>org.slf4j</groupId>
-		<artifactId>slf4j-api</artifactId>
-		<version>${org.slf4j-version}</version>
-	</dependency>
-	
-	<!-- Testing -->
-	<dependency>
-	    <groupId>org.apache.logging.log4j</groupId>
-	    <artifactId>log4j-slf4j-impl</artifactId>
-	    <version>${log4j.version}</version>
-	    <scope>test</scope>
-	</dependency>
-	<dependency>
-	    <groupId>org.apache.logging.log4j</groupId>
-	    <artifactId>log4j-core</artifactId>
-	    <version>${log4j.version}</version>
-	    <scope>test</scope>
-	</dependency>
-	
-	<dependency>
-	    <groupId>org.springframework</groupId>
-	    <artifactId>spring-test</artifactId>
-	    <version>${org.springframework-version}</version>
-	    <scope>test</scope>
-	</dependency>
-	
-	<dependency>
-	    <groupId>org.testng</groupId>
-	    <artifactId>testng</artifactId>
-	    <version>${testng.version}</version>
-	    <scope>test</scope>
-	</dependency>
-	<dependency>
-	    <groupId>org.assertj</groupId>
-	    <artifactId>assertj-core</artifactId>
-	    <version>${assertj.version}</version>
-	    <scope>test</scope>
-	</dependency>
-	<dependency>
-	    <groupId>org.hamcrest</groupId>
-	    <artifactId>hamcrest-core</artifactId>
-	    <version>${hamcrest.core.version}</version>
-	    <scope>test</scope>
-	</dependency>	
-  </dependencies>
-
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.workflowlite</groupId>
+    <artifactId>workflow-lite-core</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <properties>
+        <javax.inject.version>1</javax.inject.version>
+        <org.springframework-version>4.3.10.RELEASE</org.springframework-version>
+        <org.slf4j-version>1.7.25</org.slf4j-version>
+        <log4j.version>2.8.2</log4j.version>
+        <testng.version>6.11</testng.version>
+        <assertj.version>3.8.0</assertj.version>
+        <hamcrest.core.version>1.3</hamcrest.core.version>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>javax.inject</groupId>
+            <artifactId>javax.inject</artifactId>
+            <version>${javax.inject.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${org.springframework-version}</version>
+        </dependency>
+        <!-- TODO: Avoid using spring state machine library and use the eclipse library directly !!! -->
+        <dependency>
+            <groupId>org.springframework.statemachine</groupId>
+            <artifactId>spring-statemachine-uml</artifactId>
+            <version>1.2.6.RELEASE</version>
+        </dependency>
+        <!-- Logging -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${org.slf4j-version}</version>
+        </dependency>
+        <!-- Testing -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
+            <version>${log4j.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>${log4j.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${org.springframework-version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>${testng.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>${assertj.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-core</artifactId>
+            <version>${hamcrest.core.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 </project>
