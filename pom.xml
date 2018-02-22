@@ -5,7 +5,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <properties>
         <javax.inject.version>1</javax.inject.version>
-        <org.springframework-version>4.3.10.RELEASE</org.springframework-version>
+        <org.springframework-version>4.3.14.RELEASE</org.springframework-version>
         <org.slf4j-version>1.7.25</org.slf4j-version>
         <log4j.version>2.10.0</log4j.version>
         <testng.version>6.14.2</testng.version>
