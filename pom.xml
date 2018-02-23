@@ -8,32 +8,7 @@
     <name>Workflow-lite-core</name>
     <description>The core project required for implementing simple workflow engine using Spring framework and Spring Expression Language.</description>
     <url>https://github.com/ajeydudhe/workflow-lite</url>
-    <developers>
-        <developer>
-            <name>Ajey Dudhe</name>
-            <email>ajeydudhe@gmail.com</email>
-            <organizationUrl>http://www.ajeydudhe.com/</organizationUrl>
-        </developer>
-    </developers>
-    <scm>
-        <connection>scm:git:git://github.com/ajeydudhe/workflow-lite.git</connection>
-        <developerConnection>scm:git:git://github.com/ajeydudhe/workflow-lite.git</developerConnection>
-        <url>https://github.com/ajeydudhe/workflow-lite/tree/master</url>
-    </scm>
 
-    <!--
-    <distributionManagement>
-        <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
-        <repository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-        </repository>
-    </distributionManagement>
-    -->
-    
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <javax.inject.version>1</javax.inject.version>
@@ -137,7 +112,6 @@
                     </execution>
                 </executions>
             </plugin>
-            <!--
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
@@ -151,9 +125,35 @@
                     </execution>
                 </executions>
             </plugin>
-            -->
         </plugins>
     </build>
+
+    <developers>
+        <developer>
+            <name>Ajey Dudhe</name>
+            <email>ajeydudhe@gmail.com</email>
+            <organizationUrl>http://www.ajeydudhe.com/</organizationUrl>
+        </developer>
+    </developers>
+    <scm>
+        <connection>scm:git:git://github.com/ajeydudhe/workflow-lite.git</connection>
+        <developerConnection>scm:git:git://github.com/ajeydudhe/workflow-lite.git</developerConnection>
+        <url>https://github.com/ajeydudhe/workflow-lite/tree/master</url>
+    </scm>
+
+    <!--
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
+    -->
+
     <licenses>
         <license>
             <name>MIT License</name>

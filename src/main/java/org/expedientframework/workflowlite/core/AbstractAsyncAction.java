@@ -17,7 +17,7 @@ import java.util.concurrent.CompletableFuture;
  * Abstract activity class returning a {@link CompletableFuture}.
  * @author Ajey_Dudhe
  *
- * @param <TContext> Type extending {@link ExecutableFuture}
+ * @param <TContext> Type extending {@link ExecutionContext}
  * @param <TResult> Type of result.
  */
 public abstract class AbstractAsyncAction<TContext extends ExecutionContext, TResult> extends AbstractAction<TContext, CompletableFuture<TResult>>

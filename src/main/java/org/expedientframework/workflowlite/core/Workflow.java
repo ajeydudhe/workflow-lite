@@ -31,7 +31,7 @@ import org.expedientframework.workflowlite.core.utils.UmlUtils;
 /**
  * Workflow class responsible for executing the activities in given sequence.
  * It also takes care of conditional statement execution.
- * <br/>
+ * <p>
  * <b>Note: </b>There is one instance of this class per workflow definition and hence the actual execution is wrapped up in {@link WorkflowExecutor}.
  * @author Ajey_Dudhe
  *

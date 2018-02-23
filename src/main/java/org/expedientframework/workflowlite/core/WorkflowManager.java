@@ -29,6 +29,10 @@ public final class WorkflowManager
 
   /**
    * Executes the given workflow specified in {@link ExecutionContext#getWorkflowId()}
+   * 
+   * @param <TSource> The source object type.
+   * @param <TResult> The result object type.
+   * 
    * @param executionContext The {@link ExecutionContext} for the workflow.
    * @param source The input for the workflow.
    * @return The result from the last activity executed.

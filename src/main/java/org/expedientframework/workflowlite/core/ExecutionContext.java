@@ -13,8 +13,9 @@ package org.expedientframework.workflowlite.core;
 
 /**
  * Simple interface allowing to pass workflow specific data.
- * <br/><b>Note:</b> This should rarely be used for passing any data between 
- * activities. Use Spring Depenedncy Injection with Spring Expression Language
+ * <p>
+ * <b>Note:</b> This should rarely be used for passing any data between 
+ * activities. Use Spring Dependency Injection with Spring Expression Language
  * to inject such data.
  * 
  * @author Ajey_Dudhe
