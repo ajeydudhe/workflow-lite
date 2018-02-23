@@ -16,10 +16,6 @@ import javax.inject.Inject;
 import org.expedientframework.workflowlite.core.AbstractAction;
 import org.expedientframework.workflowlite.core.ExecutionContext;
 
-/**
- * TODO: Update with a detailed description of the interface/class.
- *
- */
 public class ReverseStringAction extends AbstractAction<ExecutionContext, String>
 {
   @Inject

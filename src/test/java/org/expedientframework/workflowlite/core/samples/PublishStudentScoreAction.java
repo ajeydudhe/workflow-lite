@@ -14,10 +14,6 @@ package org.expedientframework.workflowlite.core.samples;
 import org.expedientframework.workflowlite.core.AbstractAction;
 import org.expedientframework.workflowlite.core.ExecutionContext;
   
-/**
- * TODO: Update with a detailed description of the interface/class.
- *
- */
 public class PublishStudentScoreAction extends AbstractAction<ExecutionContext, String>
 {
   public PublishStudentScoreAction(final String studentName, final int score)

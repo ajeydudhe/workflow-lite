@@ -13,10 +13,6 @@ package org.expedientframework.workflowlite.core.samples;
 
 import org.expedientframework.workflowlite.core.AbstractExecutionContext;
   
-/**
- * TODO: Update with a detailed description of the interface/class.
- *
- */
 public class StudentWorkflowExecutionContext extends AbstractExecutionContext
 {
   public StudentWorkflowExecutionContext()

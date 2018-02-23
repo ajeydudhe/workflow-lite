@@ -16,10 +16,6 @@ import java.util.Map;
 import org.expedientframework.workflowlite.core.AbstractAction;
 import org.expedientframework.workflowlite.core.ExecutionContext;
   
-/**
- * TODO: Update with a detailed description of the interface/class.
- *
- */
 public class CalculateTotalScoreAction extends AbstractAction<ExecutionContext, Integer>
 {
   public CalculateTotalScoreAction(final Map<String, Integer> scores)
