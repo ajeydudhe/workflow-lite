@@ -15,7 +15,9 @@ import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.uml2.uml.NamedElement;
   
 /**
- * TODO: Update with a detailed description of the interface/class.
+ * DO NOT USE. FOR INTERNAL PURPOSE ONLY !
+ * 
+ * @author Ajey_Dudhe
  *
  */
 public class UmlUtils

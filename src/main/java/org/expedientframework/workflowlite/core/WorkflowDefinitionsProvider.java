@@ -15,11 +15,19 @@ import java.io.InputStream;
 import java.util.List;
   
 /**
- * TODO: Update with a detailed description of the interface/class.
+ * Interface for fetching the workflow definitions.
+ * 
+ * @author Ajey_Dudhe
  *
  */
 public interface WorkflowDefinitionsProvider
 {
+  /**
+   * Should return the workflow definitions from the respective source.
+   * For example, from Uml definition files.
+   * 
+   * @return The list of workflow definitions as streams.
+   */
   public List<InputStream> getDefinitions();
 }
 

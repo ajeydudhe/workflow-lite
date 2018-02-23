@@ -21,11 +21,19 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
   
 /**
- * TODO: Update with a detailed description of the interface/class.
+ * This class scans the provided file paths for Uml activity diagram definitions.
+ * It reads the files and return them as list of streams.
+ * 
+ * @author Ajey_Dudhe
  *
  */
 public class UmlActivityDefinitionsProvider implements WorkflowDefinitionsProvider
 {
+  /**
+   * Constructor taking in the Uml deinition file paths.
+   * 
+   * @param umlFilePaths List of file paths.
+   */
   public UmlActivityDefinitionsProvider(final List<String> umlFilePaths)
   {
     this.umlFilePaths = umlFilePaths;

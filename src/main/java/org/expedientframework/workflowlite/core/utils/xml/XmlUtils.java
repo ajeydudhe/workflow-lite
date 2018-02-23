@@ -16,7 +16,9 @@ import org.w3c.dom.ls.DOMImplementationLS;
 import org.w3c.dom.ls.LSSerializer;
   
 /**
- * TODO: Update with a detailed description of the interface/class.
+ * DO NOT USE. FOR INTERNAL PURPOSE ONLY !
+ * 
+ * @author Ajey_Dudhe
  *
  */
 public class XmlUtils

@@ -14,7 +14,9 @@ package org.expedientframework.workflowlite.core;
 import java.util.concurrent.CompletableFuture;
   
 /**
- * Abstract activity class returning a {@link CompletableFuture}.
+ * Abstract class returning a {@link CompletableFuture}.
+ * Extend this class for having asynchronous actions in a workflow.
+ * 
  * @author Ajey_Dudhe
  *
  * @param <TContext> Type extending {@link ExecutionContext}
