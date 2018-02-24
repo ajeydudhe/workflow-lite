@@ -150,6 +150,19 @@
                 </plugins>
             </build>
         </profile>
+        <profile>
+            <id>release-build</id>
+            <distributionManagement>
+                <snapshotRepository>
+                    <id>ossrh</id>
+                    <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+                </snapshotRepository>
+                <repository>
+                    <id>ossrh</id>
+                    <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+                </repository>
+            </distributionManagement>
+        </profile>
     </profiles>
     <developers>
         <developer>
@@ -163,20 +176,6 @@
         <developerConnection>scm:git:git://github.com/ajeydudhe/workflow-lite.git</developerConnection>
         <url>https://github.com/ajeydudhe/workflow-lite/tree/master</url>
     </scm>
-
-    <!--
-    <distributionManagement>
-        <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
-        <repository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-        </repository>
-    </distributionManagement>
-    -->
-
     <licenses>
         <license>
             <name>MIT License</name>
