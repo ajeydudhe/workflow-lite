@@ -21,19 +21,15 @@ There are few blogs on how to use Spring to have a simple sequential workflow. B
 * [Papyrus](https://eclipse.org/papyrus/) eclipse plug-in for defining the workflow using UML activity diagram. 
 
 ## Adding the library reference
-Currently, the library needs to be built manually.
+Add the maven dependency to your pom.xml as follows.
 
-* Download the source.
-* Make sure you have [maven](https://maven.apache.org/) installed.
-* Build the project using the command: *mvn install*
-* Create a new maven project and add following dependency
-  	```xml
-  	<dependency>
-  		<groupId>org.expedientframework.workflowlite</groupId>
-  		<artifactId>workflow-lite-core</artifactId>
-  		<version>0.0.1-SNAPSHOT</version>
-  	</dependency>
-  	```
+```xml
+<dependency>
+    <groupId>org.expedientframework.workflowlite</groupId>
+    <artifactId>workflow-lite-core</artifactId>
+    <version>1.0.0</version>
+</dependency>
+```
 
 ## Use case - Student score card preparation
 We will define a workflow to calculate the score for a given student. The workflow will take a student object as input and have following actions:
