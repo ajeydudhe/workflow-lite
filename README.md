@@ -1,4 +1,4 @@
-# Workflow-lite - Simple workflow engine using Spring framework and Spring Expression Language
+# Workflow-lite - Simple workflow engine using Spring framework and Spring Expression Language [![Build Status](https://travis-ci.org/ajeydudhe/workflow-lite.svg?branch=master)](https://travis-ci.org/ajeydudhe/workflow-lite)
 
 **Workflow-lite** is a simple workflow engine using the Spring framework. As of now, it can be used to define a simple sequential workflow.
 
