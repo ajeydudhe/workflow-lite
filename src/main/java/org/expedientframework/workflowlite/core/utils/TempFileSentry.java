@@ -30,7 +30,7 @@ public class TempFileSentry implements Closeable
   {
     try
     {
-      this.tempFile = File.createTempFile("workflow-lite-", ".uml");
+      this.tempFile = File.createTempFile(prefix, suffix);
       
       LOGGER.debug("Created temp file: {}", this.tempFile.getPath());
     }
