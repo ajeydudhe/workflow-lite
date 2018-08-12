@@ -15,6 +15,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.expedientframework.workflowlite.core.exceptions.ExceptionHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
@@ -60,7 +61,7 @@ public class UmlActivityDefinitionsProvider implements WorkflowDefinitionsProvid
     catch (Exception e)
     {
       LOGGER.error("An error occurred while resolving workflow definition xml paths.", e);
-      throw new RuntimeException(e); // TODO: Ajey - Throw custom exception !!!
+      throw ExceptionHandler.throwWorkflowliteException(e);
     }
   }
   

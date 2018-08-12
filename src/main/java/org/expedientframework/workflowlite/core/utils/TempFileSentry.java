@@ -15,6 +15,7 @@ import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
 
+import org.expedientframework.workflowlite.core.exceptions.ExceptionHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
   
@@ -37,7 +38,7 @@ public class TempFileSentry implements Closeable
     catch (IOException e)
     {
       LOGGER.error("An error occurred while creating temp file.", e);
-      throw new RuntimeException(e); // TODO: Ajey - Throw custom exception !!!
+      throw ExceptionHandler.throwException(e);
     }
   }
   

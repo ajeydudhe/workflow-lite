@@ -38,6 +38,7 @@ import org.springframework.util.xml.XmlValidationModeDetector;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+import org.expedientframework.workflowlite.core.exceptions.ExceptionHandler;
 import org.expedientframework.workflowlite.core.utils.TempFileSentry;
 import org.expedientframework.workflowlite.core.utils.xml.XmlElementBuilder;
 import org.expedientframework.workflowlite.core.utils.xml.XmlUtils;
@@ -89,14 +90,10 @@ public final class WorkflowDefinitionsLoader implements BeanDefinitionRegistryPo
       
       reader.loadBeanDefinitions(source);
     }
-    catch(RuntimeException e)
-    {
-      throw e; // Already logged. TODO: Replace with custom exception !!! 
-    }
     catch (Exception e)
     {
       LOGGER.error("An error occurred while processing workflow definition.", e);
-      throw new RuntimeException(e); // TODO: Ajey - Throw custom exception !!!
+      ExceptionHandler.throwWorkflowliteException(e);
     }
   }
  
@@ -161,7 +158,7 @@ public final class WorkflowDefinitionsLoader implements BeanDefinitionRegistryPo
     catch(Exception e)
     {
       LOGGER.error("An error occurred while creating bean definition xml.", e);
-      throw new RuntimeException(e); // TODO: Ajey - Throw custom exception !!!
+      throw ExceptionHandler.throwWorkflowliteException(e);
     }
   }
   
@@ -180,7 +177,7 @@ public final class WorkflowDefinitionsLoader implements BeanDefinitionRegistryPo
     catch (Exception e)
     {
       LOGGER.error("An error occurred while loading empty bean xml.", e);
-      throw new RuntimeException(e); // TODO: Ajey - Throw custom exception !!!
+      throw ExceptionHandler.throwWorkflowliteException(e);
     }
   }
 
