@@ -26,6 +26,7 @@ import org.eclipse.uml2.uml.UMLPackage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
+import org.expedientframework.workflowlite.core.exceptions.ExceptionHandler;
 import org.expedientframework.workflowlite.core.utils.UmlUtils;
   
 /**
@@ -135,7 +136,7 @@ public final class Workflow
       {
         if( ! StringUtils.hasText(whenCondition.getName()))
         {
-          throw new RuntimeException("Outgoing edge from DecisionNode should have values defined."); // TODO: Ajey - Throw custom exception !!!
+          throw ExceptionHandler.throwUmlParsingException("Outgoing edge from DecisionNode should have values defined.");
         }
         
         if(whenCondition.getName().equalsIgnoreCase(conclusion.toString()))
@@ -144,7 +145,7 @@ public final class Workflow
         }
       }
       
-      throw new RuntimeException("Could not find action to be executed on given condition."); // TODO: Ajey - Throw custom exception !!!
+      throw ExceptionHandler.throwUmlParsingException("Could not find action to be executed on given condition.");
     }
     
     @SuppressWarnings("unchecked")
@@ -179,7 +180,7 @@ public final class Workflow
     {
       if(umlNode.getOutgoings().isEmpty())
       {
-        throw new IllegalArgumentException(String.format("Uml node '%s' (%s) does not point to next node.", umlNode.getName(), umlNode.eClass().getName())); // TODO: Ajey - Throw custom exception !!!
+        throw ExceptionHandler.throwUmlParsingException(String.format("Uml node '%s' (%s) does not point to next node.", umlNode.getName(), umlNode.eClass().getName()));
       }
       
       return umlNode.getOutgoings().get(0).getTarget();

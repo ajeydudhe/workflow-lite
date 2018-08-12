@@ -28,5 +28,10 @@ public final class ExceptionHandler
   {
     throw new WorkflowliteIOException(cause);
   }
+  
+  public static WorkflowliteException throwUmlParsingException(final String message)
+  {
+    throw new WorkflowliteUmlParsingException(message);
+  }
 }
 

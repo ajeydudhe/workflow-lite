@@ -138,7 +138,7 @@ public final class WorkflowDefinitionsLoader implements BeanDefinitionRegistryPo
   {
     if(action.getBodies().isEmpty())
     {
-      throw new IllegalArgumentException("The OpaqueAction node must have bean xml specified for the Spring class."); // TODO: Ajey - Throw custom exception !!!
+      throw ExceptionHandler.throwUmlParsingException("The OpaqueAction node must have bean xml specified for the Spring class.");
     }
    
     try

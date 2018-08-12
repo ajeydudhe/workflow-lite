@@ -1,5 +1,5 @@
 /********************************************************************
- * File Name:    WorkflowliteException.java
+ * File Name:    WorkflowliteUmlParsingException.java
  *
  * Date Created: Aug 12, 2018
  *
@@ -12,21 +12,16 @@
 package org.expedientframework.workflowlite.core.exceptions;
   
 /**
- * Base class for all the workflow exceptions.
+ * UML related exceptions. This should get handled during development only so not need to granular exception types.
  *
  */
-public class WorkflowliteException extends RuntimeException
+public class WorkflowliteUmlParsingException extends WorkflowliteException
 {
-  WorkflowliteException(final Throwable cause)
-  {
-    super(cause);
-  }
-
-  WorkflowliteException(final String message)
+  WorkflowliteUmlParsingException(final String message)
   {
     super(message);
   }
-  
-  private static final long serialVersionUID = -6163660161859059816L;
+
+  private static final long serialVersionUID = 6706840971984418339L;
 }
 
